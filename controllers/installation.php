@@ -2,10 +2,23 @@
 
 include_once("../models/installationModel.php");
 
+
+$file_path = "../config.txt";
+
+if(file_exists($file_path)){
+    header('Location: '. "../views/Login.php");
+    
+    echo "file exists";
+}
+
+
 $user;
 $password;
 $email;
 $dbname;
+
+
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $_POST["username"];
@@ -24,8 +37,8 @@ fclose($config);
 
 
 $install = new Installation();
-// $install->initialize();
-// $install->createTables();
+$install->initialize();
+$install->createTables();
 $install->createAdminUser();
 
-
+header('Location: '. "../views/welcome.php");

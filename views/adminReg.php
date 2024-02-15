@@ -1,3 +1,11 @@
+<?php
+$file = "../config.txt";
+if(file_exists($file)){
+    header('Location: '. "./Login.php");
+    echo "file exists";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,16 +41,16 @@
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
   <script>
-    document.getElementById("username").addEventListener("blur", validateUsername);
-    document.getElementById("email").addEventListener("blur", validateEmail);
-    document.getElementById("password").addEventListener("blur", validatePassword);
-    document.getElementById("dbName").addEventListener("blur", validateDbName);
+    document.getElementById("username").addEventListener("keyup", validateUsername);
+    document.getElementById("email").addEventListener("keyup", validateEmail);
+    document.getElementById("password").addEventListener("keyup", validatePassword);
+    document.getElementById("dbName").addEventListener("keyup", validateDbName);
 
     function validateUsername() {
       var username = document.getElementById("username").value;
       var usernameError = document.getElementById("usernameError");
-      if (/[^a-zA-Z]/.test(username)) {
-        usernameError.textContent = "Username should only contain letters";
+      if (/[^a-zA-Z0-9\.]/.test(username)) {
+        usernameError.textContent = "Username should only contain letters and digits";
         usernameError.style.display = "block";
       } else {
         usernameError.style.display = "none";
@@ -74,8 +82,8 @@
     function validateDbName() {
       var dbName = document.getElementById("dbName").value;
       var dbNameError = document.getElementById("dbNameError");
-      if (dbName === "") {
-        dbNameError.textContent = "Database name is required";
+      if (/[^a-zA-Z]/.test(dbName)) {
+        dbNameError.textContent = "Enter valid database name";
         dbNameError.style.display = "block";
       } else {
         dbNameError.style.display = "none";

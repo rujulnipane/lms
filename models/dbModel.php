@@ -47,6 +47,26 @@ class Database
         echo "connected";
     }
 
+    public function getRecord($table, $query){
+        $name = $query["name"];
+        $sql = "SELECT * FROM $table WHERE username = '$name'";
+        $result = $this->conn->query($sql);
+        var_dump($result);
+        return $result;
+    }
+
+    public function insertRecord($table, $data){
+        $name = $data["name"];
+        $email = $data["email"];
+        $password = $data["password"];
+        $sql = "INSERT INTO $table (username, email, password) VALUES('$name', '$email', '$password')";
+        if ($this->conn->query($sql) === TRUE) {
+            echo "New record created successfully";
+          } else {
+            echo "Error: " . $sql . "<br>" . $this->conn->error;
+          }
+    }
+
     public function initializeDatabase()
     {
         $this->conn = new mysqli("localhost", "root", "root");
@@ -60,7 +80,6 @@ class Database
         } else {
             echo "Error creating user: " . $this->conn->error;
         }
-        //   die("Connection failed: " . $this->conn->connect_error);
         $sql_db = "Create DATABASE $this->dbName";
         if ($this->conn->query($sql_db) === TRUE) {
             echo "Database created successfully";
@@ -84,6 +103,7 @@ class Database
         $table_user = "CREATE TABLE USER(
             id INT PRIMARY KEY AUTO_INCREMENT, 
             username VARCHAR(255) UNIQUE, email VARCHAR(255) UNIQUE, 
+            password VARCHAR(255),
             isAdmin VARCHAR(50) DEFAULT 'no', 
             created_At TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )";
@@ -133,15 +153,16 @@ class Database
         } else {
             echo "Error creating database: " . $this->conn->error;
         }
+        $this->conn->close();
     }
 
     public function createAdminUser(){
-        $admin_user = "INSERT INTO USER (username, email, isAdmin) VALUES('$this->dbUser','$this->email','yes')";
-
+        $admin_user = "INSERT INTO USER (username, email, password, isAdmin) VALUES('$this->dbUser','$this->email','$this->dbPassword','yes')";
 		if ($this->conn->query($admin_user) === TRUE) {
 			echo "Admin User created successfully";
 		} else {
 			echo "Error creating database: " . $this->conn->error;
 		}
+        $this->conn->close();
     }
 }
