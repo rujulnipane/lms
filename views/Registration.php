@@ -1,3 +1,11 @@
+<?php
+if (isset($_SESSION["error"])) {
+    $errormsg = $_SESSION["error"];
+    unset($_SESSION["error"]);
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,26 +20,26 @@
 <body>
 
     <div class="container">
+        <div class="alert alert-primary" role="alert">
+            <?=$errormsg?>
+        </div>
         <div class="card bg-light">
             <article class="card-body mx-auto" style="width: 50%;">
                 <h4 class="card-title mt-3 text-center">Create Account</h4>
                 <p class="text-center">Get started with your account</p>
-                <form id="registrationForm" action="../controllers/RegistrationController.php" method="post"
-                    onsubmit="return validateForm()">
+                <form id="registrationForm" action="../controllers/RegistrationController.php" method="post" onsubmit="return validateForm()">
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                         </div>
-                        <input name="username" id="name" class="form-control" placeholder="Enter Username" type="text"
-                            required>
+                        <input name="username" id="name" class="form-control" placeholder="Enter Username" type="text" required>
                         <div id="nameError" class="invalid-feedback"></div>
                     </div> <!-- form-group// -->
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
                         </div>
-                        <input name="email" id="email" class="form-control" placeholder="Email address" type="email"
-                            required>
+                        <input name="email" id="email" class="form-control" placeholder="Email address" type="email" required>
                         <div id="emailError" class="invalid-feedback"></div>
                     </div> <!-- form-group// -->
 
@@ -39,16 +47,14 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                         </div>
-                        <input name="password" id="password" class="form-control" placeholder="Create password"
-                            type="password" required>
+                        <input name="password" id="password" class="form-control" placeholder="Create password" type="password" required>
                         <div id="passwordError" class="invalid-feedback"></div>
                     </div> <!-- form-group// -->
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                         </div>
-                        <input name="cpassword" id="cpassword" class="form-control" placeholder="Repeat password"
-                            type="password" required>
+                        <input name="cpassword" id="cpassword" class="form-control" placeholder="Repeat password" type="password" required>
                         <div id="cpasswordError" class="invalid-feedback"></div>
                     </div> <!-- form-group// -->
                     <div class="form-group">
@@ -64,7 +70,6 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
-
         document.getElementById("name").addEventListener("keyup", validateName);
         document.getElementById("email").addEventListener("keyup", validateEmail);
         document.getElementById("password").addEventListener("keyup", validatePassword);
@@ -82,7 +87,7 @@
         function validateName() {
             var name = document.getElementById("name").value.trim();
             var nameError = document.getElementById("nameError");
-            
+
             if (/[^a-zA-Z]/.test(name)) {
                 nameError.textContent = "Username should only contain letters";
                 nameError.style.display = "block";

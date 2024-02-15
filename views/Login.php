@@ -1,6 +1,10 @@
 
 <?php
 session_start();
+if (isset($_SESSION['error'])) {
+    $error_message = $_SESSION['error'];
+    unset($_SESSION['error']); // Remove the error message from the session
+}
 ?>
 
 <!DOCTYPE html>
@@ -17,6 +21,9 @@ session_start();
 <body>
 
     <div class="container">
+    <?php if (isset($error_message)) : ?>
+        <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
+    <?php endif; ?>
         <div class="card bg-light">
             <article class="card-body mx-auto" style="width: 50%;">
                 <h4 class="card-title mt-3 text-center">Log in to Account</h4>

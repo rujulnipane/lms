@@ -1,6 +1,5 @@
 <?php
 
-// include_once("../config.php");
 class Database
 {
     private $server;
@@ -51,7 +50,6 @@ class Database
         $name = $query["name"];
         $sql = "SELECT * FROM $table WHERE username = '$name'";
         $result = $this->conn->query($sql);
-        var_dump($result);
         return $result;
     }
 

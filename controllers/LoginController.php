@@ -22,24 +22,24 @@ class Login{
         $user = $this->User->getUser($this->username);
         var_dump($user);
         if($user->num_rows == 0){
-            echo "User not exist";
-            return;
+            $_SESSION['error'] = "User Not Exist";
+            header('Location: '. "../views/Login.php");
+            exit;
         }
         else{
-            echo "else block";
             $row = $user->fetch_assoc();
-            echo "fg";
-            // if($this->password === $row["password"]){
+            if($this->password === $row["password"]){
                 echo("Logged in successfully");
-                $_SESSION['username'] = $row['name'];
+                $_SESSION['username'] = $row['username'];
+                $_SESSION['successmsg'] = "Logged in successfully";
                 header('Location: '. "../views/Courses.php");
-            // }
-            // else{
-                // echo("Invalid password");
-                // header('Location: '. "../views/Login.php");
-                // $this->response["passerror"] = "Invalid password";
-            // }
-            // echo json_encode($this->response);   
+            }
+            else{
+                echo("Invalid password");
+                $_SESSION['error'] = "Invalid username or password. Please try again.";
+                header('Location: '. "../views/Login.php");
+                exit;
+            } 
         }
         
     }
