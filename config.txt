@@ -1,0 +1,5 @@
+server=localhost 
+user=rujul 
+email=rujulnipane2002@gmail.com 
+password=rujul 
+dbname=sd
