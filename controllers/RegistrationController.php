@@ -17,19 +17,45 @@ class Register
             $this->email = $_POST["email"];
             $this->password = $_POST["password"];
         } else {
-            echo "bd";
+            header('Location: '. "../views/Registration.php");
+            exit;
         }
-        $this->User = new User();
+        try{
+            $this->User = new User();
+        }
+        catch(Exception $e){
+            header('Location: '. "../views/Login.php");
+            $_SESSION['error'] = $e->getMessage();
+        }
     }
     public function registerUser()
     {   
-        $user = $this->User->getUser($this->username);
-        
-        if ($user->num_rows > 0) {
-            $_SESSION['error'] = "Username already taken";
+        try{
+            $userbyemail = $this->User->getUser(array("email"=> $this->email));
+        }
+        catch(Exception $e){
+            header('Location: '. "../views/Login.php");
+            $_SESSION['error'] = $e->getMessage();
+        }
+        try{
+            $userbyname = $this->User->getUser(array("username"=> $this->username));
+        }
+        catch(Exception $e){
+            header('Location: '. "../views/Login.php");
+            $_SESSION['error'] = $e->getMessage();
+        }
+        if ($userbyname->num_rows > 0) {
+            $_SESSION['error'] = "Username already exists";
+            $_SESSION['details'] = array('username'=> $this->username, 'email' => $this->email);
             header('Location: '. "../views/Registration.php");
             exit;
-        } else {
+        } 
+        else if($userbyemail->num_rows > 0){
+            $_SESSION['error'] = "Email already exists";
+            $_SESSION['details'] = array('username'=> $this->username, 'email' => $this->email);
+            header('Location: '. "../views/Registration.php");
+            exit;
+        }else {
             $options = [
                 'cost' => 10,
             ];
@@ -39,8 +65,14 @@ class Register
                 'email' => $this->email,
                 'password' => $hashed_password
             );
-            $this->User->createUser($array);
-            $_SESSION['successmsg'] = "User Created Successfully.";
+            try{
+                $this->User->createUser($array);
+            }
+            catch(Exception $e){
+                header('Location: '. "../views/Login.php");
+            $_SESSION['error'] = $e->getMessage();
+            }
+            $_SESSION['success'] = "User Created Successfully.";
             header('Location: ' . "../views/Login.php");
         }
     }

@@ -1,14 +1,27 @@
 
 <?php
 session_start();
+if(!file_exists("../config.txt")){
+    header('Location: '. "./adminReg.php");
+    echo "file exists";
+}
 if (isset($_SESSION['error'])) {
     $error_message = $_SESSION['error'];
     unset($_SESSION['error']); 
 }
+if(isset($_SESSION["username"])){
+    $_SESSION["error"] = "Please login first";
+    header('Location: '. "./Courses.php");
+}
 
-if (isset($_SESSION['successmsg'])) {
-    $success = $_SESSION['successmsg'];
-    unset($_SESSION['successmsg']); 
+if (isset($_SESSION['details'])) {
+    $userdetails = $_SESSION['details'];
+    unset($_SESSION['details']); 
+}
+
+if (isset($_SESSION['success'])) {
+    $success = $_SESSION['success'];
+    unset($_SESSION['success']); 
 }
 
 ?>
@@ -33,6 +46,7 @@ if (isset($_SESSION['successmsg'])) {
     <?php if (isset($success)) : ?>
         <p style="color: green;"><?php echo htmlspecialchars($success); ?></p>
     <?php endif; ?>
+
         <div class="card bg-light">
             <article class="card-body mx-auto" style="width: 50%;">
                 <h4 class="card-title mt-3 text-center">Log in to Account</h4>
@@ -43,7 +57,7 @@ if (isset($_SESSION['successmsg'])) {
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                         </div>
-                        <input name="username" id="username" class="form-control" placeholder="Enter Username" type="text" required>
+                        <input name="username" id="username" class="form-control" placeholder="Enter Username" type="text" required value="<?php echo $userdetails['username']; ?>">
                         <div id="usernameError" class="invalid-feedback"></div>
                     </div> <!-- form-group// -->
 
@@ -67,11 +81,9 @@ if (isset($_SESSION['successmsg'])) {
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
-
+        
         document.getElementById("username").addEventListener("keyup", validateUsername);
-        document.getElementById("email").addEventListener("keyup", validateEmail);
         document.getElementById("password").addEventListener("keyup", validatePassword);
-
         function validateUsername() {
             var username = document.getElementById("username").value.trim();
             var usernameError = document.getElementById("usernameError");

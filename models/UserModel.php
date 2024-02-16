@@ -9,9 +9,11 @@ class User{
         $this->db = Database::getInstance();
         $this->db->getConnection();
     }
-
-    public function getUser($name){
-        return $this->db->getRecord("USER", array("username"=> $name));
+    public function __destruct() {
+        $this->db->closeConnection();
+    }
+    public function getUser($query){
+        return $this->db->getRecord("USER",$query);
     }
     public function createUser($data){
         $this->db->insertRecord("USER", $data);

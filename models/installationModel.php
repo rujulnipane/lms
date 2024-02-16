@@ -9,7 +9,6 @@ class Installation{
     private $dbname;
 
     public function __construct(){
-        echo"in admin model<br>";
         $this->db = Database::getInstance();
     }
     public function initialize(){   

@@ -13,7 +13,10 @@ class Database
     private function __construct()
     {
         $array = array();
-        $config = fopen("../config.txt", "r") or die("Unable to open file!");
+        $config = fopen("../config.txt", "r");
+        if(!$config){
+            throw new Exception("Cannot get config file");
+        }
         while (!feof($config)) {
             $line = fgets($config);
             $parts = explode('=', $line, 2);
@@ -41,9 +44,13 @@ class Database
     {
         $this->conn = new mysqli($this->server, $this->dbUser, $this->dbPassword, $this->dbName);
         if ($this->conn->connect_error) {
-            die('Connection error' . $this->conn->connect_error);
+            throw new Exception('Connection error: ' . $this->conn->connect_error);
         }
-        echo "connected";
+        // echo "connected";
+    }
+
+    public function closeConnection(){
+        $this->conn->close();
     }
 
     public function getRecord($table, $query)
@@ -52,11 +59,21 @@ class Database
         foreach ($query as $key => $value) {
             $sql .= $key . "=" . "'" . $value . "'";
         }
+        
         $result = $this->conn->query($sql);
-        // echo $sql;
+        if (!$result) {
+            throw new Exception('Query execution error: ' . $this->conn->error);
+        }
         return $result;
     }
-
+    public function getRecords($table){
+        $sql = "SELECT * FROM $table";
+        $result = $this->conn->query($sql);
+        if (!$result) {
+            throw new Exception('Query execution error: ' . $this->conn->error);
+        }
+        return $result;
+    }
     public function insertRecord($table, $data)
     {
         $sql = "INSERT INTO $table(";
@@ -71,7 +88,7 @@ class Database
         if ($this->conn->query($sql) === TRUE) {
             echo "New record created successfully";
         } else {
-            echo "Error: " . $sql . "<br>" . $this->conn->error;
+            throw new Exception('Query execution error: ' . $this->conn->error);
         }
     }
 
@@ -81,25 +98,28 @@ class Database
         if (!$this->conn->connect_error) {
             echo "connected successfully";
         }
+        else{
+            throw new Exception("Connection failed". $this->conn->connect_error);
+        }
 
         $sql_user = "CREATE USER '$this->dbUser'@'$this->server' IDENTIFIED BY '$this->dbPassword'";
         if ($this->conn->query($sql_user) === TRUE) {
             echo "Created User Successfully";
         } else {
-            echo "Error creating user: " . $this->conn->error;
+           throw new Exception("User Creation Failed". $this->conn->error);
         }
         $sql_db = "Create DATABASE $this->dbName";
         if ($this->conn->query($sql_db) === TRUE) {
             echo "Database created successfully";
         } else {
-            echo "Error creating database: " . $this->conn->error;
+            throw new Exception("Dtabase not created". $this->conn->error);
         }
 
         $grant = "GRANT ALL ON *.* TO '$this->dbUser'@'localhost'";
         if ($this->conn->query($grant) === TRUE) {
             echo "Granted priviliges";
         } else {
-            echo "Error creating database: " . $this->conn->error;
+            throw new Exception("priviliges failed". $this->conn->error);
         }
         $this->conn->close();
     }
@@ -139,36 +159,40 @@ class Database
         if ($this->conn->query($table_user) === TRUE) {
             echo "User table created successfully";
         } else {
-            echo "Error creating user table: " . $this->conn->error;
+            throw new Exception("Cannot create user table". $this->conn->error);
         }
 
         if ($this->conn->query($table_courses) === TRUE) {
             echo "Courses created successfully";
         } else {
-            echo "Error creating course table: " . $this->conn->error;
+            throw new Exception("Cannot create course table". $this->conn->error);
         }
 
         if ($this->conn->query($table_section) === TRUE) {
             echo "Section table created successfully";
         } else {
-            echo "Error creating section table: " . $this->conn->error;
+            throw new Exception("Cannot create section table". $this->conn->error);
         }
 
         if ($this->conn->query($table_video) === TRUE) {
             echo "Video table created successfully";
         } else {
-            echo "Error creating video table: " . $this->conn->error;
+            throw new Exception("Cannot create video table". $this->conn->error);
         }
         $this->conn->close();
     }
 
     public function createAdminUser()
     {
-        $admin_user = "INSERT INTO USER (username, email, password, isAdmin) VALUES('$this->dbUser','$this->email','$this->dbPassword','yes')";
+        $options = [
+            'cost' => 10,
+        ];
+        $hashed_password = password_hash($this->dbPassword, PASSWORD_BCRYPT, $options);
+        $admin_user = "INSERT INTO USER (username, email, password, isAdmin) VALUES('$this->dbUser','$this->email','$hashed_password','yes')";
         if ($this->conn->query($admin_user) === TRUE) {
             echo "Admin User created successfully";
         } else {
-            echo "Error creating database: " . $this->conn->error;
+            throw new Exception("Cannot create admin user". $this->conn->error);
         }
         $this->conn->close();
     }

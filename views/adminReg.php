@@ -1,9 +1,15 @@
 <?php
 $file = "../config.txt";
 if(file_exists($file)){
-    header('Location: '. "./Login.php");
+    header('Location: '. "./Login.php");  
     echo "file exists";
 }
+session_start();
+if (isset($_SESSION['error'])) {
+    $error_message = $_SESSION['error'];
+    unset($_SESSION['error']); 
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -18,6 +24,9 @@ if(file_exists($file)){
 
 <body>
   <form class="container" id="adminForm" method="post" action="../controllers/installation.php">
+  <?php if (isset($error_message)) : ?>
+        <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
+    <?php endif; ?>
     <div class="form-group">
       <label for="username">Username</label>
       <input type="text" class="form-control" id="username" name="username" placeholder="Enter Your Name" required>

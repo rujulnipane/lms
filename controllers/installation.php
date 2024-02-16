@@ -32,10 +32,42 @@ $content = "server=localhost \nuser=$user \nemail=$email \npassword=$password \n
 fwrite($config, $content);
 fclose($config);
 
+try{
+    $install = new Installation();
+}
+catch(Exception $e){
+    
+    $_SESSION['error'] = $e->getMessage();
+    header('Location: '. "../views/adminReg.php");
+    exit;
+}
+try{
+    $install->initialize();
+}
+catch(Exception $e){
+    // echo"". $e->getMessage() ."";
+    $_SESSION['error'] = $e->getMessage();
+    header('Location: '. "../views/adminReg.php");
+    exit;
+}
 
-$install = new Installation();
-$install->initialize();
-$install->createTables();
-$install->createAdminUser();
+try{
+    $install->createTables();
+}
+catch(Exception $e){
+    $_SESSION['error'] = $e->getMessage();
+    header('Location: '. "../views/adminReg.php");
+    exit;
+}
+
+try{
+    $install->createAdminUser();
+}
+catch(Exception $e){
+    $_SESSION['error'] = $e->getMessage();
+    header('Location: '. "../views/adminReg.php");
+    exit;
+}
 
 header('Location: '. "../views/welcome.php");
+

@@ -11,6 +11,6 @@ class Course{
         return $this->db->getRecords("COURSE");
     }
     public function getCoursesByCourseId($courseId){
-    
+        
     }
 }

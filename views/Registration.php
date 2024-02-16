@@ -1,8 +1,17 @@
 <?php
 session_start();
+if(!file_exists("../config.txt")){
+    header('Location: '. "./adminReg.php");
+    echo "file exists";
+}
 if (isset($_SESSION['error'])) {
     $error_message = $_SESSION['error'];
     unset($_SESSION['error']); 
+}
+
+if (isset($_SESSION['details'])) {
+    $userdetails = $_SESSION['details'];
+    unset($_SESSION['details']); 
 }
 ?>
 
@@ -33,14 +42,14 @@ if (isset($_SESSION['error'])) {
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                         </div>
-                        <input name="username" id="name" class="form-control" placeholder="Enter Username" type="text" required>
+                        <input name="username" id="name" class="form-control" placeholder="Enter Username" type="text" required value="<?php echo $userdetails['username']; ?>">
                         <div id="nameError" class="invalid-feedback"></div>
                     </div> <!-- form-group// -->
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
                         </div>
-                        <input name="email" id="email" class="form-control" placeholder="Email address" type="email" required>
+                        <input name="email" id="email" class="form-control" placeholder="Email address" type="email" required value="<?php echo $userdetails['email'];?>">
                         <div id="emailError" class="invalid-feedback"></div>
                     </div> <!-- form-group// -->
 
