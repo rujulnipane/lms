@@ -1,7 +1,8 @@
 <?php
-if (isset($_SESSION["error"])) {
-    $errormsg = $_SESSION["error"];
-    unset($_SESSION["error"]);
+session_start();
+if (isset($_SESSION['error'])) {
+    $error_message = $_SESSION['error'];
+    unset($_SESSION['error']); 
 }
 ?>
 
@@ -20,9 +21,9 @@ if (isset($_SESSION["error"])) {
 <body>
 
     <div class="container">
-        <div class="alert alert-primary" role="alert">
-            <?=$errormsg?>
-        </div>
+    <?php if (isset($error_message)) : ?>
+        <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
+    <?php endif; ?>
         <div class="card bg-light">
             <article class="card-body mx-auto" style="width: 50%;">
                 <h4 class="card-title mt-3 text-center">Create Account</h4>
@@ -88,7 +89,7 @@ if (isset($_SESSION["error"])) {
             var name = document.getElementById("name").value.trim();
             var nameError = document.getElementById("nameError");
 
-            if (/[^a-zA-Z]/.test(name)) {
+            if (/[^a-zA-Z0-9]/.test(name)) {
                 nameError.textContent = "Username should only contain letters";
                 nameError.style.display = "block";
             } else {

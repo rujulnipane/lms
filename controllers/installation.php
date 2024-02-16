@@ -17,9 +17,6 @@ $password;
 $email;
 $dbname;
 
-
-
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $_POST["username"];
     $email = $_POST["email"];

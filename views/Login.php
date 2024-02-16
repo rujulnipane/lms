@@ -3,8 +3,14 @@
 session_start();
 if (isset($_SESSION['error'])) {
     $error_message = $_SESSION['error'];
-    unset($_SESSION['error']); // Remove the error message from the session
+    unset($_SESSION['error']); 
 }
+
+if (isset($_SESSION['successmsg'])) {
+    $success = $_SESSION['successmsg'];
+    unset($_SESSION['successmsg']); 
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -23,6 +29,9 @@ if (isset($_SESSION['error'])) {
     <div class="container">
     <?php if (isset($error_message)) : ?>
         <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
+    <?php endif; ?>
+    <?php if (isset($success)) : ?>
+        <p style="color: green;"><?php echo htmlspecialchars($success); ?></p>
     <?php endif; ?>
         <div class="card bg-light">
             <article class="card-body mx-auto" style="width: 50%;">

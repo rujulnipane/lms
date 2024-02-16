@@ -11,7 +11,7 @@ class User{
     }
 
     public function getUser($name){
-        return $this->db->getRecord("USER", array("name"=> $name));
+        return $this->db->getRecord("USER", array("username"=> $name));
     }
     public function createUser($data){
         $this->db->insertRecord("USER", $data);

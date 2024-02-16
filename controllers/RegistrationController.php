@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 include "../models/UserModel.php";
 
 class Register
@@ -8,7 +10,6 @@ class Register
     private $email;
     private $password;
     private $User;
-
     public function __construct()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -23,16 +24,23 @@ class Register
     public function registerUser()
     {   
         $user = $this->User->getUser($this->username);
+        
         if ($user->num_rows > 0) {
-            echo "User already exist";
+            $_SESSION['error'] = "Username already taken";
+            header('Location: '. "../views/Registration.php");
+            exit;
         } else {
+            $options = [
+                'cost' => 10,
+            ];
+            $hashed_password = password_hash($this->password, PASSWORD_BCRYPT, $options);
             $array = array(
-                'name' => $this->username,
+                'username' => $this->username,
                 'email' => $this->email,
-                'password' => $this->password
+                'password' => $hashed_password
             );
             $this->User->createUser($array);
-            echo ("user created successfully");
+            $_SESSION['successmsg'] = "User Created Successfully.";
             header('Location: ' . "../views/Login.php");
         }
     }

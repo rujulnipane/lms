@@ -18,7 +18,7 @@ class Database
             $line = fgets($config);
             $parts = explode('=', $line, 2);
             $key = trim($parts[0]);
-            $value = isset($parts[1]) ? trim($parts[1]) : ''; // Handle case when there's no value
+            $value = isset($parts[1]) ? trim($parts[1]) : '';
             $array[$key] = $value;
         }
         fclose($config);
@@ -46,23 +46,33 @@ class Database
         echo "connected";
     }
 
-    public function getRecord($table, $query){
-        $name = $query["name"];
-        $sql = "SELECT * FROM $table WHERE username = '$name'";
+    public function getRecord($table, $query)
+    {
+        $sql = "SELECT * FROM $table WHERE ";
+        foreach ($query as $key => $value) {
+            $sql .= $key . "=" . "'" . $value . "'";
+        }
         $result = $this->conn->query($sql);
+        // echo $sql;
         return $result;
     }
 
-    public function insertRecord($table, $data){
-        $name = $data["name"];
-        $email = $data["email"];
-        $password = $data["password"];
-        $sql = "INSERT INTO $table (username, email, password) VALUES('$name', '$email', '$password')";
+    public function insertRecord($table, $data)
+    {
+        $sql = "INSERT INTO $table(";
+        foreach ($data as $key => $value) {
+            $sql .= $key . ',';
+        }
+        $sql = substr($sql, 0, -1) . ') values(';
+        foreach ($data as $key => $value) {
+            $sql .= "'" . $value . "'" . ',';
+        }
+        $sql = substr($sql, 0, -1) . ')';
         if ($this->conn->query($sql) === TRUE) {
             echo "New record created successfully";
-          } else {
+        } else {
             echo "Error: " . $sql . "<br>" . $this->conn->error;
-          }
+        }
     }
 
     public function initializeDatabase()
@@ -92,8 +102,6 @@ class Database
             echo "Error creating database: " . $this->conn->error;
         }
         $this->conn->close();
-        echo "connection closed";
-
     }
     public function createTables()
     {
@@ -111,7 +119,7 @@ class Database
             title VARCHAR(255),
             details VARCHAR(255)
         )";
-        
+
         $table_section = "CREATE TABLE SECTION(
             id INT PRIMARY KEY AUTO_INCREMENT,
             title VARCHAR(255),
@@ -119,7 +127,7 @@ class Database
             course_id INT,
             FOREIGN KEY (course_id) REFERENCES COURSE(id) ON DELETE CASCADE
         )";
-        
+
         $table_video = "CREATE TABLE VIDEO(
             id INT PRIMARY KEY AUTO_INCREMENT,
             title VARCHAR(255),
@@ -127,40 +135,41 @@ class Database
             section_id INT,
             FOREIGN KEY (section_id) REFERENCES SECTION(id) ON DELETE CASCADE
         )";
-        
+
         if ($this->conn->query($table_user) === TRUE) {
             echo "User table created successfully";
         } else {
-            echo "Error creating database: " . $this->conn->error;
+            echo "Error creating user table: " . $this->conn->error;
         }
 
         if ($this->conn->query($table_courses) === TRUE) {
             echo "Courses created successfully";
         } else {
-            echo "Error creating database: " . $this->conn->error;
+            echo "Error creating course table: " . $this->conn->error;
         }
 
         if ($this->conn->query($table_section) === TRUE) {
             echo "Section table created successfully";
         } else {
-            echo "Error creating database: " . $this->conn->error;
+            echo "Error creating section table: " . $this->conn->error;
         }
 
         if ($this->conn->query($table_video) === TRUE) {
             echo "Video table created successfully";
         } else {
-            echo "Error creating database: " . $this->conn->error;
+            echo "Error creating video table: " . $this->conn->error;
         }
         $this->conn->close();
     }
 
-    public function createAdminUser(){
+    public function createAdminUser()
+    {
         $admin_user = "INSERT INTO USER (username, email, password, isAdmin) VALUES('$this->dbUser','$this->email','$this->dbPassword','yes')";
-		if ($this->conn->query($admin_user) === TRUE) {
-			echo "Admin User created successfully";
-		} else {
-			echo "Error creating database: " . $this->conn->error;
-		}
+        if ($this->conn->query($admin_user) === TRUE) {
+            echo "Admin User created successfully";
+        } else {
+            echo "Error creating database: " . $this->conn->error;
+        }
         $this->conn->close();
     }
 }
