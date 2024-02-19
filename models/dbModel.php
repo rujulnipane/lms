@@ -112,12 +112,15 @@ class Database
         }
         $sql = rtrim($sql, ',') . ') VALUES (' . rtrim($placeholders, ',') . ')';
         $stmt = $this->conn->prepare($sql);
-        echo $dataType . ' ' . array_values($data);
+        // echo $dataType . ' ' . array_values($data);
         if ($stmt) {
             $params = array_values($data);
             $stmt->bind_param($dataType,...$params);
             $stmt->execute();
+            $id = $this->conn->insert_id;
             $stmt->close();
+            return $id;
+
         } else {
             throw new Exception('Query execution error: ' . $this->conn->error);
         }

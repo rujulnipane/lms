@@ -25,13 +25,13 @@ if (!isset($_SESSION["username"])) {
 
     <script>
         $(document).ready(function() {
-            var sectionNo = 1;
+            var sectionNo = 0;
     $("#addsection").click(function(event) {
         
         event.preventDefault();
         $("#sectionContainer").append(`
             <div class="section">
-            <h3>Section ${sectionNo}</h3> 
+            <h3>Section ${sectionNo+1}</h3> 
                 <div class="form-group">
                     <label for="sectionTitle">Title of Section</label>
                     <input type="text" class="form-control" name="sectionTitle[]" placeholder="Enter title of the section">
@@ -55,7 +55,7 @@ if (!isset($_SESSION["username"])) {
         $(this).closest(".section").find(".videoContainer").append(`
             <div class="form-group">
                 <label for="videos">Upload Videos for Section</label>
-                <input type="file" class="form-control-file" name="videos[section${sectionNo}][]" multiple>
+                <input type="file" class="form-control-file" name="section${sectionNo}[]" multiple>
             </div>`);
     });
 });
