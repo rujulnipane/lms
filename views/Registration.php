@@ -1,17 +1,17 @@
 <?php
 session_start();
-if(!file_exists("../config.txt")){
-    header('Location: '. "./adminReg.php");
+if (!file_exists("../config.txt")) {
+    header('Location: ' . "./adminReg.php");
     echo "file exists";
 }
 if (isset($_SESSION['error'])) {
     $error_message = $_SESSION['error'];
-    unset($_SESSION['error']); 
+    unset($_SESSION['error']);
 }
 
 if (isset($_SESSION['details'])) {
     $userdetails = $_SESSION['details'];
-    unset($_SESSION['details']); 
+    unset($_SESSION['details']);
 }
 ?>
 
@@ -30,9 +30,9 @@ if (isset($_SESSION['details'])) {
 <body>
 
     <div class="container">
-    <?php if (isset($error_message)) : ?>
-        <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
-    <?php endif; ?>
+        <?php if (isset($error_message)) : ?>
+            <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
+        <?php endif; ?>
         <div class="card bg-light">
             <article class="card-body mx-auto" style="width: 50%;">
                 <h4 class="card-title mt-3 text-center">Create Account</h4>
@@ -49,7 +49,7 @@ if (isset($_SESSION['details'])) {
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
                         </div>
-                        <input name="email" id="email" class="form-control" placeholder="Email address" type="email" required value="<?php echo $userdetails['email'];?>">
+                        <input name="email" id="email" class="form-control" placeholder="Email address" type="email" required value="<?php echo $userdetails['email']; ?>">
                         <div id="emailError" class="invalid-feedback"></div>
                     </div> <!-- form-group// -->
 
@@ -130,11 +130,16 @@ if (isset($_SESSION['details'])) {
                 passwordError.textContent = "Password is required";
                 passwordError.style.display = "block";
                 return false;
+            } else if (password.length < 5) {
+                passwordError.textContent = "Password must be at least 5 characters long";
+                passwordError.style.display = "block";
+                return false;
             } else {
                 passwordError.style.display = "none";
                 return true;
             }
         }
+
 
         function validateConfirmPassword() {
             var password = document.getElementById("password").value.trim();

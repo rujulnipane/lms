@@ -9,6 +9,9 @@ if(!file_exists($file_path)){
     
     echo "file exists";
 }
+else{
+    // header('Location: '. "./Login.php");
+}
 echo "Installation process completed";
 
 

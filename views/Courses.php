@@ -18,6 +18,11 @@ if (!isset($_SESSION["username"])) {
     header('Location: ' . "../views/Login.php");
 }
 
+if (isset($_SESSION['error'])) {
+    $error_message = $_SESSION['error'];
+    unset($_SESSION['error']); 
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -40,8 +45,6 @@ if (!isset($_SESSION["username"])) {
                 dataType: "json",
                 success: function(response) {
                     let courses = response;
-                    console.log(response);
-                    console.log(courses);
                     courses.forEach(element => {
                         let carddiv = $("<div></div>");
                         let cardimg = $("<img>");
@@ -50,17 +53,17 @@ if (!isset($_SESSION["username"])) {
                         let cardetails = $("<p></p>");
                         let cardlink = $("<a></a>");
                         carddiv.css("width", "18rem")
-                        carddiv.attr("id" , element["id"]);
-                        carddiv.addClass('card');
-                        cardimg.attr("src",element["url"]);
-                        cardimg.attr("alt","not available");
+                        carddiv.attr("id", element["id"]);
+                        carddiv.addClass('card m-2');
+                        cardimg.attr("src", element["url"]);
+                        cardimg.attr("alt", "not available");
                         cardbody.addClass('card-body');
                         cardimg.addClass('card-img-top');
                         cardtitle.addClass("card-title");
                         cardtitle.append(element['title']);
                         cardetails.addClass("card-text");
                         cardetails.append(element['details']);
-                        cardlink.attr('href',"#");
+                        cardlink.attr('href', "#");
                         cardlink.addClass("btn btn-primary");
                         cardlink.append("View Course");
 
@@ -79,31 +82,33 @@ if (!isset($_SESSION["username"])) {
                     console.error(xhr.responseText);
                 }
             });
-           
+
         });
     </script>
 </head>
 
 <body>
-    <?php if (isset($_SESSION["username"])) : ?>
 
+    <?php include "navbar.php"; ?>
+    <!-- <?php if (isset($_SESSION["username"])) : ?>
         WELCOME: <?php echo $_SESSION["username"]; ?>
+    <?php endif; ?> -->
+    <?php if (isset($error_message)) : ?>
+        <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
     <?php endif; ?>
-    <a href="../controllers/Logout.php">Logout</a>
-        <div id="container">
-    
-    <div class="card" style="width: 18rem;">
-        <img src="" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
+    <div class="container my-2">
+
+       
+    <?php if(isset($_SESSION["isAdmin"]) and $_SESSION["isAdmin"] == true) : ?>
+    <button type="button" class="btn btn-light"><a class="nav-link" href="createCourse.php">Create Course</a></button>
+    <?php endif; ?>
     </div>
+    <div id="container" class="container d-flex justify-content-center">
+        
     </div>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-   
+
 </body>
 
 </html>

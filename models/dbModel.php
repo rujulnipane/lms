@@ -14,7 +14,7 @@ class Database
     {
         $array = array();
         $config = fopen("../config.txt", "r");
-        if(!$config){
+        if (!$config) {
             throw new Exception("Cannot get config file");
         }
         while (!feof($config)) {
@@ -49,7 +49,8 @@ class Database
         // echo "connected";
     }
 
-    public function closeConnection(){
+    public function closeConnection()
+    {
         $this->conn->close();
     }
 
@@ -59,14 +60,15 @@ class Database
         foreach ($query as $key => $value) {
             $sql .= $key . "=" . "'" . $value . "'";
         }
-        
+
         $result = $this->conn->query($sql);
         if (!$result) {
             throw new Exception('Query execution error: ' . $this->conn->error);
         }
         return $result;
     }
-    public function getRecords($table){
+    public function getRecords($table)
+    {
         $sql = "SELECT * FROM $table";
         $result = $this->conn->query($sql);
         if (!$result) {
@@ -76,17 +78,46 @@ class Database
     }
     public function insertRecord($table, $data)
     {
-        $sql = "INSERT INTO $table(";
+        // $sql = "INSERT INTO $table(";
+        // foreach ($data as $key => $value) {
+        //     $sql .= $key . ',';
+        // }
+        // $sql = substr($sql, 0, -1) . ') values(';
+        // foreach ($data as $key => $value) {
+        //     $sql .= "'" . $value . "'" . ',';
+        // }
+        // $sql = substr($sql, 0, -1) . ')';
+        // if ($this->conn->query($sql) === TRUE) {
+        //     echo "New record created successfully";
+        // } else {
+        //     throw new Exception('Query execution error: ' . $this->conn->error);
+        // }
+
+        $sql = "INSERT INTO $table (";
+        $placeholders = '';
+        $dataType = '';
+
         foreach ($data as $key => $value) {
             $sql .= $key . ',';
+            $placeholders .= '?,';
+            if (is_int($value)) {
+                $dataType .= 'i';
+            } elseif (is_float($value)) {
+                $dataType .= 'd'; 
+            } elseif (is_string($value)) {
+                $dataType .= 's';
+            } else {
+                $dataType .= 'b'; 
+            }
         }
-        $sql = substr($sql, 0, -1) . ') values(';
-        foreach ($data as $key => $value) {
-            $sql .= "'" . $value . "'" . ',';
-        }
-        $sql = substr($sql, 0, -1) . ')';
-        if ($this->conn->query($sql) === TRUE) {
-            echo "New record created successfully";
+        $sql = rtrim($sql, ',') . ') VALUES (' . rtrim($placeholders, ',') . ')';
+        $stmt = $this->conn->prepare($sql);
+        echo $dataType . ' ' . array_values($data);
+        if ($stmt) {
+            $params = array_values($data);
+            $stmt->bind_param($dataType,...$params);
+            $stmt->execute();
+            $stmt->close();
         } else {
             throw new Exception('Query execution error: ' . $this->conn->error);
         }
@@ -97,29 +128,28 @@ class Database
         $this->conn = new mysqli("localhost", "root", "root");
         if (!$this->conn->connect_error) {
             echo "connected successfully";
-        }
-        else{
-            throw new Exception("Connection failed". $this->conn->connect_error);
+        } else {
+            throw new Exception("Connection failed" . $this->conn->connect_error);
         }
 
         $sql_user = "CREATE USER '$this->dbUser'@'$this->server' IDENTIFIED BY '$this->dbPassword'";
         if ($this->conn->query($sql_user) === TRUE) {
             echo "Created User Successfully";
         } else {
-           throw new Exception("User Creation Failed". $this->conn->error);
+            throw new Exception("User Creation Failed" . $this->conn->error);
         }
         $sql_db = "Create DATABASE $this->dbName";
         if ($this->conn->query($sql_db) === TRUE) {
             echo "Database created successfully";
         } else {
-            throw new Exception("Dtabase not created". $this->conn->error);
+            throw new Exception("Dtabase not created" . $this->conn->error);
         }
 
         $grant = "GRANT ALL ON *.* TO '$this->dbUser'@'localhost'";
         if ($this->conn->query($grant) === TRUE) {
             echo "Granted priviliges";
         } else {
-            throw new Exception("priviliges failed". $this->conn->error);
+            throw new Exception("priviliges failed" . $this->conn->error);
         }
         $this->conn->close();
     }
@@ -137,6 +167,7 @@ class Database
         $table_courses = "CREATE TABLE COURSE(
             id INT PRIMARY KEY AUTO_INCREMENT,
             title VARCHAR(255),
+            url VARCHAR(255),
             details VARCHAR(255)
         )";
 
@@ -159,25 +190,25 @@ class Database
         if ($this->conn->query($table_user) === TRUE) {
             echo "User table created successfully";
         } else {
-            throw new Exception("Cannot create user table". $this->conn->error);
+            throw new Exception("Cannot create user table" . $this->conn->error);
         }
 
         if ($this->conn->query($table_courses) === TRUE) {
             echo "Courses created successfully";
         } else {
-            throw new Exception("Cannot create course table". $this->conn->error);
+            throw new Exception("Cannot create course table" . $this->conn->error);
         }
 
         if ($this->conn->query($table_section) === TRUE) {
             echo "Section table created successfully";
         } else {
-            throw new Exception("Cannot create section table". $this->conn->error);
+            throw new Exception("Cannot create section table" . $this->conn->error);
         }
 
         if ($this->conn->query($table_video) === TRUE) {
             echo "Video table created successfully";
         } else {
-            throw new Exception("Cannot create video table". $this->conn->error);
+            throw new Exception("Cannot create video table" . $this->conn->error);
         }
         $this->conn->close();
     }
@@ -192,7 +223,7 @@ class Database
         if ($this->conn->query($admin_user) === TRUE) {
             echo "Admin User created successfully";
         } else {
-            throw new Exception("Cannot create admin user". $this->conn->error);
+            throw new Exception("Cannot create admin user" . $this->conn->error);
         }
         $this->conn->close();
     }
