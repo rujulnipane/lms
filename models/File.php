@@ -6,12 +6,16 @@ class File{
         if (!file_exists($dir)) {
             mkdir($dir, 0777, true);
         } else {
-            throw new Exception("Course alrready Exists");
+            throw new Exception("Course already Exists");
         }
     }
 
-    public static function uploadFile($file){
-
+    public static function uploadFile($src,$des){
+        echo $src . $des;
+        if (move_uploaded_file($src, $des)) {
+        } else {
+            throw new Exception("Cannot Upload File");
+        }
     }
     public static function deleteFile($file_path){
 

@@ -48,7 +48,6 @@ class CreateCourse
                 $this->sectionDes,
                 $this->sectionUrl
             ));
-            echo "nj";
             $_SESSION["success"] = "New Course Created successfully";
             header('Location: ' . "../views/Courses.php");
         } catch (Exception $e) {
@@ -60,56 +59,57 @@ class CreateCourse
     {
         $target_dir = "../uploads/Courses/";
         $target_dir = "../uploads/Courses/" . $this->courseTitle . "/";
-        // try{
-        //     File::createDir($target_dir);
-        // }
-        // catch( Exception $e)    {
-        //     header('Location: ' . "../views/createCourse.php");
-        //     $_SESSION["error"] = $e->getMessage();
-        //     exit;
-        // }
-        if (!file_exists($target_dir)) {
-            mkdir($target_dir, 0777, true);
-        } else {
-            $_SESSION["error"] = "Course Already exists";
+        try{
+            File::createDir($target_dir);
+        }
+        catch( Exception $e)    {
             header('Location: ' . "../views/createCourse.php");
+            $_SESSION["error"] = $e->getMessage();
             exit;
         }
+
         if (isset($_FILES["courseImg"])) {
             $target_file = $target_dir . basename($_FILES['courseImg']['name']);
-            $this->courseImgurl = $target_file;
-
-            if (move_uploaded_file($_FILES["courseImg"]["tmp_name"], $target_file)) {
-            } else {
-                echo "Failed to upload course thumbnail";
+            try{
+                echo $target_file;
+                File::uploadFile($_FILES["courseImg"]["tmp_name"], $target_file);
+                $this->courseImgurl = $target_file;
+            }
+            catch( Exception $e) {
+                header('Location: ' . "../views/createCourse.php");
+                $_SESSION["error"] = $e->getMessage();
+                exit;
             }
         }
-        // print_r($_FILES);
+
         foreach ($this->sectionTitles as $index => $title) {
             $sectionDir = $target_dir . $title . "/";
-            if (!file_exists($sectionDir)) {
-                mkdir($sectionDir, 0777, true);
+            try{
+                File::createDir($sectionDir);
             }
-
+            catch( Exception $e)    {
+                header('Location: ' . "../views/createCourse.php");
+                $_SESSION["error"] = $e->getMessage();
+                exit;
+            }
             $section = "section" . $index + 1;
-            // echo $section;
             $videourl = [];
             if (isset($_FILES[$section])) {
-
-
                 $sectionimg = $_FILES[$section];
-
                 $count = 0;
                 foreach ($sectionimg["name"] as $name) {
                     $videoName = basename($name);
-                    // echo $sectionimg["tmp_name"][$count];
-                    // echo $videoName;
                     $video_file = $sectionDir . $videoName;
-                    echo $video_file;
-                    $videourl[] = $video_file;
-                    if (move_uploaded_file($sectionimg["tmp_name"][$count], $video_file)) {
-                    } else {
-                        echo "Failed to upload Video";
+                    try{
+                        $src = $sectionimg["tmp_name"][$count];
+                        File::uploadFile($src, $video_file);
+                        $this->courseImgurl = $target_file;
+                        $videourl[] = $video_file;
+                    }
+                    catch( Exception $e) {
+                        header('Location: ' . "../views/createCourse.php");
+                        $_SESSION["error"] = $e->getMessage();
+                        exit;
                     }
                     $count++;
                 }
