@@ -1,6 +1,7 @@
 <?php
 
 include_once("../models/CourseModel.php");
+include_once("Auth.php");
 // if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 //     $target_dir = "../assets/Courses/";
@@ -50,8 +51,10 @@ include_once("../models/CourseModel.php");
 //     }
 //     }
 
-
-
+include_once("Auth.php");
+if(!Auth::isLogin() or !Auth::isAdminUser()){
+    header('Location: '. "../views/Login.php");
+}
 
 class CreateCourse
 {
@@ -83,8 +86,6 @@ class CreateCourse
             $this->sectionDes, 
             $this->sectionUrl
         ));
-
-
     }
     public function uploadFiles()
     {
@@ -101,6 +102,7 @@ class CreateCourse
         } else {
             echo "Failed to upload course thumbnail";
         }
+        
         // print_r($_FILES);
         foreach ($this->sectionTitles as $index => $title) {
             $sectionDir = $target_dir . $title . "/";
@@ -129,6 +131,7 @@ class CreateCourse
                 $count++;
             }
             $this->sectionUrl[] = $videourl;
+            
         }
     }
 }
@@ -136,5 +139,4 @@ class CreateCourse
 
 $course = new CreateCourse();
 $course->uploadFiles();
-
 $course->createCourse();

@@ -1,7 +1,7 @@
 
 <?php
 session_start();
-if(!file_exists("../config.txt")){
+if(!file_exists("../config.php")){
     header('Location: '. "./adminReg.php");
     echo "file exists";
 }
@@ -10,7 +10,6 @@ if (isset($_SESSION['error'])) {
     unset($_SESSION['error']); 
 }
 if(isset($_SESSION["username"])){
-    $_SESSION["error"] = "Please login first";
     header('Location: '. "./Courses.php");
 }
 

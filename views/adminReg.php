@@ -1,5 +1,5 @@
 <?php
-$file = "../config.txt";
+$file = "../config.php";
 if(file_exists($file)){
     header('Location: '. "./Login.php");  
     echo "file exists";

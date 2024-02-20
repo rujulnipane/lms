@@ -12,24 +12,18 @@ class Database
 
     private function __construct()
     {
-        $array = array();
-        $config = fopen("../config.txt", "r");
-        if (!$config) {
-            throw new Exception("Cannot get config file");
+        if(file_exists("../config.php")){
+            include("../config.php");
+            $this->server = $config['server'];
+            $this->dbUser = $config['dbuser'];
+            $this->dbPassword = $config['dbpass'];
+            $this->dbName = $config['dbname'];
+            $this->email = $config['email'];
         }
-        while (!feof($config)) {
-            $line = fgets($config);
-            $parts = explode('=', $line, 2);
-            $key = trim($parts[0]);
-            $value = isset($parts[1]) ? trim($parts[1]) : '';
-            $array[$key] = $value;
+        else{
+           throw new Exception('Cannot get Config file');
         }
-        fclose($config);
-        $this->server = $array['server'];
-        $this->dbUser = $array['user'];
-        $this->dbPassword = $array['password'];
-        $this->dbName = $array['dbname'];
-        $this->email = $array['email'];
+        
     }
 
     public static function getInstance()
@@ -112,7 +106,6 @@ class Database
         }
         $sql = rtrim($sql, ',') . ') VALUES (' . rtrim($placeholders, ',') . ')';
         $stmt = $this->conn->prepare($sql);
-        // echo $dataType . ' ' . array_values($data);
         if ($stmt) {
             $params = array_values($data);
             $stmt->bind_param($dataType,...$params);
@@ -120,7 +113,6 @@ class Database
             $id = $this->conn->insert_id;
             $stmt->close();
             return $id;
-
         } else {
             throw new Exception('Query execution error: ' . $this->conn->error);
         }
@@ -179,7 +171,7 @@ class Database
             title VARCHAR(255),
             details VARCHAR(255),
             course_id INT,
-            FOREIGN KEY (course_id) REFERENCES COURSE(id) ON DELETE CASCADE
+            FOREIGN KEY (course_id) REFERENCES COURSE(id) ON DELETE CASCADE ON UPDATE CASCADE
         )";
 
         $table_video = "CREATE TABLE VIDEO(
@@ -187,7 +179,7 @@ class Database
             title VARCHAR(255),
             video_url VARCHAR(255),
             section_id INT,
-            FOREIGN KEY (section_id) REFERENCES SECTION(id) ON DELETE CASCADE
+            FOREIGN KEY (section_id) REFERENCES SECTION(id) ON DELETE CASCADE ON UPDATE CASCADE
         )";
 
         if ($this->conn->query($table_user) === TRUE) {

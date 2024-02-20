@@ -2,6 +2,11 @@
 session_start();
 
 include "../models/CourseModel.php";
+include "Auth.php";
+
+if(!Auth::isLogin()){
+    header('Location: '. "../views/Login.php");
+}
 class CourseController{
     private $Course;
     private $courses;

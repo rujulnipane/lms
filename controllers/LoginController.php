@@ -43,6 +43,7 @@ class Login{
         }
         else{
             $row = $user->fetch_assoc();
+            // Auth::Login($row);
             if(password_verify($this->password,$row["password"])){
                 echo("Logged in successfully");
                 $_SESSION['username'] = $row['username'];

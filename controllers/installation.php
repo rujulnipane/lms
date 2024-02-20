@@ -26,9 +26,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "bd";
 }
 
-$config = fopen("../config.txt", "w") or die("Unable to open file!");
+// $config = fopen("../config.txt", "w") or die("Unable to open file!");
+$config = fopen("../config.php", "w") or die("Unable to open file!");
 
-$content = "server=localhost \nuser=$user \nemail=$email \npassword=$password \ndbname=$dbname";
+$content = <<<EOD
+<?php
+\$config = array(
+'server' => 'localhost',
+'dbuser' => '$user',
+'dbpass' => '$password',
+'dbname' => '$dbname',
+'email' => '$email'
+);
+?>
+EOD;
+
+// $content = "server=localhost \nuser=$user \nemail=$email \npassword=$password \ndbname=$dbname";
 fwrite($config, $content);
 fclose($config);
 
@@ -41,11 +54,11 @@ catch(Exception $e){
     header('Location: '. "../views/adminReg.php");
     exit;
 }
+
 try{
     $install->initialize();
 }
 catch(Exception $e){
-    // echo"". $e->getMessage() ."";
     $_SESSION['error'] = $e->getMessage();
     header('Location: '. "../views/adminReg.php");
     exit;
@@ -64,6 +77,7 @@ try{
     $install->createAdminUser();
 }
 catch(Exception $e){
+   
     $_SESSION['error'] = $e->getMessage();
     header('Location: '. "../views/adminReg.php");
     exit;

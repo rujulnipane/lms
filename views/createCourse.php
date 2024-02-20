@@ -34,7 +34,7 @@ if (!isset($_SESSION["username"])) {
             <h3>Section ${sectionNo+1}</h3> 
                 <div class="form-group">
                     <label for="sectionTitle">Title of Section</label>
-                    <input type="text" class="form-control" name="sectionTitle[]" placeholder="Enter title of the section">
+                    <input type="text" class="form-control" name="sectionTitle[]" placeholder="Enter title of the section" required>
                 </div>
                 <div class="form-group">
                     <label for="sectionDes">Description of Section</label>
@@ -55,7 +55,7 @@ if (!isset($_SESSION["username"])) {
         $(this).closest(".section").find(".videoContainer").append(`
             <div class="form-group">
                 <label for="videos">Upload Videos for Section</label>
-                <input type="file" class="form-control-file" name="section${sectionNo}[]" multiple>
+                <input type="file" class="form-control-file" name="section${sectionNo}[]" multiple >
             </div>`);
     });
 });
@@ -67,21 +67,21 @@ if (!isset($_SESSION["username"])) {
     <?php include "navbar.php"; ?>
     <div class="container">
 
-        <h2>Create Course</h2>
+        <h2>Create New Course</h2>
         <form action="../controllers/CreateCourse.php" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="exampleInputEmail1">Enter Title of the Course</label>
-                <input type="text" name="courseTitle" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter title of the course">
+                <input type="text" name="courseTitle" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter title of the course" required>
             </div>
             <div class="input-group form-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text">Write description of Course</span>
                 </div>
-                <textarea name="courseDes" class="form-control" aria-label="With textarea"></textarea>
+                <textarea name="courseDes" class="form-control" aria-label="With textarea" required></textarea>
             </div>
             <div class="input-group mb-3">
                 <label for="image" name="courseImg" class="form-control">Upload Course Thumbnail:</label>
-                <input type="file" id="courseimage" name="courseImg" class="form-control">
+                <input type="file" id="courseimage" name="courseImg" class="form-control" accept="image/*">
             </div>
             <div id="sectionContainer">
             </div>

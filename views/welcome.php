@@ -2,17 +2,16 @@
 
 session_start();
 
-$file_path = "../config.txt";
+$file_path = "../config.php";
 
 if(!file_exists($file_path)){
     header('Location: '. "./adminReg.php");
-    
-    echo "file exists";
 }
 else{
-    // header('Location: '. "./Login.php");
+    $_SESSION['$success'] = "Installation process completed";
+    header('Location: '. "./Login.php");
 }
-echo "Installation process completed";
+
 
 
 

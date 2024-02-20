@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!file_exists("../config.txt")) {
+if (!file_exists("../config.php")) {
     header('Location: ' . "./adminReg.php");
     echo "file exists";
 }

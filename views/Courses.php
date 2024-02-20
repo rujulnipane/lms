@@ -103,7 +103,7 @@ if (isset($_SESSION['error'])) {
     <button type="button" class="btn btn-light"><a class="nav-link" href="createCourse.php">Create Course</a></button>
     <?php endif; ?>
     </div>
-    <div id="container" class="container d-flex justify-content-center">
+    <div id="container" class="container d-flex justify-content-center flex-wrap">
         
     </div>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
