@@ -1,8 +1,7 @@
 <?php
 
 include "../models/UserModel.php";
-require "../vendor/autoload.php";
-use Firebase\JWT\JWT;
+
 
 
 session_start();
@@ -48,19 +47,6 @@ class Login{
                 echo("Logged in successfully");
                 $_SESSION['username'] = $row['username'];
                 $_SESSION['userId'] = $row['id'];
-                // $key = "ssfvsfv16";
-                // $token = JWT::encode(
-                //     array(
-                //         'iat' =>  time(),
-                //         'nbf' =>  time(),
-                //         'exp' =>  time()+3600,
-                //         'data' => array(
-                //             'userid' => $row['id'],
-                //             'username' => $row['username'],
-                //         )
-                //     ),$key,'HS256'
-                // );
-                // setcookie("token",$token,time()+3600,'/',"",true,true);
                 if($row['isAdmin'] === "yes"){
                     $_SESSION['isAdmin'] = true;
                 }

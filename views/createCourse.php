@@ -8,9 +8,12 @@ if (!isset($_SESSION["username"])) {
     header('Location: ' . "./Courses.php");
 }
 
+if (isset($_SESSION['error'])) {
+    $error_message = $_SESSION['error'];
+    unset($_SESSION['error']);
+}
+
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,10 +29,10 @@ if (!isset($_SESSION["username"])) {
     <script>
         $(document).ready(function() {
             var sectionNo = 0;
-    $("#addsection").click(function(event) {
-        
-        event.preventDefault();
-        $("#sectionContainer").append(`
+            $("#addsection").click(function(event) {
+
+                event.preventDefault();
+                $("#sectionContainer").append(`
             <div class="section">
             <h3>Section ${sectionNo+1}</h3> 
                 <div class="form-group">
@@ -38,7 +41,7 @@ if (!isset($_SESSION["username"])) {
                 </div>
                 <div class="form-group">
                     <label for="sectionDes">Description of Section</label>
-                    <textarea class="form-control" name="sectionDes[]" placeholder="Enter description of the section"></textarea>
+                    <textarea class="form-control" name="sectionDes[]" placeholder="Enter description of the section" required></textarea>
                 </div>
                 <div class="videoContainer">
                 </div>
@@ -47,25 +50,36 @@ if (!isset($_SESSION["username"])) {
                 </div>
 
             </div>`);
-            sectionNo++;
-    });
+                sectionNo++;
+            });
 
-    $("#sectionContainer").on("click", ".addVideo", function(event) {
-        event.preventDefault();
-        $(this).closest(".section").find(".videoContainer").append(`
+            $("#sectionContainer").on("click", ".addVideo", function(event) {
+                event.preventDefault();
+                $(this).closest(".section").find(".videoContainer").append(`
             <div class="form-group">
                 <label for="videos">Upload Videos for Section</label>
                 <input type="file" class="form-control-file" name="section${sectionNo}[]" multiple accept="video/*" >
             </div>`);
-    });
-});
+            });
 
+            $(".close").on("click", function() {
+            $("#errorMessage").hide();
+        });
+        });
     </script>
 </head>
 
 <body>
     <?php include "navbar.php"; ?>
     <div class="container">
+    <?php if (isset($error_message)) : ?>
+    <div class="container d-flex align-items-center justify-content-between bg-light-red" id="errorMessage">
+        <p><?php echo htmlspecialchars($error_message); ?></p>
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<?php endif; ?>
 
         <h2>Create New Course</h2>
         <form action="../controllers/CreateCourse.php" method="post" enctype="multipart/form-data">
@@ -93,7 +107,11 @@ if (!isset($_SESSION["username"])) {
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </form>
+
     </div>
+
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </body>
 
 </html>

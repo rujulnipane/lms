@@ -1,18 +1,8 @@
 <?php
 
-require "../vendor/autoload.php";
 
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
-
-$key =  "ssfvsfv16";
 session_start();
 
-if (isset($_COOKIE['token'])) {
-    $decoded = JWT::decode($_COOKIE['token'], new Key($key, 'HS256'));
-} else {
-    // header('Location: '. "../views/Login.php");
-}
 if (!isset($_SESSION["username"])) {
     $_SESSION["error"] = "Please login first";
     header('Location: ' . "../views/Login.php");
@@ -21,6 +11,10 @@ if (!isset($_SESSION["username"])) {
 if (isset($_SESSION['error'])) {
     $error_message = $_SESSION['error'];
     unset($_SESSION['error']); 
+}
+if (isset($_SESSION['success'])) {
+    $success = $_SESSION['success'];
+    unset($_SESSION['success']); 
 }
 
 ?>
@@ -35,6 +29,11 @@ if (isset($_SESSION['error'])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <style>
+        .create{
+            color: aliceblue;
+        }
+    </style>
     <script>
         $(document).ready(function() {
             let courses = [];
@@ -95,13 +94,20 @@ if (isset($_SESSION['error'])) {
     <?php endif; ?> -->
     <?php if (isset($error_message)) : ?>
         <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
+        <button type="button" class="close" aria-label="Close">
+  <span aria-hidden="true">&times;</span>
+</button>
     <?php endif; ?>
     <div class="container my-2">
-
-       
-    <?php if(isset($_SESSION["isAdmin"]) and $_SESSION["isAdmin"] == true) : ?>
-    <button type="button" class="btn btn-light"><a class="nav-link" href="createCourse.php">Create Course</a></button>
+    <?php if (isset($success)) : ?>
+        <p style="color: green;"><?php echo htmlspecialchars($success); ?></p>
     <?php endif; ?>
+    <?php if(isset($_SESSION["isAdmin"]) and $_SESSION["isAdmin"] == true) : ?>
+    <div class="text-center">
+        <button type="button" class="btn btn-success"><a class="create" href="createCourse.php">Create New Course</a></button>
+    </div>
+<?php endif; ?>
+
     </div>
     <div id="container" class="container d-flex justify-content-center flex-wrap">
         

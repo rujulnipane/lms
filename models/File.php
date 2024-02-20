@@ -2,15 +2,19 @@
 
 class File{
     public function __construct(){}
-    public function createDir($dir){
-        
+    public static function createDir($dir){
+        if (!file_exists($dir)) {
+            mkdir($dir, 0777, true);
+        } else {
+            throw new Exception("Course alrready Exists");
+        }
     }
 
-    public function uploadFile($file){
+    public static function uploadFile($file){
 
     }
-    public function deleteFile($file_path){
-        
+    public static function deleteFile($file_path){
+
     }
 
 }
