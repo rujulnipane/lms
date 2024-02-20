@@ -55,7 +55,7 @@ if (!isset($_SESSION["username"])) {
         $(this).closest(".section").find(".videoContainer").append(`
             <div class="form-group">
                 <label for="videos">Upload Videos for Section</label>
-                <input type="file" class="form-control-file" name="section${sectionNo}[]" multiple >
+                <input type="file" class="form-control-file" name="section${sectionNo}[]" multiple accept="video/*" >
             </div>`);
     });
 });

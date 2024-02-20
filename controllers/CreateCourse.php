@@ -67,13 +67,22 @@ class CreateCourse
     private $courseImgurl;
     public function __construct()
     {
-        $this->Course = new Course();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->courseTitle = $_POST['courseTitle'];
             $this->courseDes = $_POST['courseDes'];
             $this->sectionTitles = $_POST["sectionTitle"];
             $this->sectionDes = $_POST["sectionDes"];
         }
+        else{
+            echo "Invalid Request Method";
+        }
+        try{
+            $this->Course = new Course();
+        }
+        catch(Exception $e){
+
+        }
+       
     }
 
     public function createCourse()
@@ -89,8 +98,8 @@ class CreateCourse
     }
     public function uploadFiles()
     {
-        $target_dir = "../assets/Courses/";
-        $target_dir = "../assets/Courses/" . $this->courseTitle . "/";
+        $target_dir = "../uploads/Courses/";
+        $target_dir = "../uploads/Courses/" . $this->courseTitle . "/";
         if (!file_exists($target_dir)) {
                 mkdir($target_dir, 0777, true);
         }
@@ -117,7 +126,6 @@ class CreateCourse
             $count = 0;
             foreach ($sectionimg["name"] as $name) {
                 $videoName = basename($name);
-
                 // echo $sectionimg["tmp_name"][$count];
                 // echo $videoName;
                 $video_file = $sectionDir . $videoName;
@@ -126,7 +134,7 @@ class CreateCourse
                 if (move_uploaded_file($sectionimg["tmp_name"][$count], $video_file)) {
                     // Course thumbnail uploaded successfully
                 } else {
-                    echo "Failed to upload course thumbnail";
+                    echo "Failed to upload Video thumbnail";
                 }
                 $count++;
             }
