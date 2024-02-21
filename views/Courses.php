@@ -44,6 +44,7 @@ if (isset($_SESSION['success'])) {
                 dataType: "json",
                 success: function(response) {
                     let courses = response;
+                    console.log(response);
                     courses.forEach(element => {
                         let carddiv = $("<div></div>");
                         let cardimg = $("<img>");
@@ -62,10 +63,9 @@ if (isset($_SESSION['success'])) {
                         cardtitle.append(element['title']);
                         cardetails.addClass("card-text");
                         cardetails.append(element['details']);
-                        cardlink.attr('href', "#");
+                        cardlink.attr('href', `/views/Course.php?id=${element['id']}`);
                         cardlink.addClass("btn btn-primary");
                         cardlink.append("View Course");
-
                         cardbody.append(cardtitle);
                         cardbody.append(cardetails);
                         cardbody.append(cardlink);
@@ -89,9 +89,7 @@ if (isset($_SESSION['success'])) {
 <body>
 
     <?php include "navbar.php"; ?>
-    <!-- <?php if (isset($_SESSION["username"])) : ?>
-        WELCOME: <?php echo $_SESSION["username"]; ?>
-    <?php endif; ?> -->
+
     <?php if (isset($error_message)) : ?>
         <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
         <button type="button" class="close" aria-label="Close">

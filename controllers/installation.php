@@ -156,14 +156,12 @@ class Installer
 );
 ?>
 EOD;
-
         $configFile = fopen($this->filePath, "w") or die("Unable to open file!");
         fwrite($configFile, $configContent);
         fclose($configFile);
     }
 }
 
-// Usage:
 $installer = new Installer("../config.php");
 $installer->processInstallation();
 

@@ -11,14 +11,13 @@ class File{
     }
 
     public static function uploadFile($src,$des){
-        echo $src . $des;
         if (move_uploaded_file($src, $des)) {
         } else {
             throw new Exception("Cannot Upload File");
         }
     }
     public static function deleteFile($file_path){
-
+        
     }
 
 }

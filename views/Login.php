@@ -58,7 +58,7 @@ if (isset($_SESSION['success'])) {
                         </div>
                         <input name="username" id="username" class="form-control" placeholder="Enter Username" type="text" required value="<?php echo $userdetails['username']; ?>">
                         <div id="usernameError" class="invalid-feedback"></div>
-                    </div> <!-- form-group// -->
+                    </div> 
 
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
@@ -66,15 +66,15 @@ if (isset($_SESSION['success'])) {
                         </div>
                         <input name="password" id="password" class="form-control" placeholder="Enter password" type="password" required>
                         <div id="passwordError" class="invalid-feedback"></div>
-                    </div> <!-- form-group// -->
+                    </div> 
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-block"> Login </button>
-                    </div> <!-- form-group// -->
+                    </div> 
                     <p class="text-center">Don't have an account?<a href="/views/Registration.php">Register</a> </p>
                 </form>
             </article>
-        </div> <!-- card.// -->
+        </div> 
 
     </div>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

@@ -5,8 +5,10 @@ include "../models/CourseModel.php";
 include "Auth.php";
 
 if(!Auth::isLogin()){
+    $_SESSION["error"] = "Login First";
     header('Location: '. "../views/Login.php");
 }
+
 class CourseController{
     private $Course;
     private $courses;
@@ -26,10 +28,7 @@ class CourseController{
         }
         echo json_encode($this->courses);
     }
-
-
 }
 
 $cc = new CourseController();
-
 $cc->getCourses();

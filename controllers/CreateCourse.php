@@ -10,6 +10,10 @@ include_once("Auth.php");
 if (!Auth::isLogin() or !Auth::isAdminUser()) {
     header('Location: ' . "../views/Login.php");
 }
+if(!Auth::isAdminUser()){
+    $_SESSION["error"] = "Not Authorized";
+    header('Location: '. "../views/Login.php");
+}
 
 class CreateCourse
 {
@@ -114,10 +118,8 @@ class CreateCourse
                     $count++;
                 }
             }
-
             $this->sectionUrl[] = $videourl;
         }
-        echo "df";
     }
 }
 

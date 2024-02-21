@@ -1,8 +1,12 @@
 <?php
 
 include "../models/UserModel.php";
+include "Auth.php";
 
-
+if(!Auth::isLogin()){
+    // $_SESSION["error"] = "Login First";
+    header('Location: '. "../views/Courses.php");
+}
 
 session_start();
 class Login{
@@ -33,6 +37,7 @@ class Login{
         catch(Exception $e){
             header('Location: '. "../views/Login.php");
             $_SESSION['error'] = $e->getMessage();
+            exit;
         }
         if($user->num_rows == 0){
             $_SESSION['error'] = "User Not Exist";
@@ -42,27 +47,16 @@ class Login{
         }
         else{
             $row = $user->fetch_assoc();
-            // Auth::Login($row);
-            if(password_verify($this->password,$row["password"])){
-                echo("Logged in successfully");
-                $_SESSION['username'] = $row['username'];
-                $_SESSION['userId'] = $row['id'];
-                if($row['isAdmin'] === "yes"){
-                    $_SESSION['isAdmin'] = true;
-                }
-                else{
-                    $_SESSION['isAdmin'] = false;
-                }
+            if(Auth::Login($row,$this->password)){
                 $_SESSION['successmsg'] = "Logged in successfully";
                 header('Location: '. "../views/Courses.php");
             }
             else{
-                echo("Invalid password");
                 $_SESSION['error'] = "Invalid username or password. Please try again.";
                 $_SESSION['details'] = array('username'=> $this->username);
                 header('Location: '. "../views/Login.php");
                 exit;
-            } 
+            }
         }
     }
 }
