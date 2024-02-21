@@ -25,7 +25,12 @@ if (isset($_SESSION['error'])) {
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+<style>
+    .container{
+        border: 2px solid black;
+        background-color: aliceblue;
+    }
+</style>
     <script>
         $(document).ready(function() {
             var sectionNo = 0;
@@ -63,25 +68,20 @@ if (isset($_SESSION['error'])) {
             });
 
             $(".close").on("click", function() {
-            $("#errorMessage").hide();
-        });
+                $("#errorMessage").hide();
+            });
         });
     </script>
 </head>
 
 <body>
     <?php include "navbar.php"; ?>
-    <div class="container">
-    <?php if (isset($error_message)) : ?>
-    <div class="container d-flex align-items-center justify-content-between bg-light-red" id="errorMessage">
-        <p><?php echo htmlspecialchars($error_message); ?></p>
-        <button type="button" class="close" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-<?php endif; ?>
+    <div class="container my-2">
+        <?php if (isset($error_message)) : ?>
+            <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
+        <?php endif; ?>
 
-        <h2>Create New Course</h2>
+        <h2 class="text-center">Create New Course</h2>
         <form action="../controllers/CreateCourse.php" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="exampleInputEmail1">Enter Title of the Course</label>
@@ -102,9 +102,9 @@ if (isset($_SESSION['error'])) {
             <div class="form-group">
                 <button class="btn btn-secondary" id="addsection">Add Section</button>
             </div>
-            <div class="form-group">
+            <div class="form-group text-center">
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-success">Create Course</button>
             </div>
         </form>
 

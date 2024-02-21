@@ -31,7 +31,10 @@ if (isset($_SESSION['success'])) {
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
     <style>
         .create{
-            color: aliceblue;
+            color: white;
+        }
+        .create:hover{
+            color: white;
         }
     </style>
     <script>

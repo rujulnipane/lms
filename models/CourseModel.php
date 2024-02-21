@@ -13,7 +13,9 @@ class Course{
         return $this->db->getRecords("COURSE");
     }
     public function getCoursesByCourseId($courseId){
-        
+        return $this->db->getRecord("COURSE",array(
+            "id" => $courseId
+        ));
     }
 
     public function createCourse($data){
@@ -22,10 +24,6 @@ class Course{
             "details"=> $data[1],
             "url"=> $data[2],
         ));
-        // echo $id;
-    //    print_r($data[3]);
-    //     print_r($data[4]);
-    //     print_r($data[5]);
 
         $count = 0;
         $this->section = new Section();

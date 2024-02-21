@@ -12,18 +12,16 @@ class Database
 
     private function __construct()
     {
-        if(file_exists("../config.php")){
+        if (file_exists("../config.php")) {
             include("../config.php");
             $this->server = $config['server'];
             $this->dbUser = $config['dbuser'];
             $this->dbPassword = $config['dbpass'];
             $this->dbName = $config['dbname'];
             $this->email = $config['email'];
+        } else {
+            throw new Exception('Cannot get Config file');
         }
-        else{
-           throw new Exception('Cannot get Config file');
-        }
-        
     }
 
     public static function getInstance()
@@ -50,16 +48,44 @@ class Database
 
     public function getRecord($table, $query)
     {
+        /*
         $sql = "SELECT * FROM $table WHERE ";
         foreach ($query as $key => $value) {
             $sql .= $key . "=" . "'" . $value . "'";
         }
-
         $result = $this->conn->query($sql);
         if (!$result) {
             throw new Exception('Query execution error: ' . $this->conn->error);
         }
         return $result;
+        */
+
+        $conditions = [];
+        $values = [];
+        foreach ($query as $key => $value) {
+            $conditions[] = "$key = ?";
+            $values[] = $value;
+        }
+        $sql = "SELECT * FROM $table WHERE " . implode(' AND ', $conditions);
+
+        $stmt = $this->conn->prepare($sql);
+        if (!$stmt) {
+            throw new Exception('Failed to prepare statement: ' . $this->conn->error);
+        }
+
+        $types = str_repeat('s', count($values)); 
+        $stmt->bind_param($types, ...$values);
+
+        if (!$stmt->execute()) {
+            throw new Exception('Query execution error: ' . $stmt->error);
+        }
+        $result = $stmt->get_result();
+        if ($result->num_rows === 0) {
+            return null;
+        }
+        $data = $result->fetch_assoc();
+        $stmt->close();
+        return $data;
     }
     public function getRecords($table)
     {
@@ -97,18 +123,18 @@ class Database
             if (is_int($value)) {
                 $dataType .= 'i';
             } elseif (is_float($value)) {
-                $dataType .= 'd'; 
+                $dataType .= 'd';
             } elseif (is_string($value)) {
                 $dataType .= 's';
             } else {
-                $dataType .= 'b'; 
+                $dataType .= 'b';
             }
         }
         $sql = rtrim($sql, ',') . ') VALUES (' . rtrim($placeholders, ',') . ')';
         $stmt = $this->conn->prepare($sql);
         if ($stmt) {
             $params = array_values($data);
-            $stmt->bind_param($dataType,...$params);
+            $stmt->bind_param($dataType, ...$params);
             $stmt->execute();
             $id = $this->conn->insert_id;
             $stmt->close();
