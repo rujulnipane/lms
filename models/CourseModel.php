@@ -12,7 +12,7 @@ class Course{
     public function getCourses(){
         return $this->db->getRecords("COURSE");
     }
-    public function getCoursesByCourseId($courseId){
+    public function getCourseById($courseId){
         return $this->db->getRecord("COURSE",array(
             "id" => $courseId
         ));

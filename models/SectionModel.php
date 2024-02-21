@@ -9,7 +9,11 @@ class Section{
         $this->db->getConnection();
         $this->video = new Video();
     }
-
+    public function getSections($courseid){
+        return $this->db->getRecord("SECTION",array(
+            "course_id" => $courseid
+        ));
+    }
     public function createSection($courseid, $data){
        
         $id = $this->db->insertRecord("SECTION",array(

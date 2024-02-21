@@ -10,11 +10,11 @@ if (!isset($_SESSION["username"])) {
 
 if (isset($_SESSION['error'])) {
     $error_message = $_SESSION['error'];
-    unset($_SESSION['error']); 
+    unset($_SESSION['error']);
 }
 if (isset($_SESSION['success'])) {
     $success = $_SESSION['success'];
-    unset($_SESSION['success']); 
+    unset($_SESSION['success']);
 }
 
 ?>
@@ -30,10 +30,11 @@ if (isset($_SESSION['success'])) {
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
     <style>
-        .create{
+        .create {
             color: white;
         }
-        .create:hover{
+
+        .create:hover {
             color: white;
         }
     </style>
@@ -41,13 +42,11 @@ if (isset($_SESSION['success'])) {
         $(document).ready(function() {
             let courses = [];
 
-            $.ajax({
-                url: "../controllers/CourseController.php",
-                method: "GET",
-                dataType: "json",
-                success: function(response) {
+            $.get(
+                "../controllers/CourseController.php",
+                function(response) {
                     let courses = response;
-                    console.log(response);
+                    console.log(courses);
                     courses.forEach(element => {
                         let carddiv = $("<div></div>");
                         let cardimg = $("<img>");
@@ -76,15 +75,12 @@ if (isset($_SESSION['success'])) {
                         carddiv.append(cardbody);
 
                         $("#container").append(carddiv);
-
                     });
-                    courses = response;
                 },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
+                "json"
+            ).fail(function(xhr, status, error) {
+                console.error("Error:", error);
             });
-
         });
     </script>
 </head>
@@ -96,22 +92,22 @@ if (isset($_SESSION['success'])) {
     <?php if (isset($error_message)) : ?>
         <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
         <button type="button" class="close" aria-label="Close">
-  <span aria-hidden="true">&times;</span>
-</button>
+            <span aria-hidden="true">&times;</span>
+        </button>
     <?php endif; ?>
     <div class="container my-2">
-    <?php if (isset($success)) : ?>
-        <p style="color: green;"><?php echo htmlspecialchars($success); ?></p>
-    <?php endif; ?>
-    <?php if(isset($_SESSION["isAdmin"]) and $_SESSION["isAdmin"] == true) : ?>
-    <div class="text-center">
-        <button type="button" class="btn btn-success"><a class="create" href="createCourse.php">Create New Course</a></button>
-    </div>
-<?php endif; ?>
+        <?php if (isset($success)) : ?>
+            <p style="color: green;"><?php echo htmlspecialchars($success); ?></p>
+        <?php endif; ?>
+        <?php if (isset($_SESSION["isAdmin"]) and $_SESSION["isAdmin"] == true) : ?>
+            <div class="text-center">
+                <button type="button" class="btn btn-success"><a class="create" href="createCourse.php">Create New Course</a></button>
+            </div>
+        <?php endif; ?>
 
     </div>
     <div id="container" class="container d-flex justify-content-center flex-wrap">
-        
+
     </div>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

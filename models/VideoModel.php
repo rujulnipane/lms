@@ -9,10 +9,13 @@ class Video{
 
 
     public function createVideo($sectionid,$video){
-            $this->db->insertRecord("VIDEO",array(
-                "section_id"=> $sectionid,
-                "video_url" => $video,
-            ));
+        $this->db->insertRecord("VIDEO",array(
+            "section_id"=> $sectionid,
+            "video_url" => $video,
+        ));
+    }
+    public function getVideos($sectionid){
+        return $this->db->getRecord("VIDEO",array("section_id" =>$sectionid));
     }
     
 }

@@ -12,7 +12,6 @@ echo "ji";
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            
             $.urlParam = function(name) {
                 var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
                 if (results == null) {
@@ -20,19 +19,22 @@ echo "ji";
                 }
                 return decodeURI(results[1]) || 0;
             }
+
             let i = $.urlParam('id');
             console.log(i);
+
             $.post(
-                "../controllers/getCourse.php",
-                {
+                "../controllers/getcontroller.php", {
                     id: i
                 },
-                function(res,status) {
+                function(res, status) {
                     console.log(res);
-                }
-            )
-        })
-        // const res = fetch('../controllers/getCourse.php');
+                },
+                'json' 
+            ).fail(function(xhr, status, error) {
+                console.log("Error:", xhr);
+            });
+        });
     </script>
 </head>
 

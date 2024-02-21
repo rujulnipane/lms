@@ -48,17 +48,43 @@ class Database
 
     public function getRecord($table, $query)
     {
-        /*
+        
         $sql = "SELECT * FROM $table WHERE ";
+        // foreach ($query as $key => $value) {
+        //     $sql .= $key . "=" . "'" . $value . "'";
+        // }
+        // $result = $this->conn->query($sql);
+        // if (!$result) {
+        //     throw new Exception('Query execution error: ' . $this->conn->error);
+        // }
+        // return $result;
+        $dataType = '';
         foreach ($query as $key => $value) {
-            $sql .= $key . "=" . "'" . $value . "'";
+            $sql .= $key . "=" . "?" .  " AND ";
+            if (is_int($value)) {
+                $dataType .= 'i';
+            } elseif (is_float($value)) {
+                $dataType .= 'd';
+            } elseif (is_string($value)) {
+                $dataType .= 's';
+            } else {
+                $dataType .= 'b';
+            }
         }
-        $result = $this->conn->query($sql);
-        if (!$result) {
+        
+        $sql = rtrim($sql," AND ");
+        $stmt = $this->conn->prepare($sql);
+        if ($stmt) {
+            $params = array_values($query);
+            $stmt->bind_param($dataType, ...$params);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $stmt->close();
+            return $result;
+        } else {
             throw new Exception('Query execution error: ' . $this->conn->error);
         }
-        return $result;
-        */
+        /*
 
         $conditions = [];
         $values = [];
@@ -86,6 +112,8 @@ class Database
         $data = $result->fetch_assoc();
         $stmt->close();
         return $data;
+        */
+        
     }
     public function getRecords($table)
     {
@@ -114,12 +142,12 @@ class Database
         // }
 
         $sql = "INSERT INTO $table (";
-        $placeholders = '';
+        $question = '';
         $dataType = '';
 
         foreach ($data as $key => $value) {
             $sql .= $key . ',';
-            $placeholders .= '?,';
+            $question.= '?,';
             if (is_int($value)) {
                 $dataType .= 'i';
             } elseif (is_float($value)) {
@@ -130,7 +158,7 @@ class Database
                 $dataType .= 'b';
             }
         }
-        $sql = rtrim($sql, ',') . ') VALUES (' . rtrim($placeholders, ',') . ')';
+        $sql = rtrim($sql, ',') . ') VALUES (' . rtrim($question, ',') . ')';
         $stmt = $this->conn->prepare($sql);
         if ($stmt) {
             $params = array_values($data);
