@@ -1,7 +1,5 @@
 <?php
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    // echo json_encode($_POST);
-}
+
 include("../models/CourseModel.php");
 include_once("SectionModel.php");
 include_once("../models/VideoModel.php");
@@ -14,7 +12,6 @@ class GetCourse{
     public function __construct(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $this->id = $_POST['id'];
-            // echo json_encode(array($this->id));
         }
         $this->Course = new Course();
     }
@@ -34,7 +31,6 @@ class GetCourse{
         foreach($this->sections as $section){
             $this->videos[] =  $this->getVideos($section['id']);
         }
-        // echo json_encode(array($this->videos));
     }
     public function getVideos($sectio_id){
         $video = new Video();

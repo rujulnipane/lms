@@ -22,8 +22,8 @@ if (isset($_SESSION['error'])) {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
-<body>
-  <form class="container" id="adminForm" method="post" action="../controllers/installation.php">
+<body class="container">
+  <!-- <form class="container" id="adminForm" method="post" action="../controllers/installation.php">
   <?php if (isset($error_message)) : ?>
         <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
     <?php endif; ?>
@@ -48,7 +48,46 @@ if (isset($_SESSION['error'])) {
       <div id="dbNameError" class="invalid-feedback"></div>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+  </form> -->
+<section class="d-flex w-100 justify-content-center align-items-center vh-100">
+
+
+  <form>
+  <!-- Email input -->
+  <div data-mdb-input-init class="form-outline mb-4">
+    <input type="text" id="form2Example1" class="form-control" />
+    <label class="form-label" for="form2Example1">User Name</label>
+  </div>
+
+  <div data-mdb-input-init class="form-outline mb-4">
+    <input type="email" id="form2Example1" class="form-control" />
+    <label class="form-label" for="form2Example1">Email address</label>
+  </div>
+  <!-- Password input -->
+  <div data-mdb-input-init class="form-outline mb-4">
+    <input type="password" id="form2Example2" class="form-control" />
+    <label class="form-label" for="form2Example2">User Password</label>
+  </div>
+
+  <div data-mdb-input-init class="form-outline mb-4">
+    <input type="text" id="form2Example1" class="form-control" />
+    <label class="form-label" for="form2Example1">Database Name</label>
+  </div>
+  <div data-mdb-input-init class="form-outline mb-4">
+    <input type="text" id="form2Example1" class="form-control" />
+    <label class="form-label" for="form2Example1">Database User Name</label>
+  </div>
+
+  <div data-mdb-input-init class="form-outline mb-4">
+    <input type="password" id="form2Example2" class="form-control" />
+    <label class="form-label" for="form2Example2">Database Password</label>
+  </div>
+
+  <button data-mdb-ripple-init type="button" class="btn btn-primary btn-block mb-4">Install</button>
+
+  
+</form>
+</section>
   <script>
     document.getElementById("username").addEventListener("keyup", validateUsername);
     document.getElementById("email").addEventListener("keyup", validateEmail);
