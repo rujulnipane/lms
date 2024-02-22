@@ -7,25 +7,7 @@
             <div class="col-md-3 shadow-sm p-2 mb-5 bg-body rounded min-vh-100 ">
                 <div class="navbar">
                     <div class="accordion w-100" id="accordionExample">
-                        <div class="accordion-item" data-section-id="section1">
-                            <h2 class="accordion-header d-flex">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Default
-                                    <button class="btn btn-danger delete-section-btn" data-section-id="section1">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </button>
-                            </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    <div class="video-list">
-                                        <!-- Videos will be dynamically added here -->
-                                    </div>
-                                    <button class="btn btn-primary add-video-btn" data-bs-toggle="modal" data-bs-target="#uploadVideoModal">Add Video</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+</div>
                 </div>
                 <button class="btn btn-success mt-3 float-end" data-bs-toggle="modal" data-bs-target="#addSectionModal">Add New Section</button>
             </div>
@@ -124,21 +106,24 @@
                     course = res;
                     console.log(res);
                     const sections = res["sections"];
+                    if(sections === null){
+                        console.log("fd");
+                    }
 
                     sections.forEach(element => {
                         var newSection = `
-                    <div class="accordion-item" data-section-id="${element['title']}">
+                    <div class="accordion-item" data-section-id="section-${element['id']}">
                         <h2 class="accordion-header d-flex">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapse-${element["title"]}" aria-expanded="true"
-                                aria-controls="collapse-${element["title"]}">
+                                data-bs-target="#collapse-section-${element["id"]}" aria-expanded="true"
+                                aria-controls="collapse-section${element["id"]}">
                                 ${element["title"]}
-                                <button class="btn btn-danger delete-section-btn" data-section-id="${element["title"]}">
+                                <button class="btn btn-danger delete-section-btn" data-section-id="section-${element["id"]}">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </button>
                         </h2>
-                        <div id="collapse-${element["title"]}" class="accordion-collapse collapse show"
+                        <div id="collapse-section-${element["id"]}" class="accordion-collapse collapse show"
                             data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 <div class="video-list">

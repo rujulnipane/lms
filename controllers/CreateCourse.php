@@ -47,9 +47,7 @@ class CreateCourse
                 $this->courseTitle,
                 $this->courseDes,
                 $this->courseImgurl,
-                // $this->sectionTitles,
-                // $this->sectionDes,
-                // $this->sectionUrl
+                "section1"
             ));
             $_SESSION["success"] = "New Course Created successfully";
             header('Location: ' . "../views/Courses.php");
@@ -69,6 +67,7 @@ class CreateCourse
         $hashedcode = hash('sha1', $filename);
         $targetfile = substr($hashedcode, 0, 6);
         $target_dir .= $targetfile . "/";
+
         try{
             File::createDir($target_dir);
         }
@@ -91,7 +90,20 @@ class CreateCourse
                 exit;
             }
         }
-    
+        $default_section = "default";
+        $filename = $default_section . $current_date_time;
+        $hashedcode = hash('sha1', $filename);
+        $targetsection = substr($hashedcode, 0, 6);
+        $sectiondir = $target_dir . $targetsection . "/";
+        try{
+            File::createDir($sectiondir);
+        }
+        catch( Exception $e)    {
+            header('Location: ' . "../views/createCourse.php");
+            $_SESSION["error"] = $e->getMessage();
+            exit;
+        }
+
     }
     
 }

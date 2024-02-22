@@ -40,9 +40,11 @@ class AddSection{
         json_encode(array('error'=> $e->getMessage()));
        }
 
-        $title = dirname($course['title']);
+        $title = dirname($course['url']);
         
-        $target_dir = "../uploads/Courses/" . "$title/" . $targetfile . "/";
+        $target_dir ="$title/" . $targetfile . "/";
+
+        
         try{
             File::createDir($target_dir);
         }

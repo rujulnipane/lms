@@ -19,10 +19,6 @@ class Section{
         $id = $this->db->insertRecord("SECTION",array(
             "course_id"=> $courseid,
             "title"=> $data,
-            // "details" => $data[1]
         ));
-        // foreach($data[2] as $video){
-        //     $this->video->createVideo($id,$video);
-        // }
     }
 }
