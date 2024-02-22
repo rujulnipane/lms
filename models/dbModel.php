@@ -6,6 +6,8 @@ class Database
     private $dbUser;
     private $dbPassword;
     private $dbName;
+    private $adminuser;
+    private $adminpass;
     private $email;
     private static $instance = null;
     private $conn;
@@ -15,6 +17,8 @@ class Database
         if (file_exists("../config.php")) {
             include("../config.php");
             $this->server = $config['server'];
+            $this->adminuser = $config['user'];
+            $this->adminpass = $config['user'];
             $this->dbUser = $config['dbuser'];
             $this->dbPassword = $config['dbpass'];
             $this->dbName = $config['dbname'];
@@ -84,35 +88,6 @@ class Database
         } else {
             throw new Exception('Query execution error: ' . $this->conn->error);
         }
-        /*
-
-        $conditions = [];
-        $values = [];
-        foreach ($query as $key => $value) {
-            $conditions[] = "$key = ?";
-            $values[] = $value;
-        }
-        $sql = "SELECT * FROM $table WHERE " . implode(' AND ', $conditions);
-
-        $stmt = $this->conn->prepare($sql);
-        if (!$stmt) {
-            throw new Exception('Failed to prepare statement: ' . $this->conn->error);
-        }
-
-        $types = str_repeat('s', count($values)); 
-        $stmt->bind_param($types, ...$values);
-
-        if (!$stmt->execute()) {
-            throw new Exception('Query execution error: ' . $stmt->error);
-        }
-        $result = $stmt->get_result();
-        if ($result->num_rows === 0) {
-            return null;
-        }
-        $data = $result->fetch_assoc();
-        $stmt->close();
-        return $data;
-        */
         
     }
     public function getRecords($table)
@@ -267,8 +242,8 @@ class Database
         $options = [
             'cost' => 10,
         ];
-        $hashed_password = password_hash($this->dbPassword, PASSWORD_BCRYPT, $options);
-        $admin_user = "INSERT INTO USER (username, email, password, isAdmin) VALUES('$this->dbUser','$this->email','$hashed_password','yes')";
+        $hashed_password = password_hash($this->adminpass, PASSWORD_BCRYPT, $options);
+        $admin_user = "INSERT INTO USER (username, email, password, isAdmin) VALUES('$this->adminuser','$this->email','$hashed_password','yes')";
         if ($this->conn->query($admin_user) === TRUE) {
             echo "Admin User created successfully";
         } else {

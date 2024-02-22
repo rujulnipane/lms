@@ -1,5 +1,7 @@
 <?php
 
+
+
 include_once("../models/SectionModel.php");
 include_once("../models/CourseModel.php");
 include_once("../models/File.php");
@@ -37,7 +39,7 @@ class AddSection{
        catch (Exception $e) {
         json_encode(array('error'=> $e->getMessage()));
        }
-       
+
         $title = dirname($course['title']);
         
         $target_dir = "../uploads/Courses/" . "$title/" . $targetfile . "/";
@@ -52,11 +54,11 @@ class AddSection{
         }
         try{
             $this->Section->createSection($this->course_id,$this->sectionTitle);
+            echo json_encode(array("status"=> "success","message"=> "Course Created"));
         }
         catch(Exception $e) {
             json_encode(array('error'=> $e->getMessage()));
         }
-        echo json_encode(array("status"=> "success","message"=> "Course Created"));
     }
 }
 
