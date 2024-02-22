@@ -18,11 +18,11 @@ class Section{
        
         $id = $this->db->insertRecord("SECTION",array(
             "course_id"=> $courseid,
-            "title"=> $data[0],
-            "details" => $data[1]
+            "title"=> $data,
+            // "details" => $data[1]
         ));
-        foreach($data[2] as $video){
-            $this->video->createVideo($id,$video);
-        }
+        // foreach($data[2] as $video){
+        //     $this->video->createVideo($id,$video);
+        // }
     }
 }

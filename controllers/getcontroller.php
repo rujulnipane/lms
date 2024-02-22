@@ -19,7 +19,7 @@ class GetCourse{
     public function getCourse(){
         $result = $this->Course->getCourseById($this->id);
         $this->course = $result->fetch_assoc();
-        // $this->getSections();
+        $this->getSections();
     }
     public function getSections(){
         $section = new Section();
@@ -28,9 +28,9 @@ class GetCourse{
             $this->sections[] = $row;
         }
         
-        // foreach($this->sections as $section){
-        //     $this->videos[] =  $this->getVideos($section['id']);
-        // }
+        foreach($this->sections as $section){
+            $this->videos[] =  $this->getVideos($section['id']);
+        }
     }
     public function getVideos($sectio_id){
         $video = new Video();
@@ -46,8 +46,8 @@ class GetCourse{
         echo json_encode(array(
             'status'=> 'success',
             'course'=> $this->course,
-            // 'videos'=> $this->videos,
-            // "sections"=> $this->sections
+            'videos'=> $this->videos,
+            "sections"=> $this->sections
         ));
     }
 }

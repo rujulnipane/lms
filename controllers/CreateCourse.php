@@ -1,5 +1,3 @@
-
-
 <?php
 
 include_once("../models/CourseModel.php");
@@ -63,17 +61,14 @@ class CreateCourse
     
     public function uploadFiles()
     {
-        list($publicKey, $privateKey) = $this->generateRSAKeys();
         $target_dir = "../uploads/Courses/";
         $target_dir = "../uploads/Courses/";
-        $coursetitle_lower = strtolower(str_replace(' ', '', $this->courseTitle));
+        $coursetitle = strtolower(str_replace(' ', '', $this->courseTitle));
         $current_date_time = date('YmdHis');
-        $string_to_hash = $coursetitle_lower . $current_date_time;
-        $encryptedStringToHash = $this->encryptData($string_to_hash, $publicKey);
-        echo $encryptedStringToHash;
-        $decryptedStringToHash = $this->decryptData($encryptedStringToHash, $privateKey);
-        echo "Decrypted Data: $decryptedStringToHash\n";
-        $target_dir .= $string_to_hash . "/";
+        $filename = $coursetitle . $current_date_time;
+        $hashedcode = hash('sha1', $filename);
+        $targetfile = substr($hashedcode, 0, 6);
+        $target_dir .= $targetfile . "/";
         try{
             File::createDir($target_dir);
         }
@@ -98,38 +93,7 @@ class CreateCourse
         }
     
     }
-    function encryptData($data, $publicKey) {
-        list($n, $e) = $publicKey;
-        openssl_public_encrypt($data, $encrypted, pack('H*', $n), OPENSSL_PKCS1_PADDING);
-        return base64_encode($encrypted);
-    }
-    public function generateRSAKeys()
-    {
-        // Generate RSA key pair
-        $config = array(
-            "digest_alg" => "sha512",
-            "private_key_bits" => 4096,
-            "private_key_type" => OPENSSL_KEYTYPE_RSA
-        );
-        $res = openssl_pkey_new($config);
-        
-        // Get private key
-        openssl_pkey_export($res, $privateKey);
-
-        // Get public key
-        $publicKeyDetails = openssl_pkey_get_details($res);
-        $publicKey = $publicKeyDetails['key'];
-
-        return array($publicKey, $privateKey);
-    }
-
-
-    function decryptData($encryptedData, $privateKey) {
-        list($n, $d) = $privateKey;
-        $encrypted = base64_decode($encryptedData);
-        openssl_private_decrypt($encrypted, $decrypted, pack('H*', $d), OPENSSL_PKCS1_PADDING);
-        return $decrypted;
-    }
+    
 }
 
 
