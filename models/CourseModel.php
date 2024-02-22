@@ -24,7 +24,7 @@ class Course{
             "details"=> $data[1],
             "url"=> $data[2],
         ));
-
+/*
         $count = 0;
         $this->section = new Section();
         foreach($data[3] as $key){
@@ -37,7 +37,7 @@ class Course{
                 )
             );
             $count++;
-        }
+        }*/
 
     }
 }

@@ -18,18 +18,8 @@ if (isset($_SESSION['success'])) {
 }
 
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
-    <style>
+<?php include 'partials/_header.php'?>
+<style>
         .create {
             color: white;
         }
@@ -38,6 +28,31 @@ if (isset($_SESSION['success'])) {
             color: white;
         }
     </style>
+    
+<body>
+
+<?php include "partials/navbar.php"?>
+
+    <?php if (isset($error_message)) : ?>
+        <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    <?php endif; ?>
+    <div class="container my-2">
+        <?php if (isset($success)) : ?>
+            <p style="color: green;"><?php echo htmlspecialchars($success); ?></p>
+        <?php endif; ?>
+        <?php if (isset($_SESSION["isAdmin"]) and $_SESSION["isAdmin"] == true) : ?>
+            <div class="text-center">
+                <button type="button" class="btn btn-success"><a class="create" href="createCourse.php">Create New Course</a></button>
+            </div>
+        <?php endif; ?>
+
+    </div>
+    <div id="container" class="container d-flex justify-content-center flex-wrap">
+
+    </div>
     <script>
         $(document).ready(function() {
             let courses = [];
@@ -83,32 +98,6 @@ if (isset($_SESSION['success'])) {
             });
         });
     </script>
-</head>
-
-<body>
-
-    <?php include "navbar.php"; ?>
-
-    <?php if (isset($error_message)) : ?>
-        <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
-        <button type="button" class="close" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    <?php endif; ?>
-    <div class="container my-2">
-        <?php if (isset($success)) : ?>
-            <p style="color: green;"><?php echo htmlspecialchars($success); ?></p>
-        <?php endif; ?>
-        <?php if (isset($_SESSION["isAdmin"]) and $_SESSION["isAdmin"] == true) : ?>
-            <div class="text-center">
-                <button type="button" class="btn btn-success"><a class="create" href="createCourse.php">Create New Course</a></button>
-            </div>
-        <?php endif; ?>
-
-    </div>
-    <div id="container" class="container d-flex justify-content-center flex-wrap">
-
-    </div>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 

@@ -12,7 +12,7 @@ if (isset($_SESSION['error'])) {
 
 ?>
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -20,8 +20,8 @@ if (isset($_SESSION['error'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Details</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
-
+</head> -->
+<?php include 'partials/_header.php'?>
 <body class="container">
   <!-- <form class="container" id="adminForm" method="post" action="../controllers/installation.php">
   <?php if (isset($error_message)) : ?>
@@ -50,40 +50,43 @@ if (isset($_SESSION['error'])) {
     <button type="submit" class="btn btn-primary">Submit</button>
   </form> -->
 <section class="d-flex w-100 justify-content-center align-items-center vh-100">
+  <form id="adminForm" method="post" action="../controllers/installation.php">
 
-
-  <form>
-  <!-- Email input -->
-  <div data-mdb-input-init class="form-outline mb-4">
-    <input type="text" id="form2Example1" class="form-control" />
+  <div data-mdb-input-init class="form-outline mb-2">
+    <input type="text" class="form-control" id="username" name="username"/>
     <label class="form-label" for="form2Example1">User Name</label>
+    <div id="usernameError" class="invalid-feedback"></div>
   </div>
 
-  <div data-mdb-input-init class="form-outline mb-4">
-    <input type="email" id="form2Example1" class="form-control" />
+  <div data-mdb-input-init class="form-outline mb-2">
+    <input type="email" class="form-control" id="email" name="email"/>
     <label class="form-label" for="form2Example1">Email address</label>
-  </div>
-  <!-- Password input -->
-  <div data-mdb-input-init class="form-outline mb-4">
-    <input type="password" id="form2Example2" class="form-control" />
-    <label class="form-label" for="form2Example2">User Password</label>
+    <div id="emailError" class="invalid-feedback"></div>
   </div>
 
-  <div data-mdb-input-init class="form-outline mb-4">
-    <input type="text" id="form2Example1" class="form-control" />
-    <label class="form-label" for="form2Example1">Database Name</label>
+  <div data-mdb-input-init class="form-outline mb-2">
+    <input type="password" class="form-control" id="password" name="password"/>
+    <label class="form-label" for="form2Example2">User Password</label>
+    <div id="passwordError" class="invalid-feedback"></div>
   </div>
-  <div data-mdb-input-init class="form-outline mb-4">
-    <input type="text" id="form2Example1" class="form-control" />
+
+  <div data-mdb-input-init class="form-outline mb-2">
+    <input type="text" class="form-control" id="dbName" name="dbName"/>
+    <label class="form-label" for="form2Example1">Database Name</label>
+    <div id="dbNameError" class="invalid-feedback"></div>
+  </div>
+  
+  <div data-mdb-input-init class="form-outline mb-2">
+    <input type="text" class="form-control" id="dbUser" name="dbUser"/>
     <label class="form-label" for="form2Example1">Database User Name</label>
   </div>
 
-  <div data-mdb-input-init class="form-outline mb-4">
-    <input type="password" id="form2Example2" class="form-control" />
+  <div data-mdb-input-init class="form-outline mb-2">
+    <input type="password" class="form-control" id="dbPass" name="dbPass"/>
     <label class="form-label" for="form2Example2">Database Password</label>
   </div>
 
-  <button data-mdb-ripple-init type="button" class="btn btn-primary btn-block mb-4">Install</button>
+  <button data-mdb-ripple-init type="button" class="btn btn-primary btn-block mb-2">Install</button>
 
   
 </form>

@@ -25,7 +25,7 @@ if (isset($_SESSION['success'])) {
 
 ?>
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -34,7 +34,8 @@ if (isset($_SESSION['success'])) {
     <title>Login Page</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
-</head>
+</head> -->
+<?php include 'partials/_header.php'?>
 
 <body>
 
