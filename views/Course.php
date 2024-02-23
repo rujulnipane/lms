@@ -20,9 +20,11 @@
                                 <button class="btn btn-danger me-2" id="delete-course-btn">
                                     <i class="fas fa-trash"></i> Delete
                                 </button>
-                                <button class="btn btn-primary" id="edit-course-btn">
-                                    <i class="fas fa-pencil"></i> Edit
-                                </button>
+                                <!-- <a href="/views/createCourse.php"> -->
+                                    <button class="btn btn-primary" id="edit-course-btn">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                <!-- </a> -->
                             </div>
                         </header>
                     </div>
@@ -145,6 +147,7 @@
                 console.log("Error:", xhr);
             });
 
+
             $(".add-video-btn").click(function() {
                 // Your code to add a new video goes here
             });
@@ -230,7 +233,10 @@
             });
 
             $("#edit-course-btn").click(function(){
-                console.log("clicked");
+                console.log(course);
+                $.post("editcourse.php", {course: course['course']},function(res,status){
+                    window.location.href = "/views/editcourse.php";
+                });
             });
 
         });

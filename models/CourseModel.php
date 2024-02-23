@@ -35,6 +35,10 @@ class Course
             $id,
             $data[3]
         );
+    }   
+
+    public function updateCourse($courseId, $data){
+        
     }
 
     public function deleteCourse($courseId){

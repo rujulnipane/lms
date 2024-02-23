@@ -16,6 +16,19 @@ class File{
             throw new Exception("Cannot Upload File");
         }
     }
+
+    public static function replaceFile($src,$des){
+        echo $src . $des;
+        if (file_exists($des)) {
+            unlink($des);
+        }
+        if(move_uploaded_file($src, $des)){
+
+        }
+        else{
+            throw new Exception("Cnnot replace");
+        }
+    }
     public static function deleteDir($dir){
         if (!is_dir($dir)) {
             return false; 
