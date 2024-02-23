@@ -1,12 +1,11 @@
 <?php
 
 session_start();
-if (!isset($_SESSION["username"])) {
+include("../controllers/Auth.php");
+if (!Auth::isLogin()) {
     header('Location: ' . "./Login.php");
-} else if (isset($_SESSION["isAdmin"]) and !$_SESSION["isAdmin"]) {
-    $_SESSION['error'] = "Access Denied";
-    header('Location: ' . "./Courses.php");
-}
+} 
+
 
 if (isset($_SESSION['error'])) {
     $error_message = $_SESSION['error'];
@@ -47,8 +46,5 @@ if (isset($_SESSION['error'])) {
 </div>
 
 
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-</body>
-
-</html>
+ 
+<?php include "partials/_footer.php";?>

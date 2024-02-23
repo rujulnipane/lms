@@ -15,17 +15,6 @@ if (isset($_SESSION['details'])) {
 }
 ?>
 
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration</title>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
-</head> -->
 <?php include 'partials/_header.php'?>
 <body>
 
@@ -77,8 +66,6 @@ if (isset($_SESSION['details'])) {
 
     </div>
 
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
         document.getElementById("name").addEventListener("keyup", validateName);
         document.getElementById("email").addEventListener("keyup", validateEmail);
@@ -164,6 +151,5 @@ if (isset($_SESSION['details'])) {
             return emailRegex.test(email);
         }
     </script>
-</body>
 
-</html>
+<?php include "partials/_footer.php";?>

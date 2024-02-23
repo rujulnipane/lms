@@ -1,8 +1,8 @@
 <?php
 include("../controllers/Auth.php");
-if(!Auth::isLogin()){
-    header('Location: '. "./Login.php"); 
-}?>
+if (!Auth::isLogin()) {
+    header('Location: ' . "./Login.php");
+} ?>
 <?php include 'partials/_header.php' ?>
 
 <body>
@@ -11,45 +11,44 @@ if(!Auth::isLogin()){
         <div class="row">
             <div class="col-md-3 shadow-sm p-2 mb-5 bg-body rounded min-vh-100 ">
                 <div class="navbar">
+                    <h2>Course Contents</h2>
                     <div class="accordion w-100" id="accordionExample">
-</div>
+                    </div>
                 </div>
                 <button class="btn btn-success mt-3 float-end" data-bs-toggle="modal" data-bs-target="#addSectionModal">Add New Section</button>
             </div>
-            <div class="col-md-9 shadow-sm p-2 mb-5 bg-body rounded min-vh-100 ">
-                <main>
-                    <div class="container pt-2">
-                        <header class="d-flex justify-content-between align-items-center">
-                            <h1 id="course-title"></h1>
-                            <div>
-                                <button class="btn btn-danger me-2" id="delete-course-btn">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                                <!-- <a href="/views/createCourse.php"> -->
-                                    <button class="btn btn-primary" id="edit-course-btn">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                <!-- </a> -->
-                            </div>
-                        </header>
-                    </div>
-                    <div class="video-container">
-                        <!-- Video player goes here -->
-                    </div>
-                    <div class="bg-light p-3">
-                        <div class="container">
-                            <div class="d-flex justify-content-between">
-                                <button class="btn btn-primary">Prev</button>
-                                <button class="btn btn-primary">Next</button>
-                            </div>
+            <div class="col-md-9 shadow-sm p-2 mb-5 bg-body rounded min-vh-100 d-flex flex-column">
+
+                <div class="container pt-2">
+                    <header class="d-flex justify-content-between align-items-center">
+                        <h1 id="course-title"></h1>
+                        <div>
+                            <button class="btn btn-danger me-2" id="delete-course-btn">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                            <button class="btn btn-primary" id="edit-course-btn">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </div>
+                    </header>
+                </div>
+                <div class="video-container flex-grow-1">
+                    <!-- Video player goes here -->
+                </div>
+                <div class="bg-light p-3 justify-self-end">
+                    <div class="container">
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-primary">Prev</button>
+                            <button class="btn btn-primary">Next</button>
                         </div>
                     </div>
-                </main>
+                </div>
+
             </div>
         </div>
     </div>
 
-
+    <!-- Modal for uploading video -->
     <div class="modal fade" id="uploadVideoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -59,9 +58,10 @@ if(!Auth::isLogin()){
                 </div>
                 <div class="modal-body">
                     <form enctype="multipart/form-data" id="uploadVideoForm">
+                        <input type="hidden" id="sectionIdInput" name="sectionId">
                         <div class="mb-3">
                             <label for="videoFile" class="form-label">Choose Video File</label>
-                            <input type="file" class="form-control" id="videoFile" name="videoFile" required>
+                            <input type="file" class="form-control" id="videoFile" name="videoFile" required accept="video/*">
                         </div>
                         <button type="submit" class="btn btn-primary">Upload</button>
                     </form>
@@ -70,6 +70,7 @@ if(!Auth::isLogin()){
         </div>
     </div>
 
+    <!-- This is Add New Section Modal -->
     <div class="modal fade" id="addSectionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -90,12 +91,11 @@ if(!Auth::isLogin()){
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             var course_id;
             var course;
-            
+
             $.urlParam = function(name) {
                 var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
                 if (results == null) {
@@ -115,13 +115,13 @@ if(!Auth::isLogin()){
                     console.log(res);
                     const sections = res["sections"];
                     $("#course-title").html(res["course"]["title"]);
-                    if(sections === null){
+                    if (sections === null) {
                         console.log("fd");
                     }
 
                     sections.forEach(element => {
                         var newSection = `
-                    <div class="accordion-item" data-section-id="${element['id']}">
+                    <div class="accordion-item" data-section-id="${element['id']}" section-id=${res["id"]}>
                         <h2 class="accordion-header d-flex">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapse-${element["id"]}" aria-expanded="true"
@@ -138,8 +138,9 @@ if(!Auth::isLogin()){
                                 <div class="video-list">
                                     <!-- Videos will be dynamically added here -->
                                 </div>
-                                <button class="btn btn-primary add-video-btn" data-bs-toggle="modal"
-                                    data-bs-target="#uploadVideoModal">Add Video</button>
+
+                                <button class="btn btn-primary add-video-btn"
+                                    >Add Video</button>
                                     
                             </div>
                         </div>
@@ -153,9 +154,6 @@ if(!Auth::isLogin()){
             });
 
 
-            $(".add-video-btn").click(function() {
-                // Your code to add a new video goes here
-            });
 
             $("#addSectionForm").submit(function(e) {
                 let course_id = $.urlParam('id');
@@ -169,38 +167,37 @@ if(!Auth::isLogin()){
                     },
                     function(res, status) {
                         console.log(res);
-                    },
-                    'json'
-                ).fail(function(xhr, status, error) {
-                    console.log("Error:", xhr);
-                });
-
-                var newSection = `
-                    <div class="accordion-item" data-section-id="${sectionTitle}">
+                        var newSection = `
+                    <div class="accordion-item" data-section-id="${res["id"]}" section-id=${res["id"]}>
                         <h2 class="accordion-header d-flex">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapse-${sectionTitle}" aria-expanded="true"
-                                aria-controls="collapse-${sectionTitle}">
+                                data-bs-target="#collapse-${res["id"]}" aria-expanded="true"
+                                aria-controls="collapse-${res["id"]}">
                                 ${sectionTitle}
-                                <button class="btn btn-danger delete-section-btn" data-section-id="${sectionTitle}">
+                                <button class="btn btn-danger delete-section-btn" data-section-id="${res["id"]}">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </button>
                         </h2>
-                        <div id="collapse-${sectionTitle}" class="accordion-collapse collapse show"
+                        <div id="collapse-${res["id"]}" class="accordion-collapse collapse show"
                             data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 <div class="video-list">
                                     <!-- Videos will be dynamically added here -->
                                 </div>
-                                <button class="btn btn-primary add-video-btn" data-bs-toggle="modal"
-                                    data-bs-target="#uploadVideoModal">Add Video</button>
+                                <button class="btn btn-primary add-video-btn" 
+                                >Add Video</button>
                                     
                             </div>
                         </div>
                     </div>`;
-                $("#accordionExample").append(newSection);
-                $('#addSectionModal').modal('hide');
+                        $("#accordionExample").append(newSection);
+                        $('#addSectionModal').modal('hide');
+                    },
+                    'json'
+                ).fail(function(xhr, status, error) {
+                    console.log("Error:", xhr);
+                });
             });
 
             // Function to delete a section
@@ -209,10 +206,9 @@ if(!Auth::isLogin()){
                 console.log(sectionId);
                 let course_id = $.urlParam('id');
                 $.post(
-                    "../controllers/deleteSection.php",
-                    {
-                        course_id : course_id,
-                        section_id : sectionId
+                    "../controllers/deleteSection.php", {
+                        course_id: course_id,
+                        section_id: sectionId
                     },
                     function(res, status) {
                         console.log(res);
@@ -222,31 +218,59 @@ if(!Auth::isLogin()){
                     console.log("Error:", xhr);
                 });
 
-                // $('[data-section-id="' + sectionId + '"]').remove();
+                $('[data-section-id="' + sectionId + '"]').remove();
 
             });
 
-            $("#delete-course-btn").click(function(){
+            $("#delete-course-btn").click(function() {
                 let course_id = $.urlParam('id');
-                $.post("../controllers/deleteCourse.php",{id:course_id}, function(res,status){
-                    console.log(res);
-                    window.location.href = "/views/Courses.php";
-                },
-                'json').fail(function(xhr,status,error){
+                $.post("../controllers/deleteCourse.php", {
+                        id: course_id
+                    }, function(res, status) {
+                        console.log(res);
+                        window.location.href = "/views/Courses.php";
+                    },
+                    'json').fail(function(xhr, status, error) {
                     console.log(error);
                 });
             });
 
-            $("#edit-course-btn").click(function(){
+            $("#edit-course-btn").click(function() {
                 console.log(course);
-                $.post("editcourse.php", {course: course['course']},function(res,status){
+                $.post("editcourse.php", {
+                    course: course['course']
+                }, function(res, status) {
                     window.location.href = "/views/editcourse.php";
                 });
             });
 
+            $(document).on('click', '.add-video-btn', function(e) {
+                var sectionId = $(this).closest('.accordion-item').data('section-id');
+                $('#sectionIdInput').val(sectionId);
+                $('#uploadVideoModal').modal('show');
+            });
+
+            $("#uploadVideoForm").submit(function(e) {
+                e.preventDefault();
+                var formData = new FormData($("#uploadVideoForm")[0]);
+                var sectionId = $('#sectionIdInput').val();
+                formData.append('sectionId', sectionId);
+                console.log(formData);
+                $.ajax({
+                    url: "../controllers/addVideo.php",
+                    type: "POST",
+                    data: formData,
+                    processData: false, 
+                    contentType: false, 
+                    success: function(res) {
+                        console.log(res);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+                $('#uploadVideoModal').modal('hide');
+            });
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
+    <?php include "partials/_footer.php"; ?>

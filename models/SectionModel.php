@@ -20,6 +20,7 @@ class Section{
             "course_id"=> $courseid,
             "title"=> $data,
         ));
+        return $id;
     }
 
     public function deleteSection($data){

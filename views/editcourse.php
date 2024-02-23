@@ -1,5 +1,8 @@
 <?php
-session_start();
+include("../controllers/Auth.php");
+if (!Auth::isLogin()) {
+    header('Location: ' . "./Login.php");
+} 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (isset($_POST["course"])) {
@@ -8,7 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 }
 
-// print_r($_SESSION["course"]);
 ?>
 <?php include 'partials/_header.php' ?>
 
@@ -44,4 +46,4 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     </div>
 
 
-</body>
+<?php include "partials/_footer.php";?>

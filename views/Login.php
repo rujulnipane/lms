@@ -68,9 +68,8 @@ if (isset($_SESSION['success'])) {
         </div> 
 
     </div>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>
+    
+    <script> 
         
         document.getElementById("username").addEventListener("keyup", validateUsername);
         document.getElementById("password").addEventListener("keyup", validatePassword);
@@ -102,6 +101,5 @@ if (isset($_SESSION['success'])) {
             return emailRegex.test(email);
         }
     </script>
-</body>
 
-</html>
+<?php include "partials/_footer.php";?>
