@@ -21,4 +21,11 @@ class Section{
             "title"=> $data,
         ));
     }
+
+    public function deleteSection($data){
+        $this->db->deleteRecord("SECTION",array(
+            "id" => $data["section_id"],
+            "course_id" => $data["course_id"],
+        ));
+    }
 }

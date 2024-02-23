@@ -1,10 +1,9 @@
 <?php
 
-
+include("../controllers/Auth.php");
 session_start();
 
-if (!isset($_SESSION["username"])) {
-    $_SESSION["error"] = "Please login first";
+if(!Auth::isLogin()){
     header('Location: ' . "../views/Login.php");
 }
 

@@ -20,8 +20,9 @@ class UpdateCourse
         if(isset($_SESSION['course'])) {
             $this->course_id = $_SESSION['course']['id'];
             $this->course_url = $_SESSION['course']['url'];
-            // print_r($_SESSION['course']);
+            unset($_SESSION['course']);
         }
+        
         try {
             $this->Course = new Course();
         } catch (Exception $e) {
@@ -40,12 +41,24 @@ class UpdateCourse
                 $this->course_url = $target_file;
             }
             catch( Exception $e) {
-                header('Location: ' . "../views/editcourse.php");
-                $_SESSION["error"] = $e->getMessage();
-                exit;
+                // header('Location: ' . "../views/editcourse.php");
+                // $_SESSION["error"] = $e->getMessage();
+                // exit;
             }
-            $this->Course->updateCourse($this->course_id, array("title" => $this->courseTitle, "details" => $this->courseDes, "url"=>$this->course_url));
-            
+        }
+        echo "here";
+        try{
+            $this->Course->updateCourse(array(
+                "id"  => $this->course_id,
+                "title" => $this->courseTitle,
+                 "details" => $this->courseDes,
+                  "url"=>$this->course_url
+            ));
+            header("Location: ". "../views/Courses.php");
+        }
+        catch(Exception $e) {
+            $_SESSION["error"] = $e->getMessage();
+            header("Location: ". "../views/editcourse.php");
         }
     }
 }

@@ -1,3 +1,8 @@
+<?php
+include("../controllers/Auth.php");
+if(!Auth::isLogin()){
+    header('Location: '. "./Login.php"); 
+}?>
 <?php include 'partials/_header.php' ?>
 
 <body>

@@ -37,8 +37,13 @@ class Course
         );
     }   
 
-    public function updateCourse($courseId, $data){
-        
+    public function updateCourse($data){
+        $this->db->updateRecord("COURSE",array(
+            "title"=> $data["title"],
+            "details" => $data["details"],
+            "url" => $data["url"],
+        ),
+        array("id"=> $data["id"]));
     }
 
     public function deleteCourse($courseId){

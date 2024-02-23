@@ -24,6 +24,7 @@ class Database
             $this->dbName = $config['dbname'];
             $this->email = $config['email'];
         } else {
+            header('Location: ' . "../views/adminReg.php");
             throw new Exception('Cannot get Config file');
         }
     }
@@ -54,14 +55,6 @@ class Database
     {
         
         $sql = "SELECT * FROM $table WHERE ";
-        // foreach ($query as $key => $value) {
-        //     $sql .= $key . "=" . "'" . $value . "'";
-        // }
-        // $result = $this->conn->query($sql);
-        // if (!$result) {
-        //     throw new Exception('Query execution error: ' . $this->conn->error);
-        // }
-        // return $result;
         $dataType = '';
         foreach ($query as $key => $value) {
             $sql .= $key . "=" . "?" .  " AND ";
@@ -133,6 +126,35 @@ class Database
         }
     }
 
+    public function updateRecord($table, $data, $query){
+        $dataType1 = "";
+        $dataType2 = "";
+        $sql = "UPDATE $table SET ";
+        foreach( $data as $key => $value ) {
+            $sql .= $key . ' = ?, ';
+            $dataType1 .= "s";
+        }
+        $sql = rtrim($sql,", ");
+        $sql .= " WHERE ";
+        foreach( $query as $key => $value ) {
+            $sql .= $key . " = ?". " AND ";
+            $dataType2 .= "i";
+        }
+        $sql = rtrim($sql," AND ");
+        echo $sql;
+        $stmt = $this->conn->prepare($sql);
+        if ($stmt) {
+            $params = array_merge(array_values($data), array_values($query));
+            $dataTypes = $dataType1 . $dataType2;
+            $stmt->bind_param($dataTypes, ...$params);
+            $stmt->execute();
+            $stmt->close();
+        } else {
+            throw new Exception("Cannot update Record: " . $this->conn->error);
+        }
+    }
+    
+
     public function deleteRecord($table, $query){
         $sql = "DELETE FROM $table WHERE ";
         $dataType = "";
@@ -151,6 +173,8 @@ class Database
         }
         // echo json_encode(array($sql)) ."";
     }
+
+
     public function initializeDatabase()
     {
         $this->conn = new mysqli("localhost", "root", "root");
