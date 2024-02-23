@@ -16,8 +16,23 @@ class File{
             throw new Exception("Cannot Upload File");
         }
     }
-    public static function deleteFile($file_path){
-        
+    public static function deleteDir($dir){
+        if (!is_dir($dir)) {
+            return false; 
+        }
+        $handle = opendir($dir);
+
+        while (false !== ($item = readdir($handle))) {
+            if ($item != "." && $item != "..") {
+                if (is_dir($dir . DIRECTORY_SEPARATOR . $item)) {
+                    File::deleteDir($dir . DIRECTORY_SEPARATOR . $item);
+                } else {
+                    unlink($dir . DIRECTORY_SEPARATOR . $item);
+                }
+            }
+        }
+        closedir($handle);
+        return rmdir($dir);
     }
 
 }

@@ -15,7 +15,7 @@
                 <main>
                     <div class="container pt-2">
                         <header class="d-flex justify-content-between align-items-center">
-                            <h1>Course Title</h1>
+                            <h1 id="course-title"></h1>
                             <div>
                                 <button class="btn btn-danger me-2" id="delete-course-btn">
                                     <i class="fas fa-trash"></i> Delete
@@ -88,6 +88,7 @@
         $(document).ready(function() {
             var course_id;
             var course;
+            
             $.urlParam = function(name) {
                 var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
                 if (results == null) {
@@ -106,24 +107,25 @@
                     course = res;
                     console.log(res);
                     const sections = res["sections"];
+                    $("#course-title").html(res["course"]["title"]);
                     if(sections === null){
                         console.log("fd");
                     }
 
                     sections.forEach(element => {
                         var newSection = `
-                    <div class="accordion-item" data-section-id="section-${element['id']}">
+                    <div class="accordion-item" data-section-id="${element['id']}">
                         <h2 class="accordion-header d-flex">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapse-section-${element["id"]}" aria-expanded="true"
-                                aria-controls="collapse-section${element["id"]}">
+                                data-bs-target="#collapse-${element["id"]}" aria-expanded="true"
+                                aria-controls="collapse-${element["id"]}">
                                 ${element["title"]}
-                                <button class="btn btn-danger delete-section-btn" data-section-id="section-${element["id"]}">
+                                <button class="btn btn-danger delete-section-btn" data-section-id="${element["id"]}">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </button>
                         </h2>
-                        <div id="collapse-section-${element["id"]}" class="accordion-collapse collapse show"
+                        <div id="collapse-${element["id"]}" class="accordion-collapse collapse show"
                             data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 <div class="video-list">
@@ -147,7 +149,6 @@
                 // Your code to add a new video goes here
             });
 
-            // Function to add a new section
             $("#addSectionForm").submit(function(e) {
                 let course_id = $.urlParam('id');
                 e.preventDefault();
@@ -197,9 +198,40 @@
             // Function to delete a section
             $(document).on("click", ".delete-section-btn", function() {
                 var sectionId = $(this).data("section-id");
-                $('[data-section-id="' + sectionId + '"]').remove();
+                console.log(sectionId);
+                let course_id = $.urlParam('id');
+                $.post(
+                    "../controllers/deleteSection.php",
+                    {
+                        course_id : course_id,
+                        section_id : sectionId
+                    },
+                    function(res, status) {
+                        console.log(res);
+                    },
+                    'json'
+                ).fail(function(xhr, status, error) {
+                    console.log("Error:", xhr);
+                });
+
+                // $('[data-section-id="' + sectionId + '"]').remove();
+
             });
 
+            $("#delete-course-btn").click(function(){
+                let course_id = $.urlParam('id');
+                $.post("../controllers/deleteCourse.php",{id:course_id}, function(res,status){
+                    console.log(res);
+                    window.location.href = "/views/Courses.php";
+                },
+                'json').fail(function(xhr,status,error){
+                    console.log(error);
+                });
+            });
+
+            $("#edit-course-btn").click(function(){
+                console.log("clicked");
+            });
 
         });
     </script>

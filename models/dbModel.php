@@ -101,20 +101,6 @@ class Database
     }
     public function insertRecord($table, $data)
     {
-        // $sql = "INSERT INTO $table(";
-        // foreach ($data as $key => $value) {
-        //     $sql .= $key . ',';
-        // }
-        // $sql = substr($sql, 0, -1) . ') values(';
-        // foreach ($data as $key => $value) {
-        //     $sql .= "'" . $value . "'" . ',';
-        // }
-        // $sql = substr($sql, 0, -1) . ')';
-        // if ($this->conn->query($sql) === TRUE) {
-        //     echo "New record created successfully";
-        // } else {
-        //     throw new Exception('Query execution error: ' . $this->conn->error);
-        // }
 
         $sql = "INSERT INTO $table (";
         $question = '';
@@ -147,6 +133,24 @@ class Database
         }
     }
 
+    public function deleteRecord($table, $query){
+        $sql = "DELETE FROM $table WHERE ";
+        $dataType = "";
+        foreach ($query as $key => $value) {
+            $sql .= $key . " = " . "? AND ";
+            $dataType.='i';
+        }
+
+        $sql = rtrim($sql," AND ");
+        $stmt = $this->conn->prepare($sql);
+        if ($stmt) {
+            $params = array_values($query);
+            $stmt->bind_param($dataType, ...$params);
+            $stmt->execute();
+            $stmt->close();
+        }
+        // echo json_encode(array($sql)) ."";
+    }
     public function initializeDatabase()
     {
         $this->conn = new mysqli("localhost", "root", "root");

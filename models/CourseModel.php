@@ -36,4 +36,8 @@ class Course
             $data[3]
         );
     }
+
+    public function deleteCourse($courseId){
+        $this->db->deleteRecord("COURSE", array("id" => $courseId));
+    }
 }
