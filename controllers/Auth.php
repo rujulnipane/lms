@@ -7,8 +7,9 @@ class Auth
     public static function isLogin()
     {
         if(!file_exists("../config.php")){
-            header('Location: '. "./Login.php");  
-            return false;
+            header('Location: '. "../views/adminReg.php");  
+            exit;
+            // return false;
         }
         if (isset($_SESSION["username"])) {
             return true;

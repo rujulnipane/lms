@@ -20,4 +20,11 @@ class Video{
         return $this->db->getRecord("VIDEO",array("section_id" =>$sectionid));
     }
     
-}
+    public function getVideo($videoid,$sectionid){
+        return $this->db->getRecord("VIDEO",array('id' => $videoid,'section_id'=> $sectionid));
+    }
+
+    public function deleteVideo($videoid,$sectionid){
+         $this->db->deleteRecord('VIDEO',array('id' => $videoid,'section_id'=> $sectionid));
+    }
+}   

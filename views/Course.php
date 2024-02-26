@@ -33,7 +33,9 @@ if (!Auth::isLogin()) {
                     </header>
                 </div>
                 <div class="video-container">
+                    <video controls autoplay id="video-item" class="video-item mb-2 d-flex w-100 h-100">
 
+                    </video>
                 </div>
                 <div class="bg-light p-3 justify-self-end">
                     <div class="container">
@@ -116,13 +118,13 @@ if (!Auth::isLogin()) {
                         element.forEach(e => {
                             var videoElement = ` <div class="video-item mb-2 d-flex">
                             <div>
-                            <a href="#" data-video-url="${e['video_url']}" class="video-link" data-section-id=${e['section-id']} data-video-id=${e['id']}>
+                            <a href="#" data-video-url="${e['video_url']}" class="video-link" data-section-id=${e['section_id']} data-video-id=${e['id']}>
                             <i class="fas fa-video"></i>
                                 ${e["title"]}
                             </a>
                             </div>
                             <div>
-                            <button type="button" class="btn btn-danger delete-btn float-end btn-sm" data-section-id=${e['section-id']} data-video-id=${e['id']}>
+                            <button type="button" class="btn btn-danger delete-btn float-end btn-sm" id="delete-video" data-section-id=${e['section-id']} data-video-id=${e['id']}>
                                 <i class="fas fa-trash"></i>
                             </button>
                             </div>
@@ -269,6 +271,21 @@ if (!Auth::isLogin()) {
                 $('#uploadVideoModal').modal('hide');
             });
 
+            $(document).on('click','#delete-video',function(e){
+                e.preventDefault();
+                const videoid = $(this).data('video-id');
+                const sectionid = $(this).data('section-id');
+                $.post("../controllers/deleteVideo.php",
+                {
+                    video_id : videoid,
+                    section_id: sectionid
+                },
+                function(res,status){
+                    console.log(res);
+                },'json').fail(function(xhr,status,error){
+                    console.log(error);
+                })
+            })
 
             $(document).on('click', '.video-link', function(e) {
                 e.preventDefault();
@@ -282,21 +299,56 @@ if (!Auth::isLogin()) {
                 var videoUrl = $(this).data('video-url');
                 var sectionid = $(this).data('section-id');
                 var videoid = $(this).data('video-id');
-                var videoElement = `<video controls autoplay class="video-item mb-2 d-flex w-100 h-100 data-section-id=${sectionid} data-video-id=${videoid}">
-                <source src="${videoUrl}" type="video/mp4">
-            </video>`;
-                $('.video-container').html(videoElement);
-                var video = document.querySelector('video');
-                video.play();
-
-                video.addEventListener('ended', function() {
-                    console.log(course);
-                    let sectionid = $(this).data('section-id');
-                    let videoid = $(this).data('video-id');
-                    console.log(videoid);
-                    console.log(sectionid);
-                });
+                console.log(sectionid);
+                console.log(videoid);
+                var video = $("#video-item");
+                video.attr("src", videoUrl);
+                video.attr("data-section-id", sectionid);
+                video.attr("data-video-id", videoid);
+                video[0].load();
+                video[0].play();
             });
+
+            $("#video-item").on("ended", function() {
+                const videos = course['videos'];
+                console.log(videos);
+                var sectionid = $(this).attr("data-section-id");
+                var videoid = $(this).attr("data-video-id");
+                const nextVideo = getNextVideo(sectionid, videoid, videos);
+                var links = document.querySelectorAll('.video-link');
+                links.forEach(function(link) {
+                    link.style.color = 'blue';
+                });
+                var videolink = $(`.video-link[data-section-id=${nextVideo['section_id']}][data-video-id=${nextVideo['id']}]`);
+                videolink.css('color', 'black');
+                var video = $("#video-item");
+                video.attr("src", nextVideo['video_url']);
+                video.attr("data-section-id", nextVideo['section_id']);
+                video.attr("data-video-id", nextVideo['id']);
+                video[0].load();
+                video[0].play();
+            });
+
+            function getNextVideo(sectionid, videoid, videos) {
+                sectionid = parseInt(sectionid);
+                videoid = parseInt(videoid);
+
+                for (let i = 0; i < videos.length; i++) {
+                    for (let j = 0; j < videos[i].length; j++) {
+                        if (videos[i][j]["section_id"] === sectionid && videos[i][j]["id"] > videoid + 1) {
+                            return videos[i][j];
+                        }
+                    }
+                }
+                for (let i = 0; i < videos.length; i++) {
+                    for (let j = 0; j < videos[i].length; j++) {
+                        if (videos[i][j]['section_id'] === sectionid + 1) {
+                            return videos[i][j];
+                        }
+                    }
+                }
+                return null; 
+            }
 
         });
     </script>
