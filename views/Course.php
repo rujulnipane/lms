@@ -33,7 +33,7 @@ if (!Auth::isLogin()) {
                     </header>
                 </div>
                 <div class="video-container">
-                    
+
                 </div>
                 <div class="bg-light p-3 justify-self-end">
                     <div class="container">
@@ -68,13 +68,14 @@ if (!Auth::isLogin()) {
 
             course_id = $.urlParam('id');
 
+            // function to load course sections and videos
+
             $.post(
                 "../controllers/getcontroller.php", {
                     id: course_id
                 },
                 function(res, status) {
                     course = res;
-                    console.log(res);
                     const sections = res["sections"];
                     $("#course-title").html(res["course"]["title"]);
                     if (sections === null) {
@@ -115,13 +116,13 @@ if (!Auth::isLogin()) {
                         element.forEach(e => {
                             var videoElement = ` <div class="video-item mb-2 d-flex">
                             <div>
-                            <a href="#" data-video-url="${e['video_url']}" class="video-link">
+                            <a href="#" data-video-url="${e['video_url']}" class="video-link" data-section-id=${e['section-id']} data-video-id=${e['id']}>
                             <i class="fas fa-video"></i>
                                 ${e["title"]}
                             </a>
                             </div>
                             <div>
-                            <button type="button" class="btn btn-danger delete-btn float-end btn-sm">
+                            <button type="button" class="btn btn-danger delete-btn float-end btn-sm" data-section-id=${e['section-id']} data-video-id=${e['id']}>
                                 <i class="fas fa-trash"></i>
                             </button>
                             </div>
@@ -138,7 +139,7 @@ if (!Auth::isLogin()) {
                 console.log("Error:", xhr);
             });
 
-
+            // function to add new section
 
             $("#addSectionForm").submit(function(e) {
                 let course_id = $.urlParam('id');
@@ -207,6 +208,7 @@ if (!Auth::isLogin()) {
 
             });
 
+            // delete course button function
             $("#delete-course-btn").click(function() {
                 let course_id = $.urlParam('id');
                 $.post("../controllers/deleteCourse.php", {
@@ -220,6 +222,8 @@ if (!Auth::isLogin()) {
                 });
             });
 
+            // edit course button function
+
             $("#edit-course-btn").click(function() {
                 console.log(course);
                 $.post("editcourse.php", {
@@ -229,11 +233,15 @@ if (!Auth::isLogin()) {
                 });
             });
 
+            // add video button function
+
             $(document).on('click', '.add-video-btn', function(e) {
                 var sectionId = $(this).closest('.accordion-item').data('section-id');
                 $('#sectionIdInput').val(sectionId);
                 $('#uploadVideoModal').modal('show');
             });
+
+            // function to add video
 
             $("#uploadVideoForm").submit(function(e) {
                 e.preventDefault();
@@ -257,19 +265,37 @@ if (!Auth::isLogin()) {
                         console.log(error);
                     }
                 });
-                
+
                 $('#uploadVideoModal').modal('hide');
             });
+
 
             $(document).on('click', '.video-link', function(e) {
                 e.preventDefault();
                 console.log("m");
+                var links = document.querySelectorAll('.video-link');
+                links.forEach(function(link) {
+                    link.style.color = 'blue';
+                });
+
+                $(this).css('color', 'black');
                 var videoUrl = $(this).data('video-url');
-                // var title = $(this).data('title');
-                var video = `<video width="640" height="360" controls>
-                        <source src="${videoUrl}" type="video/mp4">
-                    </video>`;
-                $(".video-container").append(video);
+                var sectionid = $(this).data('section-id');
+                var videoid = $(this).data('video-id');
+                var videoElement = `<video controls autoplay class="video-item mb-2 d-flex w-100 h-100 data-section-id=${sectionid} data-video-id=${videoid}">
+                <source src="${videoUrl}" type="video/mp4">
+            </video>`;
+                $('.video-container').html(videoElement);
+                var video = document.querySelector('video');
+                video.play();
+
+                video.addEventListener('ended', function() {
+                    console.log(course);
+                    let sectionid = $(this).data('section-id');
+                    let videoid = $(this).data('video-id');
+                    console.log(videoid);
+                    console.log(sectionid);
+                });
             });
 
         });
