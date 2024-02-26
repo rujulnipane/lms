@@ -30,11 +30,11 @@ class Course
             "url" => $data[2],
         ));
 
-        $this->section = new Section();
-        $this->section->createSection(
-            $id,
-            $data[3]
-        );
+        // $this->section = new Section();
+        // $this->section->createSection(
+        //     $id,
+        //     $data[3]
+        // );
     }   
 
     public function updateCourse($data){

@@ -32,8 +32,8 @@ if (!Auth::isLogin()) {
                         </div>
                     </header>
                 </div>
-                <div class="video-container flex-grow-1">
-                    <!-- Video player goes here -->
+                <div class="video-container">
+                    
                 </div>
                 <div class="bg-light p-3 justify-self-end">
                     <div class="container">
@@ -48,48 +48,10 @@ if (!Auth::isLogin()) {
         </div>
     </div>
 
-    <!-- Modal for uploading video -->
-    <div class="modal fade" id="uploadVideoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Upload Video</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form enctype="multipart/form-data" id="uploadVideoForm">
-                        <input type="hidden" id="sectionIdInput" name="sectionId">
-                        <div class="mb-3">
-                            <label for="videoFile" class="form-label">Choose Video File</label>
-                            <input type="file" class="form-control" id="videoFile" name="videoFile" required accept="video/*">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Upload</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php include "partials/_addVideoModal.php" ?>
 
-    <!-- This is Add New Section Modal -->
-    <div class="modal fade" id="addSectionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add New Section</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="addSectionForm">
-                        <div class="mb-3">
-                            <label for="sectionTitle" class="form-label">Section Title</label>
-                            <input type="text" class="form-control" id="sectionTitle" name="sectionTitle" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add Section</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php include "partials/_addSectionModal.php" ?>
+
 
     <script>
         $(document).ready(function() {
@@ -118,6 +80,7 @@ if (!Auth::isLogin()) {
                     if (sections === null) {
                         console.log("fd");
                     }
+                    const videos = res["videos"];
 
                     sections.forEach(element => {
                         var newSection = `
@@ -147,6 +110,28 @@ if (!Auth::isLogin()) {
                     </div>`;
                         $("#accordionExample").append(newSection);
                     });
+
+                    videos.forEach(element => {
+                        element.forEach(e => {
+                            var videoElement = ` <div class="video-item mb-2 d-flex">
+                            <div>
+                            <a href="#" data-video-url="${e['video_url']}" class="video-link">
+                            <i class="fas fa-video"></i>
+                                ${e["title"]}
+                            </a>
+                            </div>
+                            <div>
+                            <button type="button" class="btn btn-danger delete-btn float-end btn-sm">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            </div>
+                        </div>`;
+                            var accordionItem = $('[data-section-id="' + e['section_id'] + '"]');
+                            accordionItem.find('.video-list').append(videoElement);
+                        });
+
+                    })
+
                 },
                 'json'
             ).fail(function(xhr, status, error) {
@@ -252,25 +237,41 @@ if (!Auth::isLogin()) {
 
             $("#uploadVideoForm").submit(function(e) {
                 e.preventDefault();
+                let courseId = $.urlParam('id');
                 var formData = new FormData($("#uploadVideoForm")[0]);
                 var sectionId = $('#sectionIdInput').val();
                 formData.append('sectionId', sectionId);
+                formData.append('courseId', courseId);
                 console.log(formData);
                 $.ajax({
                     url: "../controllers/addVideo.php",
                     type: "POST",
                     data: formData,
-                    processData: false, 
-                    contentType: false, 
+                    processData: false,
+                    contentType: false,
                     success: function(res) {
                         console.log(res);
+                        location.reload();
                     },
                     error: function(xhr, status, error) {
                         console.log(error);
                     }
                 });
+                
                 $('#uploadVideoModal').modal('hide');
             });
+
+            $(document).on('click', '.video-link', function(e) {
+                e.preventDefault();
+                console.log("m");
+                var videoUrl = $(this).data('video-url');
+                // var title = $(this).data('title');
+                var video = `<video width="640" height="360" controls>
+                        <source src="${videoUrl}" type="video/mp4">
+                    </video>`;
+                $(".video-container").append(video);
+            });
+
         });
     </script>
     <?php include "partials/_footer.php"; ?>

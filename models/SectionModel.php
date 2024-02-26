@@ -14,11 +14,16 @@ class Section{
             "course_id" => $courseid
         ));
     }
-    public function createSection($courseid, $data){
+
+    public function getSection($section_id, $course_id){
+        return $this->db->getRecord("SECTION",array("id" => $section_id,"course_id"=> $course_id));
+    }
+    public function createSection($courseid, $data, $section_url){
        
         $id = $this->db->insertRecord("SECTION",array(
             "course_id"=> $courseid,
             "title"=> $data,
+            "section_url" => $section_url
         ));
         return $id;
     }
