@@ -15,7 +15,9 @@ if (!Auth::isLogin()) {
                     <div class="accordion w-100" id="accordionExample">
                     </div>
                 </div>
-                <button class="btn btn-success mt-3 float-end" data-bs-toggle="modal" data-bs-target="#addSectionModal">Add New Section</button>
+                <?php if(Auth::isAdminUser()) {
+                    echo `
+                <button class="btn btn-success mt-3 float-end" data-bs-toggle="modal" data-bs-target="#addSectionModal">Add New Section</button>`;}?>
             </div>
             <div class="col-md-9 shadow-sm p-2 mb-5 bg-body rounded min-vh-100 d-flex flex-column">
 
@@ -23,12 +25,17 @@ if (!Auth::isLogin()) {
                     <header class="d-flex justify-content-between align-items-center">
                         <h1 id="course-title"></h1>
                         <div>
-                            <button class="btn btn-danger me-2" id="delete-course-btn">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                            <button class="btn btn-primary" id="edit-course-btn">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
+                        <?php if(Auth::isAdminUser()) {
+    echo '
+        <button class="btn btn-danger me-2" id="delete-course-btn">
+            <i class="fas fa-trash"></i> Delete
+        </button>
+        <button class="btn btn-primary" id="edit-course-btn">
+            <i class="fas fa-edit"></i> Edit
+        </button>';
+} ?>
+
+                          
                         </div>
                     </header>
                 </div>

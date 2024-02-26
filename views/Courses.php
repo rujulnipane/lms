@@ -3,7 +3,7 @@
 include("../controllers/Auth.php");
 session_start();
 
-if(!Auth::isLogin()){
+if (!Auth::isLogin()) {
     header('Location: ' . "../views/Login.php");
 }
 
@@ -17,20 +17,20 @@ if (isset($_SESSION['success'])) {
 }
 
 ?>
-<?php include 'partials/_header.php'?>
+<?php include 'partials/_header.php' ?>
 <style>
-        .create {
-            color: white;
-        }
+    .create {
+        color: white;
+    }
 
-        .create:hover {
-            color: white;
-        }
-    </style>
-    
+    .create:hover {
+        color: white;
+    }
+</style>
+
 <body>
 
-<?php include "partials/navbar.php"?>
+    <?php include "partials/navbar.php" ?>
 
     <?php if (isset($error_message)) : ?>
         <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
@@ -49,54 +49,39 @@ if (isset($_SESSION['success'])) {
         <?php endif; ?>
 
     </div>
-    <div id="container" class="container d-flex justify-content-center flex-wrap">
+    <div id="container" class="container mt-5">
+        <div class="row">
 
+        </div>
     </div>
     <script>
         $(document).ready(function() {
-            let courses = [];
-
-            $.get(
-                "../controllers/CourseController.php",
-                function(response) {
-                    let courses = response;
-                    console.log(courses);
-                    courses.forEach(element => {
-                        let carddiv = $("<div></div>");
-                        let cardimg = $("<img>");
-                        let cardbody = $("<div></div>");
-                        let cardtitle = $("<h5></h5>");
-                        let cardetails = $("<p></p>");
-                        let cardlink = $("<a></a>");
-                        carddiv.css("width", "18rem")
-                        carddiv.attr("id", element["id"]);
-                        carddiv.addClass('card m-2');
-                        cardimg.attr("src", element["url"]);
-                        cardimg.attr("alt", "not available");
-                        cardbody.addClass('card-body');
-                        cardimg.addClass('card-img-top');
-                        cardtitle.addClass("card-title");
-                        cardtitle.append(element['title']);
-                        cardetails.addClass("card-text");
-                        cardetails.append(element['details']);
-                        cardlink.attr('href', `/views/Course.php?id=${element['id']}`);
-                        cardlink.addClass("btn btn-primary");
-                        cardlink.append("View Course");
-                        cardbody.append(cardtitle);
-                        cardbody.append(cardetails);
-                        cardbody.append(cardlink);
-                        carddiv.append(cardimg);
-                        carddiv.append(cardbody);
-
-                        $("#container").append(carddiv);
-                    });
-                },
-                "json"
-            ).fail(function(xhr, status, error) {
-                console.error("Error:", error);
+    $.get(
+        "../controllers/CourseController.php",
+        function(response) {
+            let courses = response;
+            courses.forEach(function(course) {
+                const coursecard = `
+                    <div class="col-md-4">
+                        <div class="card course-card">
+                            <img src="${course.url}" class="card-img-top" alt="${course.title}">
+                            <div class="card-body">
+                                <h5 class="card-title">${course.title}</h5>
+                                <p class="card-text">${course.details}</p>
+                                <a href="/views/Course.php?id=${course.id}" class="btn btn-primary">Learn More</a>
+                            </div>
+                        </div>
+                    </div>`;
+                $(".row").append(coursecard);
             });
-        });
-    </script>
-    
+        },
+        "json"
+    ).fail(function(xhr, status, error) {
+        console.error("Error:", error);
+    });
+});
 
-    <?php include "partials/_footer.php";?>
+    </script>
+
+
+    <?php include "partials/_footer.php"; ?>
