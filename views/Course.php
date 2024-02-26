@@ -124,7 +124,7 @@ if (!Auth::isLogin()) {
                             </a>
                             </div>
                             <div>
-                            <button type="button" class="btn btn-danger delete-btn float-end btn-sm" id="delete-video" data-section-id=${e['section-id']} data-video-id=${e['id']}>
+                            <button type="button" class="btn btn-danger delete-btn float-end btn-sm" id="delete-video" data-section-id=${e['section_id']} data-video-id=${e['id']}>
                                 <i class="fas fa-trash"></i>
                             </button>
                             </div>
@@ -271,6 +271,8 @@ if (!Auth::isLogin()) {
                 $('#uploadVideoModal').modal('hide');
             });
 
+            // function for delete video
+
             $(document).on('click','#delete-video',function(e){
                 e.preventDefault();
                 const videoid = $(this).data('video-id');
@@ -282,6 +284,7 @@ if (!Auth::isLogin()) {
                 },
                 function(res,status){
                     console.log(res);
+                    location.reload();
                 },'json').fail(function(xhr,status,error){
                     console.log(error);
                 })

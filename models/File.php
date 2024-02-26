@@ -18,7 +18,6 @@ class File{
     }
 
     public static function replaceFile($src,$des){
-        echo $src . $des;
         if (file_exists($des)) {
             unlink($des);
         }
@@ -27,6 +26,17 @@ class File{
         }
         else{
             throw new Exception("Cnnot replace");
+        }
+    }
+
+    public static function deleteFile($file){
+        if (file_exists($file)) {
+            if (unlink($file)) {
+            } else {
+                throw new Exception("Cannot delete file");
+            }
+        } else {
+            throw new Exception("File Not found");
         }
     }
     public static function deleteDir($dir){

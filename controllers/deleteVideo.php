@@ -8,8 +8,9 @@ class DeleteVideo{
     private $section_id;
     public function __construct(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $this->video_id = $_POST['video-id'];
-            $this->section_id = $_POST['section-id'];
+            $this->video_id = $_POST['video_id'];
+            $this->section_id = $_POST['section_id'];
+            
         }
     }
     public function deleteVideo(){
@@ -17,7 +18,7 @@ class DeleteVideo{
             $videoobj = new Video();
             $result = $videoobj->getVideo($this->video_id, $this->section_id);
             $video = $result->fetch_assoc();
-            File::deleteDir($video['video_url']);
+            File::deleteFile($video['video_url']);
             $videoobj->deleteVideo($this->video_id, $this->section_id);
             echo json_encode(array('msg'=>'deleted Video successfully'));
         }
