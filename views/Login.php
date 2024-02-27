@@ -29,18 +29,18 @@ if (isset($_SESSION['success'])) {
 
 <body>
 
-    <div class="container">
+    <div class="container flex-column justify-center">
     <?php if (isset($error_message)) : ?>
         <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
     <?php endif; ?>
     <?php if (isset($success)) : ?>
         <p style="color: green;"><?php echo htmlspecialchars($success); ?></p>
     <?php endif; ?>
-
+        <h1 class="text-center">Welcome to Learning Management System</h1>
         <div class="card bg-light">
             <article class="card-body mx-auto" style="width: 50%;">
                 <h4 class="card-title mt-3 text-center">Log in to Account</h4>
-                <p class="text-center">Get started with your account</p>
+                <!-- <p class="text-center">Get started with your account</p> -->
 
                 <form id="loginform" action="../controllers/LoginController.php" method="post">
                     <div class="form-group input-group">

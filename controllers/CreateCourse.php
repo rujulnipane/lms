@@ -3,6 +3,7 @@
 include_once("../models/CourseModel.php");
 include_once("Auth.php");
 include_once("../models/File.php");
+include_once("../models/SectionModel.php");
 session_start();
 
 
@@ -20,17 +21,14 @@ class CreateCourse
     private $Course;
     private $courseTitle;
     private $courseDes;
-    // private $sectionTitles;
-    // private $sectionDes;
-    // private $sectionUrl;
+    private $sectionUrl;
     private $courseImgurl;
     public function __construct()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->courseTitle = $_POST['courseTitle'];
             $this->courseDes = $_POST['courseDes'];
-            // $this->sectionTitles = $_POST["sectionTitle"];
-            // $this->sectionDes = $_POST["sectionDes"];
+            
         } else {
             echo "Invalid Request Method";
         }
@@ -43,12 +41,13 @@ class CreateCourse
     public function createCourse()
     {
         try {
-            $this->Course->createCourse(array(
+            $id = $this->Course->createCourse(array(
                 $this->courseTitle,
                 $this->courseDes,
                 $this->courseImgurl,
-                "section1"
             ));
+            $sectionobj = new Section();
+            $sectionobj->createSection($id,"Section 1", $this->sectionUrl);
             $_SESSION["success"] = "New Course Created successfully";
             header('Location: ' . "../views/Courses.php");
         } catch (Exception $e) {
@@ -97,6 +96,7 @@ class CreateCourse
         $sectiondir = $target_dir . $targetsection . "/";
         try{
             File::createDir($sectiondir);
+            $this->sectionUrl = $sectiondir;
         }
         catch( Exception $e)    {
             header('Location: ' . "../views/createCourse.php");
@@ -111,71 +111,4 @@ class CreateCourse
 
 $course = new CreateCourse();
 $course->uploadFiles();
-
-
-
-
 $course->createCourse();
-
-/*
-        try{
-            File::createDir($target_dir);
-        }
-        catch( Exception $e)    {
-            header('Location: ' . "../views/createCourse.php");
-            $_SESSION["error"] = $e->getMessage();
-            exit;
-        }
-        */
-/*
-        if (isset($_FILES["courseImg"])) {
-            $target_file = $target_dir . basename($_FILES['courseImg']['name']);
-            try{
-                echo $target_file;
-                File::uploadFile($_FILES["courseImg"]["tmp_name"], $target_file);
-                $this->courseImgurl = $target_file;
-            }
-            catch( Exception $e) {
-                header('Location: ' . "../views/createCourse.php");
-                $_SESSION["error"] = $e->getMessage();
-                exit;
-            }
-        }
-        */
-/*
-        foreach ($this->sectionTitles as $index => $title) {
-            $sectionDir = $target_dir . $title . "/";
-            try{
-                File::createDir($sectionDir);
-            }
-            catch( Exception $e)    {
-                header('Location: ' . "../views/createCourse.php");
-                $_SESSION["error"] = $e->getMessage();
-                exit;
-            }
-            $section = "section" . $index + 1;
-            $videourl = [];
-            if (isset($_FILES[$section])) {
-                $sectionimg = $_FILES[$section];
-                $count = 0;
-                foreach ($sectionimg["name"] as $name) {
-                    $videoName = basename($name);
-                    $video_file = $sectionDir . $videoName;
-                    try{
-                        $src = $sectionimg["tmp_name"][$count];
-                        File::uploadFile($src, $video_file);
-                        $this->courseImgurl = $target_file;
-                        $videourl[] = $video_file;
-                    }
-                    catch( Exception $e) {
-                        header('Location: ' . "../views/createCourse.php");
-                        $_SESSION["error"] = $e->getMessage();
-                        exit;
-                    }
-                    $count++;
-                }
-            }
-            $this->sectionUrl[] = $videourl;
-        }*/
-
-    

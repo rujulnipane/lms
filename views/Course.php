@@ -15,9 +15,8 @@ if (!Auth::isLogin()) {
                     <div class="accordion w-100" id="accordionExample">
                     </div>
                 </div>
-                <?php if(Auth::isAdminUser()) {
-                    echo `
-                <button class="btn btn-success mt-3 float-end" data-bs-toggle="modal" data-bs-target="#addSectionModal">Add New Section</button>`;}?>
+
+                <button class="btn btn-success mt-3 float-end" data-bs-toggle="modal" data-bs-target="#addSectionModal">Add New Section</button>
             </div>
             <div class="col-md-9 shadow-sm p-2 mb-5 bg-body rounded min-vh-100 d-flex flex-column">
 
@@ -25,17 +24,17 @@ if (!Auth::isLogin()) {
                     <header class="d-flex justify-content-between align-items-center">
                         <h1 id="course-title"></h1>
                         <div>
-                        <?php if(Auth::isAdminUser()) {
-    echo '
+                            <?php if (Auth::isAdminUser()) {
+                                echo '
         <button class="btn btn-danger me-2" id="delete-course-btn">
             <i class="fas fa-trash"></i> Delete
         </button>
         <button class="btn btn-primary" id="edit-course-btn">
             <i class="fas fa-edit"></i> Edit
         </button>';
-} ?>
+                            } ?>
 
-                          
+
                         </div>
                     </header>
                 </div>
@@ -47,8 +46,8 @@ if (!Auth::isLogin()) {
                 <div class="bg-light p-3 justify-self-end">
                     <div class="container">
                         <div class="d-flex justify-content-between">
-                            <button class="btn btn-primary">Prev</button>
-                            <button class="btn btn-primary">Next</button>
+                            <button id="prev-video-btn" class="btn btn-primary">Prev</button>
+                            <button id="next-video-btn" class="btn btn-primary">Next</button>
                         </div>
                     </div>
                 </div>
@@ -78,13 +77,13 @@ if (!Auth::isLogin()) {
             course_id = $.urlParam('id');
 
             // function to load course sections and videos
-
             $.post(
                 "../controllers/getcontroller.php", {
                     id: course_id
                 },
                 function(res, status) {
                     course = res;
+                    console.log(res);
                     const sections = res["sections"];
                     $("#course-title").html(res["course"]["title"]);
                     if (sections === null) {
@@ -123,10 +122,10 @@ if (!Auth::isLogin()) {
 
                     videos.forEach(element => {
                         element.forEach(e => {
-                            var videoElement = ` <div class="video-item mb-2 d-flex">
+                            var videoElement = ` <div class="video-item mb-2 d-flex justify-content-between">
                             <div>
-                            <a href="#" data-video-url="${e['video_url']}" class="video-link" data-section-id=${e['section_id']} data-video-id=${e['id']}>
                             <i class="fas fa-video"></i>
+                            <a href="#" data-video-url="${e['video_url']}" class="video-link" data-section-id=${e['section_id']} data-video-id=${e['id']}>
                                 ${e["title"]}
                             </a>
                             </div>
@@ -148,9 +147,39 @@ if (!Auth::isLogin()) {
                 console.log("Error:", xhr);
             });
 
-            // function to add new section
+            
+            $("#addSectionForm").submit(addSection);
 
-            $("#addSectionForm").submit(function(e) {
+            $(document).on("click", ".delete-section-btn", deleteSection);
+
+            $("#delete-course-btn").click(deleteCourse);
+
+            // edit course button function
+            $("#edit-course-btn").click(editCourse);
+
+            // add video button function
+            $(document).on('click', '.add-video-btn', uploadVideo);
+
+            // function to add video
+            $("#uploadVideoForm").submit(addVideo);
+
+            // function for delete video
+            $(document).on('click', '#delete-video', deleteVideo);
+
+            // play video by clinking from navigation panel
+            $(document).on('click', '.video-link', playVideoOnClick);
+
+            // next video on video end function
+            $("#video-item").on("ended",onVideoComplete);
+
+            // play next video function
+            $("#next-video-btn").click(playNextVideo);
+
+            // play prev video function
+            $("#prev-video-btn").click(playPrevVideo);
+
+            // function to add new section
+            function addSection(e) {
                 let course_id = $.urlParam('id');
                 e.preventDefault();
                 var sectionTitle = $("#sectionTitle").val();
@@ -193,10 +222,10 @@ if (!Auth::isLogin()) {
                 ).fail(function(xhr, status, error) {
                     console.log("Error:", xhr);
                 });
-            });
+            }
 
             // Function to delete a section
-            $(document).on("click", ".delete-section-btn", function() {
+            function deleteSection() {
                 var sectionId = $(this).data("section-id");
                 console.log(sectionId);
                 let course_id = $.urlParam('id');
@@ -215,10 +244,19 @@ if (!Auth::isLogin()) {
 
                 $('[data-section-id="' + sectionId + '"]').remove();
 
-            });
+            }
 
+            function editCourse() {
+                console.log(course);
+                $.post("editcourse.php", {
+                    course: course['course']
+                }, function(res, status) {
+                    window.location.href = "/views/editcourse.php";
+                });
+            }
+            
             // delete course button function
-            $("#delete-course-btn").click(function() {
+            function deleteCourse() {
                 let course_id = $.urlParam('id');
                 $.post("../controllers/deleteCourse.php", {
                         id: course_id
@@ -229,30 +267,15 @@ if (!Auth::isLogin()) {
                     'json').fail(function(xhr, status, error) {
                     console.log(error);
                 });
-            });
+            }
 
-            // edit course button function
-
-            $("#edit-course-btn").click(function() {
-                console.log(course);
-                $.post("editcourse.php", {
-                    course: course['course']
-                }, function(res, status) {
-                    window.location.href = "/views/editcourse.php";
-                });
-            });
-
-            // add video button function
-
-            $(document).on('click', '.add-video-btn', function(e) {
+            function uploadVideo(e) {
                 var sectionId = $(this).closest('.accordion-item').data('section-id');
                 $('#sectionIdInput').val(sectionId);
                 $('#uploadVideoModal').modal('show');
-            });
+            }
 
-            // function to add video
-
-            $("#uploadVideoForm").submit(function(e) {
+            function addVideo(e) {
                 e.preventDefault();
                 let courseId = $.urlParam('id');
                 var formData = new FormData($("#uploadVideoForm")[0]);
@@ -274,35 +297,31 @@ if (!Auth::isLogin()) {
                         console.log(error);
                     }
                 });
-
                 $('#uploadVideoModal').modal('hide');
-            });
+            }
 
-            // function for delete video
-
-            $(document).on('click','#delete-video',function(e){
+            function deleteVideo(e){
                 e.preventDefault();
                 const videoid = $(this).data('video-id');
                 const sectionid = $(this).data('section-id');
-                $.post("../controllers/deleteVideo.php",
-                {
-                    video_id : videoid,
-                    section_id: sectionid
-                },
-                function(res,status){
-                    console.log(res);
-                    location.reload();
-                },'json').fail(function(xhr,status,error){
+                $.post("../controllers/deleteVideo.php", {
+                        video_id: videoid,
+                        section_id: sectionid
+                    },
+                    function(res, status) {
+                        console.log(res);
+                        location.reload();
+                    }, 'json').fail(function(xhr, status, error) {
                     console.log(error);
                 })
-            })
+            }
 
-            $(document).on('click', '.video-link', function(e) {
+            function playVideoOnClick(e){
                 e.preventDefault();
-                console.log("m");
+                // console.log("m");
                 var links = document.querySelectorAll('.video-link');
                 links.forEach(function(link) {
-                    link.style.color = 'blue';
+                    link.style.color = '#007bff';
                 });
 
                 $(this).css('color', 'black');
@@ -317,17 +336,19 @@ if (!Auth::isLogin()) {
                 video.attr("data-video-id", videoid);
                 video[0].load();
                 video[0].play();
-            });
-
-            $("#video-item").on("ended", function() {
+            }
+            function onVideoComplete(e){
                 const videos = course['videos'];
-                console.log(videos);
+                // console.log(videos);
                 var sectionid = $(this).attr("data-section-id");
                 var videoid = $(this).attr("data-video-id");
+                // console.log(sectionid);
+                // console.log(videoid);
                 const nextVideo = getNextVideo(sectionid, videoid, videos);
+                console.log(nextVideo);
                 var links = document.querySelectorAll('.video-link');
                 links.forEach(function(link) {
-                    link.style.color = 'blue';
+                    link.style.color = '#007bff';
                 });
                 var videolink = $(`.video-link[data-section-id=${nextVideo['section_id']}][data-video-id=${nextVideo['id']}]`);
                 videolink.css('color', 'black');
@@ -337,29 +358,84 @@ if (!Auth::isLogin()) {
                 video.attr("data-video-id", nextVideo['id']);
                 video[0].load();
                 video[0].play();
-            });
+            }
 
+            function playNextVideo(e){
+                e.preventDefault();
+                const videos = course['videos'];
+                var video = $("#video-item");
+                var sectionid = video.attr("data-section-id");
+                var videoid = video.attr("data-video-id");
+                // console.log(sectionid);
+                // console.log(videoid);
+                const nextVideo = getNextVideo(sectionid, videoid, videos);
+                var links = document.querySelectorAll('.video-link');
+                links.forEach(function(link) {
+                    link.style.color = '#007bff';
+                });
+                var videolink = $(`.video-link[data-section-id=${nextVideo['section_id']}][data-video-id=${nextVideo['id']}]`);
+                videolink.css('color', 'black');
+                video.attr("src", nextVideo['video_url']);
+                video.attr("data-section-id", nextVideo['section_id']);
+                video.attr("data-video-id", nextVideo['id']);
+                video[0].load();
+                video[0].play();
+            }
+
+            function playPrevVideo(e){
+                e.preventDefault();
+                const videos = course['videos'];
+                var video = $("#video-item");
+                var sectionid = video.attr("data-section-id");
+                var videoid = video.attr("data-video-id");
+                // console.log(sectionid);
+                // console.log(videoid);
+                const prevVideo = getprevVideo(sectionid, videoid, videos);
+                var links = document.querySelectorAll('.video-link');
+                links.forEach(function(link) {
+                    link.style.color = '#007bff';
+                });
+                var videolink = $(`.video-link[data-section-id=${prevVideo['section_id']}][data-video-id=${prevVideo['id']}]`);
+                videolink.css('color', 'black');
+                video.attr("src", prevVideo['video_url']);
+                video.attr("data-section-id", prevVideo['section_id']);
+                video.attr("data-video-id", prevVideo['id']);
+                video[0].load();
+                video[0].play();
+            }
+            // get next video
             function getNextVideo(sectionid, videoid, videos) {
-                sectionid = parseInt(sectionid);
-                videoid = parseInt(videoid);
-
-                for (let i = 0; i < videos.length; i++) {
-                    for (let j = 0; j < videos[i].length; j++) {
-                        if (videos[i][j]["section_id"] === sectionid && videos[i][j]["id"] > videoid + 1) {
-                            return videos[i][j];
+                const Videos = [];
+                videos.forEach(element => {
+                    element.forEach(e => {
+                        if(e['section_id'] >= sectionid && e['id'] > videoid){
+                            Videos.push(e);
                         }
-                    }
-                }
-                for (let i = 0; i < videos.length; i++) {
-                    for (let j = 0; j < videos[i].length; j++) {
-                        if (videos[i][j]['section_id'] === sectionid + 1) {
-                            return videos[i][j];
-                        }
-                    }
+                    });
+                });
+                // console.log(Videos);
+                if(Videos.length>0){
+                    return Videos[0];
                 }
                 return null; 
             }
 
+            // get prev video
+            function getprevVideo(sectionid, videoid, videos) {
+                const Videos = [];
+                videos.forEach(element => {
+                    element.forEach(e => {
+                        if(e['section_id'] <= sectionid && e['id'] < videoid){
+                            Videos.push(e);
+                        }
+                    });
+                });
+                // console.log(Videos);
+                if(Videos.length>0){
+                    return Videos[Videos.length-1];
+                }
+                return null; 
+            }
         });
     </script>
     <?php include "partials/_footer.php"; ?>

@@ -29,12 +29,7 @@ class Course
             "details" => $data[1],
             "url" => $data[2],
         ));
-
-        // $this->section = new Section();
-        // $this->section->createSection(
-        //     $id,
-        //     $data[3]
-        // );
+        return $id;
     }   
 
     public function updateCourse($data){
