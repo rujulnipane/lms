@@ -38,9 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     </div>
                     <div class="form-group">
                         <label for="thumbnail">Thumbnail Image:</label>
-                        <input type="file" class="form-control-file" name="courseImg" id="thumbnail" accept="image/*" required>
+                        <input type="file" class="form-control-file" name="courseImg" id="thumbnail" accept="image/*" >
                     </div>
-                    <button type="submit" class="btn btn-success btn-block">Create Course</button>
+                    <button type="submit" class="btn btn-success btn-block">Update Course</button>
                 </form>
             </div>
         </div>

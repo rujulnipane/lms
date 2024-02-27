@@ -8,6 +8,8 @@
                 <div class="modal-body">
                     <form enctype="multipart/form-data" id="uploadVideoForm">
                         <input type="hidden" id="sectionIdInput" name="sectionId">
+                        <label for="video-title" class="form-label">Enter video title</label>
+                        <input type="text" id="video-title" class="form-control" name="video-title">
                         <div class="mb-3">
                             <label for="videoFile" class="form-label">Choose Video File</label>
                             <input type="file" class="form-control" id="videoFile" name="videoFile" required accept="video/*">

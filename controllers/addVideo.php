@@ -17,12 +17,13 @@ class AddVideo
 
     private $section_id;
     private $course_id;
-
+    private $video_title;
     public function __construct()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->section_id = $_POST['sectionId'];
             $this->course_id = $_POST['courseId'];
+            $this->video_title = $_POST['video-title'];
         }
         else{
             header('Location:' . '../views/partials/404.php');
@@ -58,10 +59,8 @@ class AddVideo
         }
         try {
             $videoobj = new Video();
-            $info = pathinfo($videoname);
-            $title = $info['filename'];
-            $id = $videoobj->createVideo($title, $target_file, $this->section_id);
-            echo json_encode(array('title' => $title, 'id' => $id, "url" => $target_file));
+            $id = $videoobj->createVideo($this->video_title, $target_file, $this->section_id);
+            echo json_encode(array('title' => $this->video_title, 'id' => $id, "url" => $target_file));
         } catch (Exception $e) {
             echo json_encode(array("error" => $e->getMessage()));
         }

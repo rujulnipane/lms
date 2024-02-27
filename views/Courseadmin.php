@@ -41,6 +41,7 @@ if (!Auth::isAdminUser()) {
                     </header>
                 </div>
                 <div class="video-container">
+                    <div class="video-header"></div>
                     <video controls autoplay id="video-item" class="video-item mb-2 d-flex w-100 h-75">
 
                     </video>
@@ -282,8 +283,10 @@ if (!Auth::isAdminUser()) {
                 let courseId = $.urlParam('id');
                 var formData = new FormData($("#uploadVideoForm")[0]);
                 var sectionId = $('#sectionIdInput').val();
+                var videotitle = $('#video-title').val();
                 formData.append('sectionId', sectionId);
                 formData.append('courseId', courseId);
+                formData.append('video-title', videotitle);
                 console.log(formData);
                 $.ajax({
                     url: "../controllers/addVideo.php",
