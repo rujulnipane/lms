@@ -9,7 +9,6 @@ class Auth
         if(!file_exists("../config.php")){
             header('Location: '. "../views/adminReg.php");  
             exit;
-            // return false;
         }
         if (isset($_SESSION["username"])) {
             return true;

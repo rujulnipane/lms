@@ -10,6 +10,9 @@ include_once("Auth.php");
 if(!Auth::isLogin()){
     header("Location" . "../views/Login.php");
 }
+if(!Auth::isAdminUser()){
+    header("Location:" . "../views/partials/404.php");
+}
 class AddSection{
 
     private $course_id;
@@ -22,7 +25,7 @@ class AddSection{
             $this->course_id = $_POST['id'];
             $this->sectionTitle = $_POST['title'];
         } else {
-            echo "Invalid Request Method";
+            header('Location:' . '../views/partials/404.php');
         }
         try {
             $this->Section = new Section();

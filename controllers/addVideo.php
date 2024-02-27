@@ -9,6 +9,9 @@ include_once("Auth.php");
 if(!Auth::isLogin()){
     header("Location" . "../views/Login.php");
 }
+if(!Auth::isAdminUser()){
+    header("Location:" . "../views/partials/404.php");
+}
 class AddVideo
 {
 
@@ -20,6 +23,9 @@ class AddVideo
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->section_id = $_POST['sectionId'];
             $this->course_id = $_POST['courseId'];
+        }
+        else{
+            header('Location:' . '../views/partials/404.php');
         }
     }
 

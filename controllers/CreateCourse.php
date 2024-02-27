@@ -7,7 +7,6 @@ include_once("../models/SectionModel.php");
 session_start();
 
 
-include_once("Auth.php");
 if (!Auth::isLogin() or !Auth::isAdminUser()) {
     header('Location: ' . "../views/Login.php");
 }
@@ -30,7 +29,7 @@ class CreateCourse
             $this->courseDes = $_POST['courseDes'];
             
         } else {
-            echo "Invalid Request Method";
+            // header('Location:' . '../views/partials/404.php');
         }
         try {
             $this->Course = new Course();

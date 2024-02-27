@@ -4,6 +4,7 @@ if (!file_exists("../config.php")) {
     header('Location: ' . "./adminReg.php");
     echo "file exists";
 }
+
 if (isset($_SESSION['error'])) {
     $error_message = $_SESSION['error'];
     unset($_SESSION['error']);

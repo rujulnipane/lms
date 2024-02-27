@@ -21,6 +21,9 @@ class UpdateCourse
             $this->courseTitle = $_POST['courseTitle'];
             $this->courseDes = $_POST['courseDes'];
         }
+        else{
+            header('Location:' . '../views/partials/404.php');
+        }
 
         if(isset($_SESSION['course'])) {
             $this->course_id = $_SESSION['course']['id'];

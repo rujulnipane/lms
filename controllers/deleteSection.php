@@ -4,7 +4,11 @@ include("../models/File.php");
 include_once("Auth.php");
 
 if(!Auth::isLogin()){
-    header("Location" . "../views/Login.php");
+    header("Location:" . "../views/Login.php");
+}
+
+if(!Auth::isAdminUser()){
+    header("Location:" . "../views/partials/404.php");
 }
 class DeleteSection{
     private $section_id;
@@ -14,6 +18,9 @@ class DeleteSection{
         if($_SERVER['REQUEST_METHOD'] == "POST"){
             $this->course_id = $_POST["course_id"];
             $this->section_id = $_POST["section_id"];
+        }
+        else{
+            header('Location:' . '../views/partials/404.php');
         }
         try{
             $this->Section= new Section();

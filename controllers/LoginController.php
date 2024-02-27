@@ -19,7 +19,7 @@ class Login{
             $this->password = $_POST["password"];
         }   
         else{
-            echo "bd";
+            header('Location:' . '../views/partials/404.php');
         }
         try{
             $this->User = new User();

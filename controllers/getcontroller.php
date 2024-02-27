@@ -18,6 +18,10 @@ class GetCourse{
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $this->id = $_POST['id'];
         }
+        else{
+            header('Location:' . '../views/partials/404.php');
+        }
+        
         $this->Course = new Course();
     }
 

@@ -10,7 +10,7 @@ class DeleteCourse{
             $this->id = $_POST['id'];
         }
         else{
-
+            header('Location:' . '../views/partials/404.php');
         }
     }
     public function deleteCourese(){

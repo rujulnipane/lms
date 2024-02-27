@@ -228,6 +228,7 @@ class Database
             title VARCHAR(255),
             details VARCHAR(255),
             course_id INT,
+            section_url VARCHAR(255),
             FOREIGN KEY (course_id) REFERENCES COURSE(id) ON DELETE CASCADE ON UPDATE CASCADE
         )";
 

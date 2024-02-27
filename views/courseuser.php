@@ -72,9 +72,9 @@ if (Auth::isAdminUser()) {
                     const sections = res["sections"];
                     $("#course-title").html(res["course"]["title"]);
                     if (sections === null) {
-                        console.log("fd");
+                        $("#accordionExample").append('<h5>No contents available</h5>');
                     }
-                    const videos = res["videos"];
+                    
 
                     sections.forEach(element => {
                         var newSection = `
@@ -97,7 +97,10 @@ if (Auth::isAdminUser()) {
                     </div>`;
                         $("#accordionExample").append(newSection);
                     });
-
+                    const videos = res["videos"];
+                    if(videos.length == 0){
+                        $("#accordionExample").append('<h5>No contents available</h5>');
+                    }
                     videos.forEach(element => {
                         element.forEach(e => {
                             var videoElement = ` <div class="video-item mb-2 d-flex justify-content-between border-bottom">
@@ -133,147 +136,9 @@ if (Auth::isAdminUser()) {
             // play prev video function
             $("#prev-video-btn").click(playPrevVideo);
 
-            // function to add new section
-            function addSection(e) {
-                let course_id = $.urlParam('id');
-                e.preventDefault();
-                var sectionTitle = $("#sectionTitle").val();
-
-                $.post(
-                    "../controllers/addSection.php", {
-                        title: sectionTitle,
-                        id: course_id
-                    },
-                    function(res, status) {
-                        console.log(res);
-                        var newSection = `
-                    <div class="accordion-item" data-section-id="${res["id"]}" section-id=${res["id"]}>
-                        <h2 class="accordion-header d-flex">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapse-${res["id"]}" aria-expanded="true"
-                                aria-controls="collapse-${res["id"]}">
-                                ${sectionTitle}
-                                <button class="btn btn-danger delete-section-btn" data-section-id="${res["id"]}">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </button>
-                        </h2>
-                        <div id="collapse-${res["id"]}" class="accordion-collapse collapse show"
-                            data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <div class="video-list">
-                                    <!-- Videos will be dynamically added here -->
-                                </div>
-                                <button class="btn btn-primary add-video-btn" 
-                                >Add Video</button>
-                                    
-                            </div>
-                        </div>
-                    </div>`;
-                        $("#accordionExample").append(newSection);
-                        $('#addSectionModal').modal('hide');
-                    },
-                    'json'
-                ).fail(function(xhr, status, error) {
-                    console.log("Error:", xhr);
-                });
-            }
-
-            // Function to delete a section
-            function deleteSection() {
-                var sectionId = $(this).data("section-id");
-                console.log(sectionId);
-                let course_id = $.urlParam('id');
-                $.post(
-                    "../controllers/deleteSection.php", {
-                        course_id: course_id,
-                        section_id: sectionId
-                    },
-                    function(res, status) {
-                        console.log(res);
-                    },
-                    'json'
-                ).fail(function(xhr, status, error) {
-                    console.log("Error:", xhr);
-                });
-
-                $('[data-section-id="' + sectionId + '"]').remove();
-
-            }
-
-            function editCourse() {
-                console.log(course);
-                $.post("editcourse.php", {
-                    course: course['course']
-                }, function(res, status) {
-                    window.location.href = "/views/editcourse.php";
-                });
-            }
-
-            // delete course button function
-            function deleteCourse() {
-                let course_id = $.urlParam('id');
-                $.post("../controllers/deleteCourse.php", {
-                        id: course_id
-                    }, function(res, status) {
-                        console.log(res);
-                        window.location.href = "/views/Courses.php";
-                    },
-                    'json').fail(function(xhr, status, error) {
-                    console.log(error);
-                });
-            }
-
-            function uploadVideo(e) {
-                var sectionId = $(this).closest('.accordion-item').data('section-id');
-                $('#sectionIdInput').val(sectionId);
-                $('#uploadVideoModal').modal('show');
-            }
-
-            function addVideo(e) {
-                e.preventDefault();
-                let courseId = $.urlParam('id');
-                var formData = new FormData($("#uploadVideoForm")[0]);
-                var sectionId = $('#sectionIdInput').val();
-                formData.append('sectionId', sectionId);
-                formData.append('courseId', courseId);
-                console.log(formData);
-                $.ajax({
-                    url: "../controllers/addVideo.php",
-                    type: "POST",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(res) {
-                        console.log(res);
-                        location.reload();
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(error);
-                    }
-                });
-                $('#uploadVideoModal').modal('hide');
-            }
-
-            function deleteVideo(e) {
-                e.preventDefault();
-                const videoid = $(this).data('video-id');
-                const sectionid = $(this).data('section-id');
-                $.post("../controllers/deleteVideo.php", {
-                        video_id: videoid,
-                        section_id: sectionid
-                    },
-                    function(res, status) {
-                        console.log(res);
-                        location.reload();
-                    }, 'json').fail(function(xhr, status, error) {
-                    console.log(error);
-                })
-            }
-
+            
             function playVideoOnClick(e) {
                 e.preventDefault();
-                // console.log("m");
                 var links = document.querySelectorAll('.video-link');
                 links.forEach(function(link) {
                     link.style.color = '#007bff';

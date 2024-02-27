@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dbname = $_POST["dbname"];
     $dbpass = $_POST['dbpass'];
 } else {
-    echo "bd";
+    header('Location:' . '../views/partials/404.php');
 }
 
 // $config = fopen("../config.txt", "w") or die("Unable to open file!");

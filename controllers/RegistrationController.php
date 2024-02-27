@@ -17,7 +17,7 @@ class Register
             $this->email = $_POST["email"];
             $this->password = $_POST["password"];
         } else {
-            header('Location: '. "../views/Registration.php");
+            header('Location:' . '../views/partials/404.php');
             exit;
         }
         try{

@@ -1,7 +1,7 @@
 <?php
 
 include("../controllers/Auth.php");
-include("partials/_session.php");
+// include("partials/_session.php");
 
 session_start();
 
@@ -11,24 +11,20 @@ if (!Auth::isLogin()) {
 
 ?>
 <?php include 'partials/_header.php' ?>
-<style>
-    .create {
-        color: white;
-    }
-
-    .create:hover {
-        color: white;
-    }
-</style>
 
 <body>
     <?php include "partials/navbar.php" ?>
     <?php include "partials/_alerts.php" ?>
 
     <main>
+        <?php if (Auth::isAdminUser()) : ?>
+            <div class="container text-end my-4">
+                <a class="btn btn-success" href="createCourse.php">Create New Course</a>
+            </div>
+        <?php endif; ?>
         <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative;">
             <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
-                
+
             </div>
         </div>
     </main>
@@ -40,8 +36,13 @@ if (!Auth::isLogin()) {
                     let courses = response;
                     console.log(courses);
                     courses.forEach(function(course) {
-                        const coursecard = `<div class="col">
+                        const coursecard = `<div class="col" data-course-id=${course['id']}>
                     <div class="card h-100 shadow-sm"> <img src=${course['url']} class="card-img-top" alt=${course['title']}>
+                    <?php if(Auth::isAdminUser()) : ?>
+            <a href="#" class="btn-delete" aria-label="Delete" data-course-id=${course['id']}>
+                <i class="fas fa-trash"></i>
+            </a>
+            <?php endif; ?>
                         <div class="card-body">
                             <div class="clearfix mb-3"> 
                                <h3>${course['title']}</h3>
@@ -59,11 +60,28 @@ if (!Auth::isLogin()) {
             ).fail(function(xhr, status, error) {
                 console.error("Error:", error);
             });
+
+            $(document).on("click",".btn-delete",function(e){
+                e.preventDefault();
+                console.log("sfssf");
+                var course_id = $(this).data('course-id');
+                $.post("../controllers/deleteCourse.php",
+                {
+                    id:course_id
+                },function(res,status){
+                    console.log(res);
+
+                },'json').fail(function(xhr,status,error){
+                    console.log(error);
+                })
+
+                $(this).closest('.col').remove();
+            });
         });
     </script>
 
 
-    <?php include "partials/_footer.php"; ?>
+    
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
@@ -300,4 +318,19 @@ if (!Auth::isLogin()) {
             height: 80px;
             color: #fff
         }
+
+        .btn-delete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover .btn-delete {
+            opacity: 1;
+        }
     </style>
+
+<?php include "partials/_footer.php"; ?>

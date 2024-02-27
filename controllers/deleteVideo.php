@@ -6,7 +6,9 @@ include_once("Auth.php");
 if(!Auth::isLogin()){
     header("Location" . "../views/Login.php");
 }
-
+if(!Auth::isAdminUser()){
+    header("Location:" . "../views/partials/404.php");
+}
 class DeleteVideo{
     private $video_id;
     private $section_id;
@@ -15,6 +17,9 @@ class DeleteVideo{
             $this->video_id = $_POST['video_id'];
             $this->section_id = $_POST['section_id'];
             
+        }
+        else{
+            header('Location:' . '../views/partials/404.php');
         }
     }
     public function deleteVideo(){

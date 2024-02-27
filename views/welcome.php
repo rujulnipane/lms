@@ -9,7 +9,7 @@ if(!file_exists($file_path)){
 }
 else{
     $_SESSION['$success'] = "Installation process completed";
-    header('Location: '. "./Login.php");
+    // header('Location: '. "./Login.php");
 }
 
 
