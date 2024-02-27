@@ -3,6 +3,11 @@ session_start();
 
 include("../models/CourseModel.php");
 include ("../models/File.php");
+include_once("Auth.php");
+
+if(!Auth::isLogin()){
+    header("Location" . "../views/Login.php");
+}
 class UpdateCourse
 {
     private $Course;

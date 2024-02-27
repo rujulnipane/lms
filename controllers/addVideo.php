@@ -4,7 +4,11 @@ include("../models/VideoModel.php");
 include("../models/File.php");
 include("../models/SectionModel.php");
 include("../models/CourseModel.php");
+include_once("Auth.php");
 
+if(!Auth::isLogin()){
+    header("Location" . "../views/Login.php");
+}
 class AddVideo
 {
 
@@ -48,8 +52,10 @@ class AddVideo
         }
         try {
             $videoobj = new Video();
-            $id = $videoobj->createVideo($_FILES['videoFile']['name'], $target_file, $this->section_id);
-            echo json_encode(array('title' => basename($_FILES['videoFile']['name']), 'id' => $id, "url" => $target_file));
+            $info = pathinfo($videoname);
+            $title = $info['filename'];
+            $id = $videoobj->createVideo($title, $target_file, $this->section_id);
+            echo json_encode(array('title' => $title, 'id' => $id, "url" => $target_file));
         } catch (Exception $e) {
             echo json_encode(array("error" => $e->getMessage()));
         }

@@ -22,6 +22,7 @@ if (isset($_SESSION['details'])) {
         <?php if (isset($error_message)) : ?>
             <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
         <?php endif; ?>
+        <?php include 'partials/_alerts.php'?>
         <div class="card bg-light">
             <article class="card-body mx-auto" style="width: 50%;">
                 <h4 class="card-title mt-3 text-center">Create Account</h4>

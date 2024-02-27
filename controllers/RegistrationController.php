@@ -69,8 +69,8 @@ class Register
                 $this->User->createUser($array);
             }
             catch(Exception $e){
+                $_SESSION['error'] = $e->getMessage();
                 header('Location: '. "../views/Login.php");
-            $_SESSION['error'] = $e->getMessage();
             }
             $_SESSION['success'] = "User Created Successfully.";
             header('Location: ' . "../views/Login.php");

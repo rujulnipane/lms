@@ -1,7 +1,11 @@
 <?php 
 include("../models/VideoModel.php");
 include("../models/File.php");
+include_once("Auth.php");
 
+if(!Auth::isLogin()){
+    header("Location" . "../views/Login.php");
+}
 
 class DeleteVideo{
     private $video_id;

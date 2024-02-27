@@ -1,6 +1,11 @@
 <?php
 include ("../models/SectionModel.php");
 include("../models/File.php");
+include_once("Auth.php");
+
+if(!Auth::isLogin()){
+    header("Location" . "../views/Login.php");
+}
 class DeleteSection{
     private $section_id;
     private $course_id;

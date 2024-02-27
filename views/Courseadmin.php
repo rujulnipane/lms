@@ -1,15 +1,22 @@
 <?php
+
+// include("partials/_session.php");
 include("../controllers/Auth.php");
 if (!Auth::isLogin()) {
     header('Location: ' . "./Login.php");
-} ?>
+}
+if (!Auth::isAdminUser()) {
+    $id = isset($_GET['id']) ? $_GET['id'] : '';
+    header('Location: ' . "./courseuser.php?id=$id");
+}
+?>
 <?php include 'partials/_header.php' ?>
 
 <body>
     <?php include "partials/navbar.php" ?>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-3 shadow-sm p-2 mb-5 bg-body rounded min-vh-100 ">
+            <div class="col-md-3 shadow-sm p-2 mb-5 bg-body rounded">
                 <div class="navbar">
                     <h2>Course Contents</h2>
                     <div class="accordion w-100" id="accordionExample">
@@ -18,32 +25,27 @@ if (!Auth::isLogin()) {
 
                 <button class="btn btn-success mt-3 float-end" data-bs-toggle="modal" data-bs-target="#addSectionModal">Add New Section</button>
             </div>
-            <div class="col-md-9 shadow-sm p-2 mb-5 bg-body rounded min-vh-100 d-flex flex-column">
+            <div class="col-md-9 shadow-sm p-2 mb-5 bg-body rounded d-flex flex-column">
 
                 <div class="container pt-2">
                     <header class="d-flex justify-content-between align-items-center">
                         <h1 id="course-title"></h1>
                         <div>
-                            <?php if (Auth::isAdminUser()) {
-                                echo '
-        <button class="btn btn-danger me-2" id="delete-course-btn">
-            <i class="fas fa-trash"></i> Delete
-        </button>
-        <button class="btn btn-primary" id="edit-course-btn">
-            <i class="fas fa-edit"></i> Edit
-        </button>';
-                            } ?>
-
-
+                            <button class="btn btn-danger me-2" id="delete-course-btn">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                            <button class="btn btn-primary" id="edit-course-btn">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
                         </div>
                     </header>
                 </div>
                 <div class="video-container">
-                    <video controls autoplay id="video-item" class="video-item mb-2 d-flex w-100 h-100">
+                    <video controls autoplay id="video-item" class="video-item mb-2 d-flex w-100 h-75">
 
                     </video>
                 </div>
-                <div class="bg-light p-3 justify-self-end">
+                <div class="bg-light p-3">
                     <div class="container">
                         <div class="d-flex justify-content-between">
                             <button id="prev-video-btn" class="btn btn-primary">Prev</button>
@@ -122,7 +124,7 @@ if (!Auth::isLogin()) {
 
                     videos.forEach(element => {
                         element.forEach(e => {
-                            var videoElement = ` <div class="video-item mb-2 d-flex justify-content-between">
+                            var videoElement = ` <div class="video-item mb-2 d-flex justify-content-between border-bottom">
                             <div>
                             <i class="fas fa-video"></i>
                             <a href="#" data-video-url="${e['video_url']}" class="video-link" data-section-id=${e['section_id']} data-video-id=${e['id']}>
@@ -147,7 +149,7 @@ if (!Auth::isLogin()) {
                 console.log("Error:", xhr);
             });
 
-            
+
             $("#addSectionForm").submit(addSection);
 
             $(document).on("click", ".delete-section-btn", deleteSection);
@@ -170,7 +172,7 @@ if (!Auth::isLogin()) {
             $(document).on('click', '.video-link', playVideoOnClick);
 
             // next video on video end function
-            $("#video-item").on("ended",onVideoComplete);
+            $("#video-item").on("ended", onVideoComplete);
 
             // play next video function
             $("#next-video-btn").click(playNextVideo);
@@ -254,7 +256,7 @@ if (!Auth::isLogin()) {
                     window.location.href = "/views/editcourse.php";
                 });
             }
-            
+
             // delete course button function
             function deleteCourse() {
                 let course_id = $.urlParam('id');
@@ -300,7 +302,7 @@ if (!Auth::isLogin()) {
                 $('#uploadVideoModal').modal('hide');
             }
 
-            function deleteVideo(e){
+            function deleteVideo(e) {
                 e.preventDefault();
                 const videoid = $(this).data('video-id');
                 const sectionid = $(this).data('section-id');
@@ -316,7 +318,7 @@ if (!Auth::isLogin()) {
                 })
             }
 
-            function playVideoOnClick(e){
+            function playVideoOnClick(e) {
                 e.preventDefault();
                 // console.log("m");
                 var links = document.querySelectorAll('.video-link');
@@ -337,7 +339,8 @@ if (!Auth::isLogin()) {
                 video[0].load();
                 video[0].play();
             }
-            function onVideoComplete(e){
+
+            function onVideoComplete(e) {
                 const videos = course['videos'];
                 // console.log(videos);
                 var sectionid = $(this).attr("data-section-id");
@@ -360,7 +363,7 @@ if (!Auth::isLogin()) {
                 video[0].play();
             }
 
-            function playNextVideo(e){
+            function playNextVideo(e) {
                 e.preventDefault();
                 const videos = course['videos'];
                 var video = $("#video-item");
@@ -382,7 +385,7 @@ if (!Auth::isLogin()) {
                 video[0].play();
             }
 
-            function playPrevVideo(e){
+            function playPrevVideo(e) {
                 e.preventDefault();
                 const videos = course['videos'];
                 var video = $("#video-item");
@@ -408,16 +411,16 @@ if (!Auth::isLogin()) {
                 const Videos = [];
                 videos.forEach(element => {
                     element.forEach(e => {
-                        if(e['section_id'] >= sectionid && e['id'] > videoid){
+                        if (e['section_id'] >= sectionid && e['id'] > videoid) {
                             Videos.push(e);
                         }
                     });
                 });
                 // console.log(Videos);
-                if(Videos.length>0){
+                if (Videos.length > 0) {
                     return Videos[0];
                 }
-                return null; 
+                return null;
             }
 
             // get prev video
@@ -425,16 +428,16 @@ if (!Auth::isLogin()) {
                 const Videos = [];
                 videos.forEach(element => {
                     element.forEach(e => {
-                        if(e['section_id'] <= sectionid && e['id'] < videoid){
+                        if (e['section_id'] <= sectionid && e['id'] < videoid) {
                             Videos.push(e);
                         }
                     });
                 });
                 // console.log(Videos);
-                if(Videos.length>0){
-                    return Videos[Videos.length-1];
+                if (Videos.length > 0) {
+                    return Videos[Videos.length - 1];
                 }
-                return null; 
+                return null;
             }
         });
     </script>

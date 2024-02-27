@@ -25,8 +25,8 @@ class Login{
             $this->User = new User();
         }
         catch(Exception $e){
-            header('Location: '. "../views/Login.php");
             $_SESSION['error'] = $e->getMessage();
+            header('Location: '. "../views/Login.php");
         }
     }
 
@@ -48,7 +48,7 @@ class Login{
         else{
             $row = $user->fetch_assoc();
             if(Auth::Login($row,$this->password)){
-                $_SESSION['successmsg'] = "Logged in successfully";
+                $_SESSION['success'] = "Logged in successfully";
                 header('Location: '. "../views/Courses.php");
             }
             else{

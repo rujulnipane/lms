@@ -3,6 +3,11 @@
 include("../models/CourseModel.php");
 include_once("SectionModel.php");
 include_once("../models/VideoModel.php");
+include_once("Auth.php");
+
+if(!Auth::isLogin()){
+    header("Location" . "../views/Login.php");
+}
 class GetCourse{
     private $course;
     private $sections;

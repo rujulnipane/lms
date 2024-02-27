@@ -1,15 +1,14 @@
 
 <?php
 session_start();
-if(!file_exists("../config.php")){
-    header('Location: '. "./adminReg.php");
-    echo "file exists";
-}
+include("../controllers/Auth.php");
+
 if (isset($_SESSION['error'])) {
     $error_message = $_SESSION['error'];
     unset($_SESSION['error']); 
 }
-if(isset($_SESSION["username"])){
+
+if(Auth::isLogin()){
     header('Location: '. "./Courses.php");
 }
 
@@ -29,20 +28,21 @@ if (isset($_SESSION['success'])) {
 
 <body>
 
-    <div class="container flex-column justify-center">
+    <div class="container flex-column justify-content-center vh-100">
     <?php if (isset($error_message)) : ?>
         <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
     <?php endif; ?>
     <?php if (isset($success)) : ?>
         <p style="color: green;"><?php echo htmlspecialchars($success); ?></p>
     <?php endif; ?>
-        <h1 class="text-center">Welcome to Learning Management System</h1>
-        <div class="card bg-light">
-            <article class="card-body mx-auto" style="width: 50%;">
+    <?php include "partials/_alerts.php" ?>
+        <h1 class="text-center text-info my-4">Welcome to Learning Management System</h1>
+        <div class="card bg-light h-75">
+            <article class="card-body mx-auto h-100 d-flex-column justify-content-around w-50" >
                 <h4 class="card-title mt-3 text-center">Log in to Account</h4>
                 <!-- <p class="text-center">Get started with your account</p> -->
 
-                <form id="loginform" action="../controllers/LoginController.php" method="post">
+                <form id="loginform" class="mt-5" action="../controllers/LoginController.php" method="post">
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-user"></i> </span>

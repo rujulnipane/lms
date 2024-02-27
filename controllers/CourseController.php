@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 include "../models/CourseModel.php";
 include "Auth.php";
 

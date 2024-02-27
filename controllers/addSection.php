@@ -5,6 +5,11 @@
 include_once("../models/SectionModel.php");
 include_once("../models/CourseModel.php");
 include_once("../models/File.php");
+include_once("Auth.php");
+
+if(!Auth::isLogin()){
+    header("Location" . "../views/Login.php");
+}
 class AddSection{
 
     private $course_id;
