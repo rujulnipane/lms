@@ -221,6 +221,7 @@ $(document).ready(function () {
         var formData = new FormData($("#uploadVideoForm")[0]);
         var sectionId = $('#sectionIdInput').val();
         var videotitle = $('#video-title').val();
+        console.log(videotitle);
         formData.append('sectionId', sectionId);
         formData.append('courseId', courseId);
         formData.append('video-title', videotitle);
@@ -232,7 +233,7 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function (res) {
-                console.log(res);
+                // console.log(res);
                 location.reload();
             },
             error: function (xhr, status, error) {

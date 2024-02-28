@@ -24,6 +24,7 @@ class AddVideo
             $this->section_id = $_POST['sectionId'];
             $this->course_id = $_POST['courseId'];
             $this->video_title = $_POST['video-title'];
+            // echo json_encode($_POST);   
         }
         else{
             header('Location:' . '../views/partials/404.php');

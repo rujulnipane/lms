@@ -24,11 +24,12 @@ if (!Auth::isLogin()) {
                 <a class="btn btn-success" href="createCourse.php">Create New Course</a>
             </div>
         <?php endif; ?>
-        <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative;">
-            <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
+        <div class="container mx-auto mt-4" style="position: relative;">
+            <div class="row">
 
             </div>
         </div>
+        
     </main>
     
     <script src="scripts/courses.js"></script>
