@@ -59,6 +59,23 @@ if (!Auth::isAdminUser()) {
         </div>
     </div>
 
+    <div class="toast" id="myToast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+    <div class="toast-header">
+        <strong class="me-auto">Notification</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body" id="toastBody">
+        This is a sample message.
+    </div>
+</div>
+
+
+<div class="alert alert-success alert-dismissible fade show" role="alert" id="myAlert" style="display: none;">
+  <span id="alertMessage"></span>
+  <button type="button" class="btn-close" aria-label="Close" onclick="closeAlert()"></button>
+</div>
+
+
     <?php include "partials/_addVideoModal.php" ?>
     <?php include "partials/_addSectionModal.php" ?>
     <?php include "partials/_footer.php"; ?>

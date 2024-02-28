@@ -42,11 +42,13 @@
     transition: opacity 0.3s ease;
 }
 
+.card {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
 .card:hover .btn-delete {
     opacity: 1;
 } 
 
 .card:hover {
     transform: scale(1.05);
-    
 } 
