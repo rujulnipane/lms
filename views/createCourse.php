@@ -28,7 +28,7 @@ if (isset($_SESSION['error'])) {
 
     <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-md-6 bg-light text-info pb-2 shadow rounded-lg">
+            <div class="col-md-6 bg-dark text-light text-info pb-2 shadow rounded-lg my-4 py-4">
                 <h2 class="mb-4 text-center">Create Course</h2>
                 <form action="../controllers/CreateCourse.php" method="post" enctype="multipart/form-data">
                     <div class="form-group">

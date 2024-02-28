@@ -19,15 +19,17 @@ if (isset($_SESSION['details'])) {
 <?php include 'partials/_header.php'?>
 <body>
 
-    <div class="container">
-        <?php if (isset($error_message)) : ?>
-            <p style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
-        <?php endif; ?>
+    <div class="container vh-100 d-flex flex-column justify-content-center align-items-center">
+        
         <?php include 'partials/_alerts.php'?>
-        <div class="card bg-light">
-            <article class="card-body mx-auto" style="width: 50%;">
+        <h2 class="text-center text-info my-4">Welcome to Learning Management System</h2>
+        <div class="card bg-light h-75 w-75 bg-dark text-light">
+            <article class="card-body mx-auto d-flex flex-column w-50 justify-content-center" style="width: 50%;">
                 <h4 class="card-title mt-3 text-center">Create Account</h4>
                 <p class="text-center">Get started with your account</p>
+                <?php if (isset($error_message)) : ?>
+            <p class="text-center" style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
+        <?php endif; ?>
                 <form id="registrationForm" action="../controllers/RegistrationController.php" method="post" onsubmit="return validateForm()">
                     <div class="form-group input-group">
                         <div class="input-group-prepend">

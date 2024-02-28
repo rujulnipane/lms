@@ -12,15 +12,20 @@ if(isset($_SESSION['success'])){
 
 ?>
 <?php if (isset($error)) : ?>
-  <div class="alert alert-danger alert-dismissible fade show vw-75" role="alert">
-      <?php echo htmlspecialchars($error); ?>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <div class="container d-flex justify-content-center mt-4">
+    <div class="alert alert-danger alert-dismissible fade show w-50" role="alert">
+        <?php echo htmlspecialchars($error); ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
   </div>
 <?php endif; ?>
 
 <?php if (isset($success)) : ?>
-  <div class="alert alert-success alert-dismissible fade show vw-75" role="alert">
-      <?php echo htmlspecialchars($success); ?>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <div class="container d-flex justify-content-center mt-4">
+    <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
+        <?php echo htmlspecialchars($success); ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
   </div>
 <?php endif; ?>
+
