@@ -9,14 +9,18 @@ if (Auth::isAdminUser()) {
 ?>
 <?php include 'partials/_header.php' ?>
 
-
+<style>
+    body{
+        background:rgb(14 77 92);
+    }
+</style>
 <body>
     <?php include "partials/navbar.php" ?>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3 shadow-sm p-2 mb-5 rounded">
                 <div class="navbar">
-                    <h2>Course Contents</h2>
+                    <h2 class="text-light">Course Contents</h2>
                     <div class="accordion w-100" id="accordionExample">
                     </div>
                 </div>

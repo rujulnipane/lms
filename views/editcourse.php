@@ -13,7 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 ?>
 <?php include 'partials/_header.php' ?>
-
+<style>
+    body{
+        background:rgb(14 77 92);
+    }
+</style>
 <body>
     <?php include 'partials/navbar.php' ?>
     <div class="container my-2">
@@ -25,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-md-6 bg-light text-info pb-2 shadow rounded-lg">
+            <div class="col-md-6 bg-dark text-light text-info pb-2 shadow rounded-lg my-4 py-4">
                 <h2 class="mb-4 text-center">Update Course <?= $_SESSION['course']["title"] ?></h2>
                 <form action="../controllers/updateCourse.php" method="post" enctype="multipart/form-data">
                     <div class="form-group">

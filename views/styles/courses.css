@@ -1,20 +1,20 @@
 
-:root {
+/* :root {
     --gradient: linear-gradient(to left top, #DD2476 10%, #FF512F 90%) !important;
-  }
+  } */
   
   body {
     background:rgb(14 77 92)!important;
   }
   
   .card {
-    background: #222;
+    /* background: #222; */
     border: 1px solid #dd2476;
-    color: rgba(250, 250, 250, 0.8);
-    margin-bottom: 2rem;
+    /* color: rgba(250, 250, 250, 0.8); */
+    /* margin-bottom: 3rem; */
   }
   
-  .btn {
+  /* .btn {
     border: 5px solid;
     border-image-slice: 1;
     background: var(--gradient) !important;
@@ -23,16 +23,16 @@
     border-image-source:  var(--gradient) !important; 
     text-decoration: none;
     transition: all .4s ease;
-  }
+  }  */
   
-  .btn:hover, .btn:focus {
+  /* .btn:hover, .btn:focus {
         background: var(--gradient) !important;
     -webkit-background-clip: none !important;
     -webkit-text-fill-color: #fff !important;
     border: 5px solid #fff !important; 
     box-shadow: #222 1px 0 10px;
     text-decoration: underline;
-  }
+  } */
 .btn-delete {
     position: absolute;
     top: 10px;
@@ -42,13 +42,40 @@
     transition: opacity 0.3s ease;
 }
 
+.btn-edit {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
 .card {
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
-.card:hover .btn-delete {
+.card:hover .btn-delete{
     opacity: 1;
+} 
+.card:hover .btn-edit{
+  opacity: 1;
 } 
 
 .card:hover {
     transform: scale(1.05);
 } 
+
+
+.card-text.truncated {
+  max-height: calc(2 * var(--lh));
+  overflow: hidden;
+}
+
+/* .card-body {
+  position: relative;
+}
+
+.show-more-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+} */

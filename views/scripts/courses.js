@@ -1,30 +1,23 @@
 $(document).ready(function () {
+    let courses = [];
+    $('#spinner').show();
     $.get(
         "../controllers/CourseController.php",
         function (response) {
-            let courses = response;
+            $('#spinner').hide();
+            courses = response;
             console.log(courses);
             courses.forEach(function (course) {
-
-const coursecard = `
-    <div class="col-md-4 d-flex justify-content-center align-items-center my-2" data-course-id=${course['id']}>
-        <div class="card h-100 w-100" style="width: 18re;">
-        <?php if(Auth::isAdminUser()) : ?>
-    <a href="#" class="btn-delete" aria-label="Delete" data-course-id=${course['id']}>
-        <i class="fas fa-trash text-danger"></i>
-    </a>
-    <?php endif; ?>
-            <img src=${course['url']} class="card-img-top" alt="...">
-                <div class="card-body d-flex flex-column justify-content-center">
-                    <h5 class="card-title">${course['title']}</h5>
-                    <p class="card-text">${course['details']}</p>
-                    <a href="Courseadmin.php?id=${course['id']}" class="btn mr-2"><i class="fas fa-link"></i> View Course</a>
-                </div>
-        </div>
-    </div>
-`
-
-                $(".row").append(coursecard);
+                const cardTemplate = $("#admin-card").length ? $("#admin-card") : $("#user-card");
+                const newCard = cardTemplate.clone().appendTo(".row");
+                newCard.attr("data-course-id", course['id']);
+                newCard.find(".btn-edit").attr("data-course-id", course['id']);
+                newCard.find(".btn-delete").attr("data-course-id", course['id']);
+                newCard.find("img").attr("src", course['url']);
+                newCard.find(".card-title").text(course['title']);
+                newCard.find(".card-text").text(course['details']);
+                newCard.find("a").attr("href", "Courseadmin.php?id=" + course['id']);
+                newCard.removeClass("visually-hidden");
             });
         },
         "json"
@@ -35,17 +28,32 @@ const coursecard = `
     $(document).on("click", ".btn-delete", function (e) {
         e.preventDefault();
         var course_id = $(this).data('course-id');
-        $.post("../controllers/deleteCourse.php",
-            {
-                id: course_id
-            }, function (res, status) {
-                console.log(res);
+        if (confirm("Are you sure you want to delete this Course?")) {
+            $.post("../controllers/deleteCourse.php",
+                {
+                    id: course_id
+                }, function (res, status) {
+                    console.log(res);
 
-            }, 'json').fail(function (xhr, status, error) {
-                console.log(error);
-            })
+                }, 'json').fail(function (xhr, status, error) {
+                    console.log(error);
+                })
 
-        $(this).closest('.col-md-4').remove();
+            $(this).closest('.col-md-4').remove();
+        }
+    });
+
+    $(document).on("click", ".btn-edit", function (e) {
+        e.preventDefault();
+        var course_id = $(this).data('course-id');
+        console.log(course_id);
+        let course = courses.filter(course => course["id"] == course_id);
+        $.post("editcourse.php", {
+            course: course
+        }, function (res, status) {
+            window.location.href = "/views/editcourse.php";
+        });
+
     });
 });
 

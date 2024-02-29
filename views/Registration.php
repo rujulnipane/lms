@@ -17,12 +17,17 @@ if (isset($_SESSION['details'])) {
 ?>
 
 <?php include 'partials/_header.php'?>
+<style>
+    body{
+        background:rgb(14 77 92);
+    }
+</style>
 <body>
 
     <div class="container vh-100 d-flex flex-column justify-content-center align-items-center">
         
         <?php include 'partials/_alerts.php'?>
-        <h2 class="text-center text-info my-4">Welcome to Learning Management System</h2>
+        <h2 class="text-center text-light my-4">Welcome to Learning Management System</h2>
         <div class="card bg-light h-75 w-75 bg-dark text-light">
             <article class="card-body mx-auto d-flex flex-column w-50 justify-content-center" style="width: 50%;">
                 <h4 class="card-title mt-3 text-center">Create Account</h4>

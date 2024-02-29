@@ -150,6 +150,7 @@ $(document).ready(function () {
         var sectionId = $(this).data("section-id");
         console.log(sectionId);
         let course_id = $.urlParam('id');
+        if (confirm("Are you sure you want to delete this section?")) {
         $.post(
             "../controllers/deleteSection.php", {
             course_id: course_id,
@@ -157,6 +158,7 @@ $(document).ready(function () {
         },
             function (res, status) {
                 console.log(res);
+                showAlert("Deleted Section successfully!", 3000);
             },
             'json'
         ).fail(function (xhr, status, error) {
@@ -164,11 +166,11 @@ $(document).ready(function () {
         });
 
         $('[data-section-id="' + sectionId + '"]').remove();
-
+    }
     }
 
     function editCourse() {
-        console.log(course);
+       
         $.post("editcourse.php", {
             course: course['course']
         }, function (res, status) {
@@ -179,6 +181,7 @@ $(document).ready(function () {
     // delete course button function
     function deleteCourse() {
         let course_id = $.urlParam('id');
+        if (confirm("Are you sure you want to delete this course?")) {
         $.post("../controllers/deleteCourse.php", {
             id: course_id
         }, function (res, status) {
@@ -188,6 +191,7 @@ $(document).ready(function () {
             'json').fail(function (xhr, status, error) {
                 console.log(error);
             });
+        }
     }
 
     function uploadVideo(e) {
@@ -216,6 +220,7 @@ $(document).ready(function () {
             contentType: false,
             success: function (res) {
                 console.log(res);
+                showAlert("Added new Video!", 3000);
                 getCourseDetails();
             },
             error: function (xhr, status, error) {
@@ -229,16 +234,19 @@ $(document).ready(function () {
         e.preventDefault();
         const videoid = $(this).data('video-id');
         const sectionid = $(this).data('section-id');
+        if (confirm("Are you sure you want to delete this video?")) {
         $.post("../controllers/deleteVideo.php", {
             video_id: videoid,
             section_id: sectionid
         },
             function (res, status) {
                 console.log(res);
+                showAlert("Deleted video Successfully!", 3000);
                 getCourseDetails();
             }, 'json').fail(function (xhr, status, error) {
                 console.log(error);
             })
+        }
     }
 
     function playVideoOnClick(e) {
