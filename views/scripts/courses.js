@@ -46,11 +46,14 @@ $(document).ready(function () {
     $(document).on("click", ".btn-edit", function (e) {
         e.preventDefault();
         var course_id = $(this).data('course-id');
-        console.log(course_id);
+   
         let course = courses.filter(course => course["id"] == course_id);
+    
+        
         $.post("editcourse.php", {
             course: course
         }, function (res, status) {
+           
             window.location.href = "/views/editcourse.php";
         });
 

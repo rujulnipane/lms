@@ -1,7 +1,7 @@
 <?php
 $file = "../config.php";
 if(file_exists($file)){
-    header('Location: '. "./Login.php");  
+    // header('Location: '. "./Login.php");  
     echo "file exists";
 }
 session_start();

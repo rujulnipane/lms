@@ -7,11 +7,12 @@ if (!Auth::isLogin()) {
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (isset($_POST["course"])) {
         $_SESSION["course"] = $_POST["course"];
-        print_r($_SESSION["course"]);
+        echo json_encode($_SESSION["course"]);
     }
 }
 
 ?>
+
 <?php include 'partials/_header.php' ?>
 <style>
     body{

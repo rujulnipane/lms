@@ -43,7 +43,6 @@ class Database
         if ($this->conn->connect_error) {
             throw new Exception('Connection error: ' . $this->conn->connect_error);
         }
-        // echo "connected";
     }
 
     public function closeConnection()
@@ -171,43 +170,27 @@ class Database
             $stmt->execute();
             $stmt->close();
         }
-        // echo json_encode(array($sql)) ."";
     }
 
 
     public function initializeDatabase()
     {
-        $this->conn = new mysqli("localhost", "root", "root");
-        if (!$this->conn->connect_error) {
-            echo "connected successfully";
-        } else {
+        $this->conn = new mysqli($this->server, $this->dbUser, $this->dbPassword);
+        if ($this->conn->connect_error) {
             throw new Exception("Connection failed" . $this->conn->connect_error);
         }
 
-        $sql_user = "CREATE USER '$this->dbUser'@'$this->server' IDENTIFIED BY '$this->dbPassword'";
-        if ($this->conn->query($sql_user) === TRUE) {
-            echo "Created User Successfully";
-        } else {
-            throw new Exception("User Creation Failed" . $this->conn->error);
-        }
         $sql_db = "Create DATABASE $this->dbName";
         if ($this->conn->query($sql_db) === TRUE) {
             echo "Database created successfully";
         } else {
             throw new Exception("Dtabase not created" . $this->conn->error);
         }
-
-        $grant = "GRANT ALL ON *.* TO '$this->dbUser'@'localhost'";
-        if ($this->conn->query($grant) === TRUE) {
-            echo "Granted priviliges";
-        } else {
-            throw new Exception("priviliges failed" . $this->conn->error);
-        }
-        $this->conn->close();
+        $this->createTables();
     }
     public function createTables()
     {
-        echo "USER";
+        $this->getConnection();
         $table_user = "CREATE TABLE USER(
             id INT PRIMARY KEY AUTO_INCREMENT, 
             username VARCHAR(255) UNIQUE, email VARCHAR(255) UNIQUE, 
@@ -240,30 +223,22 @@ class Database
             FOREIGN KEY (section_id) REFERENCES SECTION(id) ON DELETE CASCADE ON UPDATE CASCADE
         )";
 
-        if ($this->conn->query($table_user) === TRUE) {
-            echo "User table created successfully";
-        } else {
+        if (!$this->conn->query($table_user)) {
             throw new Exception("Cannot create user table" . $this->conn->error);
         }
 
-        if ($this->conn->query($table_courses) === TRUE) {
-            echo "Courses created successfully";
-        } else {
+        if (!$this->conn->query($table_courses)) {
             throw new Exception("Cannot create course table" . $this->conn->error);
         }
 
-        if ($this->conn->query($table_section) === TRUE) {
-            echo "Section table created successfully";
-        } else {
+        if (!$this->conn->query($table_section)) {
             throw new Exception("Cannot create section table" . $this->conn->error);
         }
 
-        if ($this->conn->query($table_video) === TRUE) {
-            echo "Video table created successfully";
-        } else {
+        if (!$this->conn->query($table_video)) {
             throw new Exception("Cannot create video table" . $this->conn->error);
         }
-        $this->conn->close();
+        $this->createAdminUser();
     }
 
     public function createAdminUser()
@@ -273,11 +248,9 @@ class Database
         ];
         $hashed_password = password_hash($this->adminpass, PASSWORD_BCRYPT, $options);
         $admin_user = "INSERT INTO USER (username, email, password, isAdmin) VALUES('$this->adminuser','$this->email','$hashed_password','yes')";
-        if ($this->conn->query($admin_user) === TRUE) {
-            echo "Admin User created successfully";
-        } else {
+        if (!$this->conn->query($admin_user)) {
             throw new Exception("Cannot create admin user" . $this->conn->error);
         }
-        $this->conn->close();
+        $this->closeConnection();
     }
 }

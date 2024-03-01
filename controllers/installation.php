@@ -1,8 +1,5 @@
 <?php
 
-
-
-
 include_once("../models/installationModel.php");
 
 $file_path = "../config.php";
@@ -31,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header('Location:' . '../views/partials/404.php');
 }
 
-// $config = fopen("../config.txt", "w") or die("Unable to open file!");
+
 $config = fopen("../config.php", "w") or die("Unable to open file!");
 
 $content = <<<EOD
@@ -48,22 +45,12 @@ $content = <<<EOD
 ?>
 EOD;
 
-// $content = "server=localhost \nuser=$user \nemail=$email \npassword=$password \ndbname=$dbname";
 fwrite($config, $content);
 fclose($config);
 
 try{
-    $install = new Installation();
-}
-catch(Exception $e){
-    
-    $_SESSION['error'] = $e->getMessage();
-    header('Location: '. "../views/adminReg.php");
-    exit;
-}
-
-try{
-    $install->initialize();
+    Installation::initialize();
+    header('Location: '. "../views/welcome.php");
 }
 catch(Exception $e){
     $_SESSION['error'] = $e->getMessage();
@@ -71,26 +58,10 @@ catch(Exception $e){
     exit;
 }
 
-try{
-    $install->createTables();
-}
-catch(Exception $e){
-    $_SESSION['error'] = $e->getMessage();
-    header('Location: '. "../views/adminReg.php");
-    exit;
-}
 
-try{
-    $install->createAdminUser();
-}
-catch(Exception $e){
-   
-    $_SESSION['error'] = $e->getMessage();
-    header('Location: '. "../views/adminReg.php");
-    exit;
-}
 
-header('Location: '. "../views/welcome.php");
+
+
 
 
 
