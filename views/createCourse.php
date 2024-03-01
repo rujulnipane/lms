@@ -14,13 +14,6 @@ if (isset($_SESSION['error'])) {
 
 ?>
 
-<?php include 'partials/_header.php' ?>
-<style>
-    body{
-        background:rgb(14 77 92);
-    }
-</style>
-<body>
     <?php include "partials/navbar.php" ?>
 
     <?php if (isset($error_message)) : ?>

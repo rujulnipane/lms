@@ -25,11 +25,6 @@ if (isset($_SESSION['success'])) {
 ?>
 
 <?php include 'partials/_header.php'?>
-<style>
-    body{
-        background:rgb(14 77 92);
-    }
-</style>
 <body>
 <div class="container vh-100 d-flex flex-column justify-content-center align-items-center">
     <?php include "partials/_alerts.php" ?>

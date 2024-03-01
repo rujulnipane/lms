@@ -92,7 +92,6 @@ $(document).ready(function () {
 
                 videos.forEach(element => {
                     element.forEach(e => {
-                        // console.log(e['title']);
                         var videoElement = ` <div class="video-item mb-2 d-flex justify-content-between border-bottom">
                     <div>
                     <i class="fas fa-video"></i>

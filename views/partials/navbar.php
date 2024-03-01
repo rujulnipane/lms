@@ -2,25 +2,33 @@
 session_start();
 $user = $_SESSION["username"];
 ?>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid d-flex justify-space-between">
-      <a class="navbar-brand" href="Courses.php">LMS</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="">Welcome <?=$user?></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="../controllers/Logout.php">Logout</a>
-          </li>
-        </ul>
-      </div>
-      <!-- <form class="d-flex">
-        <input class="form-control me-2 mx-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form> -->
+<?php include("_header.php");?>
+
+<body>
+  <header class="p-3 border-bottom">
+<div class="container">
+  <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+    <a href="Courses.php" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none  navbar-brand text-light">
+      LMS
+    </a>
+
+    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 text-light">
+      <li><a href="Courses.php" class="nav-link px-2 link-secondary">Home</a></li>
+      <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+     
+    </ul>
+
+    <div class="dropdown text-end">
+      <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+        <!-- <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle"> --><?= $user ?>
+      </a>
+      <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+        <li><a class="dropdown-item" href="#">Create New Course</a></li>
+        <li><a class="dropdown-item" href="#">Profile</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="../controllers/Logout.php">Loguot</a></li>
+      </ul>
     </div>
-  </nav>
+  </div>
+</div>
+</header>

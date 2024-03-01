@@ -7,14 +7,7 @@ if (Auth::isAdminUser()) {
     header('Location: ' . "./Courseadmin.php");
 }
 ?>
-<?php include 'partials/_header.php' ?>
 
-<style>
-    body{
-        background:rgb(14 77 92);
-    }
-</style>
-<body>
     <?php include "partials/navbar.php" ?>
     <div class="container-fluid">
         <div class="row">
