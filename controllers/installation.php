@@ -27,10 +27,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header('Location:' . '../views/partials/404.php');
 }
 
-if (chmod(__FILE__, 0777)) {
-} else {
-    header('Location: '. "../views/adminReg.php");
-}
+// if (chmod("../", 0777)) {
+// } else {
+//     header('Location: '. "../views/adminReg.php");
+// }
 
 $config = fopen("../config.php", "w") or die(header('Location: '. "../views/adminReg.php"));
 

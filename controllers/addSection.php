@@ -1,7 +1,5 @@
 <?php
 
-
-
 include_once("../models/SectionModel.php");
 include_once("../models/CourseModel.php");
 include_once("../models/File.php");
@@ -54,11 +52,9 @@ class AddSection{
 
         
         try{
-            File::createDir($target_dir);
+            File::createDir($_SERVER['DOCUMENT_ROOT'] . $target_dir);
         }
         catch( Exception $e)    {
-            header('Location: ' . "../views/createCourse.php");
-            $_SESSION["error"] = $e->getMessage();
             json_encode(array("error"=> $e->getMessage()));
             exit;
         }
@@ -74,7 +70,6 @@ class AddSection{
 
 
 $addobj = new AddSection();
-
 $addobj->createSection();
 
 

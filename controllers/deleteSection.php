@@ -33,7 +33,7 @@ class DeleteSection{
         try{
             $result = $this->Section->getSection($this->section_id, $this->course_id);
             $section = $result->fetch_assoc();
-            File::deleteDir($section['section_url']);
+            File::deleteDir($_SERVER['DOCUMENT_ROOT'] . $section['section_url']);
         }
         catch(Exception $e){
             echo json_encode(array("error"=> $e->getMessage()));

@@ -67,7 +67,7 @@ $(document).ready(function () {
                         const cardTemplate = $("#admin-section").length ? $("#admin-section") : $("#user-section");
                         const newCard = cardTemplate.clone().appendTo("#sectionContainer");
                         newCard.attr("data-section-id", sectionId);
-                        newCard.find(".btn-toggle").text(sectionTitle);
+                        newCard.find(".btn-toggle").html(`<i class="fa-light fa-greater-than arrow-icon"></i>` + sectionTitle);
                         newCard.find(".delete-section-btn").attr("data-section-id", sectionId);
                         newCard.find(".btn-toggle").attr("data-bs-target", "#section-" + sectionId);
                         newCard.find(".collapse").attr("id", "section-" + sectionId);
@@ -83,16 +83,24 @@ $(document).ready(function () {
                         videoElement.find(".video-link").attr("data-video-url", e["video_url"]);
                         videoElement.find(".video-link").attr("data-video-id", e["id"]);
                         videoElement.find(".video-link").attr("data-video-title", e["title"]);
-                        videoElement.find(".video-link").text( e["title"]);
+                        videoElement.find(".video-link").text(e["title"]);
                         videoElement.find(".video-link").attr("data-section-id", e["section_id"]);
                         videoElement.find("#delete-video").attr("data-video-id", e["id"]);
                         videoElement.find("#delete-video").attr("data-section-id", e["section_id"]);
                     });
-                })
+                });
+                var video = $("#video-item");
+                var video_title = $("#video-title");
+                video_title.html(videos[0][0]['title']);
+                video.attr("src", videos[0][0]['video_url']);
+                video.attr("data-section-id", videos[0][0]['section_id']);
+                video.attr("data-video-id", videos[0][0]['id']);
+                // video[0].load();
                 var links = document.querySelectorAll('.video-link');
                 links.forEach(function (link) {
                     link.style.color = 'black';
                 });
+                
             },
             'json'
         ).fail(function (xhr, status, error) {
@@ -151,7 +159,7 @@ $(document).ready(function () {
         $.post("editcourse.php", {
             course: course['course']
         }, function (res, status) {
-            window.location.href = "/views/editcourse.php";
+            window.location.href = "editcourse.php";
         });
     }
 
@@ -163,7 +171,7 @@ $(document).ready(function () {
                 id: course_id
             }, function (res, status) {
                 console.log(res);
-                window.location.href = "/views/Courses.php";
+                window.location.href = "Courses.php";
             },
                 'json').fail(function (xhr, status, error) {
                     console.log(error);
@@ -237,8 +245,8 @@ $(document).ready(function () {
         var sectionid = $(this).data('section-id');
         var videoid = $(this).data('video-id');
         var title = $(this).data('video-title');
-        console.log(sectionid);
-        console.log(videoid);
+        // console.log(sectionid);
+        // console.log(videoid);
         var video = $("#video-item");
         var video_title = $("#video-title");
         video_title.html(title);

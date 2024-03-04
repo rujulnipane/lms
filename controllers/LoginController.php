@@ -5,7 +5,7 @@ include "Auth.php";
 
 if(!Auth::isLogin()){
     // $_SESSION["error"] = "Login First";
-    header('Location: '. "../views/Courses.php");
+    header('Location: '. "../views/Login.php");
 }
 
 session_start();

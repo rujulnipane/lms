@@ -56,8 +56,9 @@ class CreateCourse
     }
     
     public function uploadFiles()
-    {
-        $target_dir = "..uploads/Courses/";
+    {   
+        $target_dir = "/uploads/Courses/";
+        $target_dir = "/uploads/Courses/";
         $coursetitle = strtolower(str_replace(' ', '', $this->courseTitle));
         $current_date_time = date('YmdHis');
         $filename = $coursetitle . $current_date_time;
@@ -66,8 +67,7 @@ class CreateCourse
         $target_dir .= $targetfile . "/";
 
         try{
-            File::createDir($target_dir);
-            chmod($target_dir,0777);
+            File::createDir($_SERVER['DOCUMENT_ROOT'] . $target_dir);
         }
         catch( Exception $e)    {
             header('Location: ' . "../views/createCourse.php");
@@ -79,7 +79,7 @@ class CreateCourse
             $target_file = $target_dir . basename($_FILES['courseImg']['name']);
             try{
                 echo $target_file;
-                File::uploadFile($_FILES["courseImg"]["tmp_name"], $target_file);
+                File::uploadFile($_FILES["courseImg"]["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . $target_file);
                 $this->courseImgurl = $target_file;
             }
             catch( Exception $e) {
@@ -94,8 +94,7 @@ class CreateCourse
         $targetsection = substr($hashedcode, 0, 6);
         $sectiondir = $target_dir . $targetsection . "/";
         try{
-            File::createDir($sectiondir);
-            chmod($sectiondir,0777);
+            File::createDir( $_SERVER['DOCUMENT_ROOT'] . $sectiondir);
             $this->sectionUrl = $sectiondir;
         }
         catch( Exception $e)    {

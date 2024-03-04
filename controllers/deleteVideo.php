@@ -16,7 +16,6 @@ class DeleteVideo{
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $this->video_id = $_POST['video_id'];
             $this->section_id = $_POST['section_id'];
-            
         }
         else{
             header('Location:' . '../views/partials/404.php');
@@ -27,7 +26,7 @@ class DeleteVideo{
             $videoobj = new Video();
             $result = $videoobj->getVideo($this->video_id, $this->section_id);
             $video = $result->fetch_assoc();
-            File::deleteFile($video['video_url']);
+            File::deleteFile($_SERVER['DOCUMENT_ROOT'] . $video['video_url']);
             $videoobj->deleteVideo($this->video_id, $this->section_id);
             echo json_encode(array('msg'=>'deleted Video successfully'));
         }

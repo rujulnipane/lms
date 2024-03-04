@@ -71,7 +71,7 @@ class AddVideo
             //     // echo "Error creating symbolic link.";
             // }
              try {
-                 File::uploadFile($_FILES["videoFile"]["tmp_name"], $target_file);
+                 File::uploadFile($_FILES["videoFile"]["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . $target_file);
              } catch (Exception $e) {
                  echo json_encode(array("error" => $e->getMessage()));
                  exit;

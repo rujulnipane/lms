@@ -17,7 +17,7 @@ include("partials/navbar.php");
         <span id="alertMessage"></span>
         <button type="button" class="btn-close" aria-label="Close" onclick="closeAlert()"></button>
     </div>
-    <div class="d-grid gap-3" style="grid-template-columns: 1fr 3fr;">
+    <div class="d-grid gap-2" style="grid-template-columns: 1fr 3fr;">
         <div class="bg-light border rounded-3">
             <div class="flex-shrink-0 p-3 bg-white">
                 <a href="" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
@@ -34,7 +34,7 @@ include("partials/navbar.php");
                 <?php endif; ?>
             </div>
         </div>
-        <div class="bg-light border rounded-3">
+        <div class="bg-light rounded-3">
             <div class="d-sm-flex align-items-center justify-content-between m-2">
                 <h1 class="h3 mb-0 text-gray-800" id="course-title">Course Title</h1>
                 <?php if (Auth::isAdminUser()) : ?>
@@ -51,12 +51,12 @@ include("partials/navbar.php");
             <div class="row justify-content-center">
 
                 <div class="col-xl-12 col-lg-7">
-                    <div class="card shadow mb-4">
+                    <div class="card">
                         <div class="card-header py-2 d-flex flex-row align-items-center justify-content-between text-center">
                             <h6 class="m-0 font-weight-bold text-primary" id="video-title"></h6>
 
                         </div>
-                        <div class="card-body f-flex justify-content-center">
+                        <div class="card-body d-flex justify-content-center">
                             <video controls autoplay id="video-item" class="video-item w-75 h-75 border rounded">
 
                             </video>
@@ -64,7 +64,7 @@ include("partials/navbar.php");
                     </div>
                 </div>
 
-                <div class="col-xl-10 col-lg-7 d-flex justify-content-between p-2" role="group" aria-label="Basic example">
+                <div class="col-xl-11 col-lg-7 d-flex justify-content-between p-2" role="group" aria-label="Basic example">
                     <button type="button" id="prev-video-btn" class="btn btn-primary">Prev</button>
                     <button type="button" id="next-video-btn" class="btn btn-primary">next</button>
                 </div>
@@ -75,9 +75,10 @@ include("partials/navbar.php");
 
 <?php if (Auth::isAdminUser()) : ?>
     <li class="mb-1 visually-hidden" id="admin-section" data-section-id="">
-        <div class="d-flex justify-content-between bg-dark text-light rounded">
+        <div class="d-flex justify-content-between bg-dark rounded">
+            
             <button class="btn btn-toggle align-items-center rounded collapsed text-light" data-bs-toggle="collapse" data-bs-target="" aria-expanded="false">
-            <i class="fas fa-chevron-down text-light"></i> 
+            
         </button>
             <button class="btn btn-danger delete-section-btn" data-section-id="">
                 <i class="fas fa-trash"></i>
@@ -87,7 +88,7 @@ include("partials/navbar.php");
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small video-list">
 
             </ul>
-            <button class="btn btn-primary add-video-btn btn-sm">Add Video</button>
+            <button class="btn btn-primary add-video-btn btn-sm mb-1">Add Video</button>
         </div>
     </li>
 
@@ -108,7 +109,7 @@ include("partials/navbar.php");
 <?php else : ?>
     <li class="mb-1 visually-hidden" id="user-section" data-section-id="">
         <button class="btn btn-toggle align-items-center bg-dark text-light rounded collapsed" data-bs-toggle="collapse" data-bs-target="" aria-expanded="false">
-        <i class="fas fa-chevron-down"></i> 
+        <i class="fa-solid fa-angle-down"></i> 
         </button>
         <div class="collapse show mt-2" id="" style="">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small video-list">

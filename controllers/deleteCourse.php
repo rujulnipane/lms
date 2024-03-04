@@ -1,27 +1,32 @@
-<?php 
+<?php
 
 include("../models/CourseModel.php");
 include("../models/File.php");
-class DeleteCourse{
+class DeleteCourse
+{
     private $id;
-    public function __construct(){
+    public function __construct()
+    {
 
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->id = $_POST['id'];
-        }
-        else{
+        } else {
             header('Location:' . '../views/partials/404.php');
         }
     }
-    public function deleteCourese(){
-        $courseobj = new Course();
-        $result = $courseobj->getCourseById($this->id);
-        $course = $result->fetch_assoc();
-        $title = dirname($course['url']);
-        // echo json_encode($title);
-        File::deleteDir($title);
-        $courseobj->deleteCourse($this->id);
-        echo json_encode(array("success"=>true,"message"=> "Deleted Course Successfully"));
+    public function deleteCourese()
+    {
+        try {
+            $courseobj = new Course();
+            $result = $courseobj->getCourseById($this->id);
+            $course = $result->fetch_assoc();
+            $title = dirname($course['url']);
+            File::deleteDir($_SERVER['DOCUMENT_ROOT'] . $title);
+            $courseobj->deleteCourse($this->id);
+            echo json_encode(array("success" => true, "message" => "Deleted Course Successfully"));
+        } catch (Exception $e) {
+            echo json_encode(array("success" => false, "message" => $e->getMessage()));
+        }
     }
 }
 
