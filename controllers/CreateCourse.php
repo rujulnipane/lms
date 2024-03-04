@@ -57,8 +57,7 @@ class CreateCourse
     
     public function uploadFiles()
     {
-        $target_dir = "../uploads/Courses/";
-        $target_dir = "../uploads/Courses/";
+        $target_dir = "..uploads/Courses/";
         $coursetitle = strtolower(str_replace(' ', '', $this->courseTitle));
         $current_date_time = date('YmdHis');
         $filename = $coursetitle . $current_date_time;
@@ -68,6 +67,7 @@ class CreateCourse
 
         try{
             File::createDir($target_dir);
+            chmod($target_dir,0777);
         }
         catch( Exception $e)    {
             header('Location: ' . "../views/createCourse.php");
@@ -95,6 +95,7 @@ class CreateCourse
         $sectiondir = $target_dir . $targetsection . "/";
         try{
             File::createDir($sectiondir);
+            chmod($sectiondir,0777);
             $this->sectionUrl = $sectiondir;
         }
         catch( Exception $e)    {

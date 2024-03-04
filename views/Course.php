@@ -29,13 +29,15 @@ include("partials/navbar.php");
                 <ul class="list-unstyled" id="sectionContainer">
 
                 </ul>
+                <?php if (Auth::isAdminUser()) : ?>
                 <button class="btn btn-success mt-3 float-end" data-bs-toggle="modal" data-bs-target="#addSectionModal">Add New Section</button>
-
+                <?php endif; ?>
             </div>
         </div>
         <div class="bg-light border rounded-3">
             <div class="d-sm-flex align-items-center justify-content-between m-2">
                 <h1 class="h3 mb-0 text-gray-800" id="course-title">Course Title</h1>
+                <?php if (Auth::isAdminUser()) : ?>
                 <div class="" role="group" aria-label="Basic example">
                     <button class="btn btn-danger me-2" id="delete-course-btn">
                         <i class="fas fa-trash"></i> Delete
@@ -44,6 +46,7 @@ include("partials/navbar.php");
                         <i class="fas fa-edit"></i> Edit
                     </button>
                 </div>
+                <?php endif; ?>
             </div>
             <div class="row justify-content-center">
 
@@ -104,10 +107,10 @@ include("partials/navbar.php");
 
 <?php else : ?>
     <li class="mb-1 visually-hidden" id="user-section" data-section-id="">
-        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="" aria-expanded="false">
+        <button class="btn btn-toggle align-items-center bg-dark text-light rounded collapsed" data-bs-toggle="collapse" data-bs-target="" aria-expanded="false">
         <i class="fas fa-chevron-down"></i> 
         </button>
-        <div class="collapse show" id="" style="">
+        <div class="collapse show mt-2" id="" style="">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small video-list">
 
             </ul>

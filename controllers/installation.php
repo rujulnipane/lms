@@ -27,8 +27,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header('Location:' . '../views/partials/404.php');
 }
 
+if (chmod(__FILE__, 0777)) {
+} else {
+    header('Location: '. "../views/adminReg.php");
+}
 
-$config = fopen("../config.php", "w") or die("Unable to open file!");
+$config = fopen("../config.php", "w") or die(header('Location: '. "../views/adminReg.php"));
 
 $content = <<<EOD
 <?php

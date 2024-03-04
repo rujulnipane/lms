@@ -16,7 +16,7 @@ $(document).ready(function () {
                 newCard.find("img").attr("src", course['url']);
                 newCard.find(".card-title").text(course['title']);
                 newCard.find(".card-text").text(course['details']);
-                newCard.find("a").attr("href", "tp.php?id=" + course['id']);
+                newCard.find("a").attr("href", "Course.php?id=" + course['id']);
                 newCard.removeClass("visually-hidden");
             });
         },

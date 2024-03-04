@@ -64,7 +64,7 @@ class AddSection{
         }
         try{
             $id = $this->Section->createSection($this->course_id,$this->sectionTitle, $target_dir);
-            echo json_encode(array("status"=> "success","message"=> "Course Created", "id" => $id));
+            echo json_encode(array("status"=> "success","message"=> "Section Created", "id" => $id));
         }
         catch(Exception $e) {
             json_encode(array('error'=> $e->getMessage()));
