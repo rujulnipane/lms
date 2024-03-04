@@ -7,6 +7,7 @@ class Auth
     public static function isLogin()
     {
         if(!file_exists("../config.php")){
+            Auth::Logout();
             header('Location: '. "../views/adminReg.php");  
             exit;
         }

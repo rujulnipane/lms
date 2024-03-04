@@ -42,7 +42,7 @@ if (!Auth::isAdminUser()) {
                 </header>
             </div>
             <div class="video-container d-flex flex-column justify-content-center align-items-center">
-                <h4 id="video-title" class="text-center text-success mb-4"></h4>
+            <h4 id="video-title" class="text-center text-success mb-4"></h4>
                 <video controls autoplay id="video-item" class="video-item mb-2 w-75 h-75 border rounded">
 
                 </video>

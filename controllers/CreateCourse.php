@@ -29,7 +29,7 @@ class CreateCourse
             $this->courseDes = $_POST['courseDes'];
             
         } else {
-            // header('Location:' . '../views/partials/404.php');
+            header('Location:' . '../views/partials/404.php');
         }
         try {
             $this->Course = new Course();

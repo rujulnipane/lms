@@ -6,6 +6,10 @@ if (!Auth::isLogin()) {
     header('Location: ' . "./Login.php");
 }
 
+if (!Auth::isAdminUser()) {
+    header('Location: ' . "./Courses.php");
+}
+
 
 if (isset($_SESSION['error'])) {
     $error_message = $_SESSION['error'];
@@ -15,13 +19,6 @@ if (isset($_SESSION['error'])) {
 ?>
 
     <?php include "partials/navbar.php" ?>
-
-    <?php if (isset($error_message)) : ?>
-        <div class="alert alert-danger" role="alert">
-            <?php echo htmlspecialchars($error_message); ?>
-        </div>
-    <?php endif; ?>
-
 
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -40,6 +37,11 @@ if (isset($_SESSION['error'])) {
                         <label for="thumbnail">Thumbnail Image:</label>
                         <input type="file" class="form-control-file" name="courseImg" id="thumbnail" accept="image/*" required>
                     </div>
+                    <?php if (isset($error_message)) : ?>
+        <div class="alert alert-danger text-center" role="alert">
+            <?php echo htmlspecialchars($error_message); ?>
+        </div>
+    <?php endif; ?>
                     <button type="submit" class="btn btn-success btn-block">Create Course</button>
                 </form>
             </div>

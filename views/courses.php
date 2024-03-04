@@ -11,9 +11,6 @@ if (!Auth::isLogin()) {
 
 ?>
 
-
-<!-- <link rel="stylesheet" href="styles/courses.css"> -->
-
     <?php include "partials/navbar.php" ?>
     <?php include "partials/_alerts.php" ?>
     <?php if(Auth::isAdminUser()):?>

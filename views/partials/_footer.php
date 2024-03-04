@@ -10,10 +10,10 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="scripts/jquery.min.js"></script>
-<script src="scripts/bootstrap.bundle.min.js"></script>
-<script src="scripts/jquery.easing.min.js"></script>
-<script src="scripts/sb-admin-2.min.js"></script>
+<script src="../scripts/jquery.min.js"></script>
+<script src="../scripts/bootstrap.bundle.min.js"></script>
+<script src="../scripts/jquery.easing.min.js"></script>
+<script src="../scripts/sb-admin-2.min.js"></script>
 </body>
 
 </html>

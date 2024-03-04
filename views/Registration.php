@@ -2,7 +2,7 @@
 session_start();
 if (!file_exists("../config.php")) {
     header('Location: ' . "./adminReg.php");
-    echo "file exists";
+    exit;
 }
 
 if (isset($_SESSION['error'])) {
@@ -16,25 +16,18 @@ if (isset($_SESSION['details'])) {
 }
 ?>
 
-<?php include 'partials/_header.php'?>
-<style>
-    body{
-        background:rgb(14 77 92);
-    }
-</style>
+<?php include 'partials/_header.php' ?>
+
 <body>
 
     <div class="container vh-100 d-flex flex-column justify-content-center align-items-center">
-        
-        <?php include 'partials/_alerts.php'?>
-        <h2 class="text-center text-light my-4">Welcome to Learning Management System</h2>
+
+        <?php include 'partials/_alerts.php' ?>
+        <h2 class="text-center text-dark my-4">Welcome to Learning Management System</h2>
         <div class="card bg-light h-75 w-75 bg-dark text-light">
             <article class="card-body mx-auto d-flex flex-column w-50 justify-content-center" style="width: 50%;">
                 <h4 class="card-title mt-3 text-center">Create Account</h4>
                 <p class="text-center">Get started with your account</p>
-                <?php if (isset($error_message)) : ?>
-            <p class="text-center" style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
-        <?php endif; ?>
                 <form id="registrationForm" action="../controllers/RegistrationController.php" method="post" onsubmit="return validateForm()">
                     <div class="form-group input-group">
                         <div class="input-group-prepend">
@@ -65,6 +58,9 @@ if (isset($_SESSION['details'])) {
                         <input name="cpassword" id="cpassword" class="form-control" placeholder="Repeat password" type="password" required>
                         <div id="cpasswordError" class="invalid-feedback"></div>
                     </div> <!-- form-group// -->
+                    <?php if (isset($error_message)) : ?>
+                        <p class="text-center" style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
+                    <?php endif; ?>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-block"> Create Account </button>
                     </div> <!-- form-group// -->
@@ -75,90 +71,8 @@ if (isset($_SESSION['details'])) {
 
     </div>
 
-    <script>
-        document.getElementById("name").addEventListener("keyup", validateName);
-        document.getElementById("email").addEventListener("keyup", validateEmail);
-        document.getElementById("password").addEventListener("keyup", validatePassword);
-        document.getElementById("cpassword").addEventListener("keyup", validateConfirmPassword);
+    <script src="../scripts/registration.js">
 
-        function validateForm() {
-            var isValid = true;
-            isValid = isValid && validateName();
-            isValid = isValid && validateEmail();
-            isValid = isValid && validatePassword();
-            isValid = isValid && validateConfirmPassword();
-            return isValid;
-        }
-
-        function validateName() {
-            var name = document.getElementById("name").value.trim();
-            var nameError = document.getElementById("nameError");
-
-            if (/[^a-zA-Z0-9]/.test(name)) {
-                nameError.textContent = "Username should only contain letters";
-                nameError.style.display = "block";
-            } else {
-                nameError.style.display = "none";
-            }
-        }
-
-        function validateEmail() {
-            var email = document.getElementById("email").value.trim();
-            var emailError = document.getElementById("emailError");
-            if (email === '') {
-                emailError.textContent = "Email is required";
-                emailError.style.display = "block";
-                return false;
-            } else if (!isValidEmail(email)) {
-                emailError.textContent = "Invalid email format";
-                emailError.style.display = "block";
-                return false;
-            } else {
-                emailError.style.display = "none";
-                return true;
-            }
-        }
-
-        function validatePassword() {
-            var password = document.getElementById("password").value.trim();
-            var passwordError = document.getElementById("passwordError");
-            if (password === '') {
-                passwordError.textContent = "Password is required";
-                passwordError.style.display = "block";
-                return false;
-            } else if (password.length < 5) {
-                passwordError.textContent = "Password must be at least 5 characters long";
-                passwordError.style.display = "block";
-                return false;
-            } else {
-                passwordError.style.display = "none";
-                return true;
-            }
-        }
-
-
-        function validateConfirmPassword() {
-            var password = document.getElementById("password").value.trim();
-            var cpassword = document.getElementById("cpassword").value.trim();
-            var cpasswordError = document.getElementById("cpasswordError");
-            if (cpassword === '') {
-                cpasswordError.textContent = "Please repeat the password";
-                cpasswordError.style.display = "block";
-                return false;
-            } else if (password !== cpassword) {
-                cpasswordError.textContent = "Passwords do not match";
-                cpasswordError.style.display = "block";
-                return false;
-            } else {
-                cpasswordError.style.display = "none";
-                return true;
-            }
-        }
-
-        function isValidEmail(email) {
-            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-        }
     </script>
 
-<?php include "partials/_footer.php";?>
+    <?php include "partials/_footer.php"; ?>

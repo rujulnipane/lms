@@ -43,7 +43,7 @@ if (!Auth::isLogin()) {
 
   <section class="jumbotron text-center">
     <div class="container">
-      <h1 class="jumbotron-heading">Learning Platform</h1>
+      <h1 class="jumbotron-heading">Welcome to the Learning Platform</h1>
       <p class="lead text-muted">We have the most wide ranges of free courses. You can accsee the free videos.</p>
       <?php if (Auth::isAdminUser()) : ?>
         <p>
@@ -63,6 +63,6 @@ if (!Auth::isLogin()) {
 
 </main>
 
-<script src="scripts/courses.js"></script>
+<script src="../scripts/courses.js"></script>
 
 <?php include "partials/_footer.php"; ?>

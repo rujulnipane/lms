@@ -6,7 +6,6 @@ $file_path = "../config.php";
 
 if(file_exists($file_path)){
     header('Location: '. "../views/Login.php");
-    echo "file exists";
 }
 
 

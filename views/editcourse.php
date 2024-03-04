@@ -4,10 +4,13 @@ if (!Auth::isLogin()) {
     header('Location: ' . "./Login.php");
 } 
 
+if (!Auth::isAdminUser()) {
+    header('Location: ' . "./Courses.php");
+}
+
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (isset($_POST["course"])) {
         $_SESSION["course"] = $_POST["course"];
-        echo json_encode($_SESSION["course"]);
     }
 }
 
