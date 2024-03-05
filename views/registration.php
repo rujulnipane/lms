@@ -1,26 +1,19 @@
 <?php
 session_start();
-include("../controllers/Auth.php");
+if (!file_exists("../config.php")) {
+    header('Location: ' . "./adminReg.php");
+    exit;
+}
 
 if (isset($_SESSION['error'])) {
     $error_message = $_SESSION['error'];
     unset($_SESSION['error']);
 }
 
-if (Auth::isLogin()) {
-    header('Location: ' . "./Courses.php");
-}
-
 if (isset($_SESSION['details'])) {
     $userdetails = $_SESSION['details'];
     unset($_SESSION['details']);
 }
-
-if (isset($_SESSION['success'])) {
-    $success = $_SESSION['success'];
-    unset($_SESSION['success']);
-}
-
 ?>
 
 <?php include 'partials/_header.php' ?>
@@ -36,7 +29,7 @@ if (isset($_SESSION['success'])) {
     <div class="row justify-content-center">
         <div class="col-md-7 border">
             <h4 class="mb-3">Enter User Details</h4>
-            <form id="loginform" class="" action="../controllers/LoginController.php" method="post">
+            <form id="registrationForm" action="../controllers/RegistrationController.php" method="post" onsubmit="return validateForm()">
                 <div class="mb-3">
                     <label for="username">Username</label>
                     <div class="input-group">
@@ -44,11 +37,21 @@ if (isset($_SESSION['success'])) {
                             <span class="input-group-text"><i class="fa fa-user"></i></span>
                         </div>
                         <input name="username" id="username" type="text" class="form-control" placeholder="Enter Username" required="">
-                        <div id="usernameError" class="invalid-feedback" style="width: 100%;">
+                        <div id="nameError" class="invalid-feedback" style="width: 100%;">
                         </div>
                     </div>
                 </div>
-
+                <div class="mb-3">
+                    <label for="email">Email</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                        </div>
+                        <input name="email" id="email" type="text" class="form-control" placeholder="Enter Email" required>
+                        <div id="emailError" class="invalid-feedback" style="width: 100%;">
+                        </div>
+                    </div>
+                </div>
                 <div class="mb-3">
                     <label for="password">Password <span class="text-muted">*</span></label>
                     <div class="input-group">
@@ -60,19 +63,32 @@ if (isset($_SESSION['success'])) {
                         </div>
                     </div>
                 </div>
+
+                <div class="mb-3">
+                    <label for="cpassword">Confirm Password <span class="text-muted">*</span></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                        </div>
+                        <input name="cpassword" id="cpassword" type="password" class="form-control" placeholder="Repeat Password" required>
+                        <div id="cpasswordError" class="invalid-feedback">
+                        </div>
+                    </div>
+                </div>
                 <?php if (isset($error_message)) : ?>
                     <p class="text-center" style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
                 <?php endif; ?>
                 <hr class="mb-4">
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
-                <p class="text-center">Don't have an account?<a href="registration.php">Register</a> </p>
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
+                <p class="text-center">Have an account? <a href="./Login.php">Log In</a> </p>
+
             </form>
         </div>
     </div>
 </div>
 
 
-<script src="../scripts/login.js">
+<script src="../scripts/registration.js">
 
 </script>
 

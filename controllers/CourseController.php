@@ -18,6 +18,7 @@ class CourseController{
         catch(Exception $e){
             header('Location: '. "../views/Courses.php");
             $_SESSION['error'] = $e->getMessage();
+            exit;
         }
     }
     public function getCourses(){

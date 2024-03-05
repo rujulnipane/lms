@@ -6,8 +6,6 @@ class Video{
         $this->db = Database::getInstance();
         $this->db->getConnection();
     }
-
-
     public function createVideo($title,$video_url,$section_id){
         $id = $this->db->insertRecord("VIDEO",array(
             "section_id"=> $section_id,

@@ -9,10 +9,12 @@ session_start();
 
 if (!Auth::isLogin() or !Auth::isAdminUser()) {
     header('Location: ' . "../views/Login.php");
+    exit;
 }
 if(!Auth::isAdminUser()){
     $_SESSION["error"] = "Not Authorized";
     header('Location: '. "../views/Login.php");
+    exit;
 }
 
 class CreateCourse

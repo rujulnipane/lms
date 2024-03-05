@@ -8,9 +8,11 @@ include_once("Auth.php");
 
 if(!Auth::isLogin()){
     header("Location" . "../views/Login.php");
+    exit;
 }
 if(!Auth::isAdminUser()){
     header("Location:" . "../views/partials/404.php");
+    exit;
 }
 class AddVideo
 {
@@ -28,6 +30,7 @@ class AddVideo
         }
         else{
             header('Location:' . '../views/partials/404.php');
+            exit;
         }
     }
 
@@ -44,11 +47,11 @@ class AddVideo
         $target_dir = $section['section_url'];
         if (isset($_FILES["videoFile"])) {
             $videoname = basename($_FILES['videoFile']['name']);
-            // $hash_value = hash_file('sha256', $_FILES['videoFile']['tmp_name']);
+            // $hash_value = hash_file('sha1', $_FILES['videoFile']['tmp_name']);
             //  echo json_encode($hash_value);
 
             $extension = pathinfo($videoname, PATHINFO_EXTENSION);
-            // $videofilename =   "../uploads/videos/" . substr($hash_value, 0, 6) . '.' . $extension;
+            // $videofilename =   "/uploads/videos/" . substr($hash_value, 0, 6) . '.' . $extension;
             // echo json_encode($videofilename);
             
             $videoname = strtolower(str_replace(' ', '', basename($_FILES['videoFile']['name'])));
@@ -59,7 +62,8 @@ class AddVideo
             $target_file = $target_dir . $file . '.' . $extension;
 
             // if (!file_exists($videofilename)) {
-            //     move_uploaded_file($_FILES['$videoFile']['tmp_name'], $videofilename);
+            //     move_uploaded_file($_FILES['$videoFile']['tmp_name'],$_SERVER['DOCUMENT_ROOT'] . $videofilename);
+            //     echo json_encode("sj");
             // }
             // else{
             //     echo json_encode("sdcs");

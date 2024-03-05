@@ -18,7 +18,7 @@ class Database
             include("../config.php");
             $this->server = $config['server'];
             $this->adminuser = $config['user'];
-            $this->adminpass = $config['user'];
+            $this->adminpass = $config['pass'];
             $this->dbUser = $config['dbuser'];
             $this->dbPassword = $config['dbpass'];
             $this->dbName = $config['dbname'];
@@ -140,7 +140,6 @@ class Database
             $dataType2 .= "i";
         }
         $sql = rtrim($sql," AND ");
-        echo $sql;
         $stmt = $this->conn->prepare($sql);
         if ($stmt) {
             $params = array_merge(array_values($data), array_values($query));
@@ -243,6 +242,7 @@ class Database
 
     public function createAdminUser()
     {
+        echo $this->adminpass;
         $options = [
             'cost' => 10,
         ];

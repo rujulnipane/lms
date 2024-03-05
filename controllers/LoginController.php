@@ -20,6 +20,7 @@ class Login{
         }   
         else{
             header('Location:' . '../views/partials/404.php');
+            exit;
         }
         try{
             $this->User = new User();
@@ -27,6 +28,7 @@ class Login{
         catch(Exception $e){
             $_SESSION['error'] = $e->getMessage();
             header('Location: '. "../views/Login.php");
+            exit;
         }
     }
 
@@ -40,7 +42,7 @@ class Login{
             exit;
         }
         if($user->num_rows == 0){
-            $_SESSION['error'] = "User Not Exist";
+            $_SESSION['error'] = "Invalid username or password. Please try again.";
             $_SESSION['details'] = array('username'=> $this->username);
             header('Location: '. "../views/Login.php");
             exit;

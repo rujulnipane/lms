@@ -2,7 +2,6 @@
 $file = "../config.php";
 if(file_exists($file)){
     // header('Location: '. "./Login.php");  
-    echo "file exists";
 }
 session_start();
 if (isset($_SESSION['error'])) {
@@ -21,7 +20,7 @@ if (isset($_SESSION['error'])) {
     <?php endif; ?>
 
 
-<div class="card bg-light vh-100 d-flex align-items-center">
+<div class="card bg-dark text-light vh-100 d-flex align-items-center">
             <article class="card-body mx-auto" style="width: 50%;">
                 <h4 class="card-title mt-3 text-center">Installation</h4>
                 <p class="text-center">Welcome to the LMS Platform</p>

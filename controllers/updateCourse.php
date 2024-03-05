@@ -23,6 +23,7 @@ class UpdateCourse
         }
         else{
             header('Location:' . '../views/partials/404.php');
+            exit;
         }
 
         if(isset($_SESSION['course'])) {
@@ -34,7 +35,7 @@ class UpdateCourse
         try {
             $this->Course = new Course();
         } catch (Exception $e) {
-
+            exit;
         }
 
     }
@@ -54,7 +55,6 @@ class UpdateCourse
                 // exit;
             }
         }
-        echo "here";
         try{
             $this->Course->updateCourse(array(
                 "id"  => $this->course_id,

@@ -19,6 +19,7 @@ class DeleteVideo{
         }
         else{
             header('Location:' . '../views/partials/404.php');
+            exit;
         }
     }
     public function deleteVideo(){

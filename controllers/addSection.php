@@ -7,30 +7,31 @@ include_once("Auth.php");
 
 if(!Auth::isLogin()){
     header("Location" . "../views/Login.php");
+    exit;
 }
 if(!Auth::isAdminUser()){
     header("Location:" . "../views/partials/404.php");
+    exit;
 }
 class AddSection{
-
     private $course_id;
     private $sectionTitle;
     private $Section;
 
     public function __construct(){
-
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->course_id = $_POST['id'];
             $this->sectionTitle = $_POST['title'];
         } else {
             header('Location:' . '../views/partials/404.php');
+            exit;
         }
         try {
             $this->Section = new Section();
         } catch (Exception $e) {
+            exit;
         }
     }
-
     public function createSection(){
         $sectiontitle = strtolower(str_replace(' ', '', $this->sectionTitle));
         $current_date_time = date('YmdHis');
@@ -50,12 +51,11 @@ class AddSection{
         
         $target_dir ="$title/" . $targetfile . "/";
 
-        
         try{
             File::createDir($_SERVER['DOCUMENT_ROOT'] . $target_dir);
         }
         catch( Exception $e)    {
-            json_encode(array("error"=> $e->getMessage()));
+            echo json_encode(array("error"=> $e->getMessage()));
             exit;
         }
         try{
@@ -63,7 +63,7 @@ class AddSection{
             echo json_encode(array("status"=> "success","message"=> "Section Created", "id" => $id));
         }
         catch(Exception $e) {
-            json_encode(array('error'=> $e->getMessage()));
+            echo json_encode(array('error'=> $e->getMessage()));
         }
     }
 }

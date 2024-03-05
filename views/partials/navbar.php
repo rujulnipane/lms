@@ -1,6 +1,8 @@
 <?php
 session_start();
 $user = $_SESSION["username"];
+include("../../controllers/Auth.php");
+
 ?>
 <?php include("_header.php");?>
 
@@ -23,7 +25,10 @@ $user = $_SESSION["username"];
         <!-- <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle"> --><?= $user ?>
       </a>
       <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+        
+      <?php if (Auth::isAdminUser()) : ?>
         <li><a class="dropdown-item" href="createCourse.php">Create New Course</a></li>
+        <?php endif; ?>
         <li><a class="dropdown-item" href="#">Profile</a></li>
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" href="../controllers/Logout.php">Logout</a></li>

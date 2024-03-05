@@ -11,7 +11,8 @@ include("partials/navbar.php");
 
 ?>
 <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sidebars/">
-
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../styles/course.css">
 <div class="container-fluid pb-3">
 <div class="alert alert-success alert-dismissible fade show m-2" role="alert" id="myAlert" style="display: none;">
         <span id="alertMessage"></span>
@@ -30,7 +31,7 @@ include("partials/navbar.php");
 
                 </ul>
                 <?php if (Auth::isAdminUser()) : ?>
-                <button class="btn btn-success mt-3 float-end" data-bs-toggle="modal" data-bs-target="#addSectionModal">Add New Section</button>
+                <button class="btn btn-success mt-3 mb-2 float-end" data-bs-toggle="modal" data-bs-target="#addSectionModal">Add New Section</button>
                 <?php endif; ?>
             </div>
         </div>
@@ -52,10 +53,10 @@ include("partials/navbar.php");
 
                 <div class="col-xl-12 col-lg-7">
                     <div class="card">
-                        <div class="card-header py-2 d-flex flex-row align-items-center justify-content-between text-center">
-                            <h6 class="m-0 font-weight-bold text-primary" id="video-title"></h6>
+                        <!-- <div class="card-header py-2 d-flex flex-row align-items-center justify-content-center"> -->
+                            <h6 class="mt-2 font-weight-bold text-primary text-center" id="video-title"></h6>
 
-                        </div>
+                        <!-- </div> -->
                         <div class="card-body d-flex justify-content-center">
                             <video controls autoplay id="video-item" class="video-item w-75 h-75 border rounded">
 
@@ -109,7 +110,6 @@ include("partials/navbar.php");
 <?php else : ?>
     <li class="mb-1 visually-hidden" id="user-section" data-section-id="">
         <button class="btn btn-toggle align-items-center bg-dark text-light rounded collapsed" data-bs-toggle="collapse" data-bs-target="" aria-expanded="false">
-        <i class="fa-solid fa-angle-down"></i> 
         </button>
         <div class="collapse show mt-2" id="" style="">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small video-list">
@@ -128,12 +128,8 @@ include("partials/navbar.php");
     </div>
 <?php endif; ?>
 
-
-
-
 <?php include "partials/_addVideoModal.php" ?>
 <?php include "partials/_addSectionModal.php" ?>
-
 
 <script src="../scripts/course.js"></script>
 

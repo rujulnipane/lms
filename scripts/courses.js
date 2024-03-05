@@ -54,7 +54,7 @@ $(document).ready(function () {
             course: course
         }, function (res, status) {
            
-            window.location.href = "/views/editcourse.php";
+            window.location.href = "editcourse.php";
         });
 
     });

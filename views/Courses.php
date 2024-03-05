@@ -44,7 +44,7 @@ if (!Auth::isLogin()) {
   <section class="jumbotron text-center">
     <div class="container">
       <h1 class="jumbotron-heading">Welcome to the Learning Platform</h1>
-      <p class="lead text-muted">We have the most wide ranges of free courses. You can accsee the free videos.</p>
+      <p class="lead text-muted">We have the most wide ranges of free courses. You can access the free videos.</p>
       <?php if (Auth::isAdminUser()) : ?>
         <p>
           <a href="createCourse.php" class="btn btn-primary my-2">Create Course</a>
@@ -53,7 +53,7 @@ if (!Auth::isLogin()) {
   <?php endif; ?>
   </section>
 
-  <div class="album py-5 bg-light">
+  <div class="album py-3 bg-light">
     <div class="container">
       <div class="row align-items-center">
         <!-- Courses goes here -->

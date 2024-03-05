@@ -2,6 +2,17 @@
 
 include("../models/CourseModel.php");
 include("../models/File.php");
+include_once("Auth.php");
+
+if (!Auth::isLogin() or !Auth::isAdminUser()) {
+    header('Location: ' . "../views/Login.php");
+    exit;
+}
+if(!Auth::isAdminUser()){
+    $_SESSION["error"] = "Not Authorized";
+    header('Location: '. "../views/Login.php");
+    exit;
+}
 class DeleteCourse
 {
     private $id;
@@ -12,6 +23,7 @@ class DeleteCourse
             $this->id = $_POST['id'];
         } else {
             header('Location:' . '../views/partials/404.php');
+            exit;
         }
     }
     public function deleteCourese()

@@ -21,12 +21,13 @@ class DeleteSection{
         }
         else{
             header('Location:' . '../views/partials/404.php');
+            exit;
         }
         try{
             $this->Section= new Section();
         }
         catch(Exception $e){
-            echo $e->getMessage();
+            echo json_encode($e->getMessage());
         }
     }
     public function deleteSection(){

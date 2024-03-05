@@ -7,6 +7,7 @@ include_once("Auth.php");
 
 if(!Auth::isLogin()){
     header("Location" . "../views/Login.php");
+    exit;
 }
 class GetCourse{
     private $course;
@@ -20,9 +21,14 @@ class GetCourse{
         }
         else{
             header('Location:' . '../views/partials/404.php');
+            exit;
         }
-        
-        $this->Course = new Course();
+        try{
+            $this->Course = new Course();
+        }
+        catch(Exception $e){
+            exit;
+        }
     }
 
     public function getCourse(){

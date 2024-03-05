@@ -1,0 +1,12 @@
+.angle{
+    transform: rotate(90deg);
+}
+.btn-toggle.collapsed .angle {
+transform: rotate(-90deg); /* Rotate arrow icon to its initial position */
+transition: transform 0.3s ease; /* Apply transition effect on transform property */
+}
+
+.btn-toggle:not(.collapsed) .angle {
+transform: rotate(0deg); /* Rotate arrow icon 180 degrees when expanded */
+transition: transform 0.3s ease; /* Apply transition effect on transform property */
+}
