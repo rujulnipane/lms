@@ -1,5 +1,5 @@
 <?php
-
+// include("../controllers/Auth.php");
 class Database
 {
     private $server;
@@ -24,7 +24,9 @@ class Database
             $this->dbName = $config['dbname'];
             $this->email = $config['email'];
         } else {
+            // Auth::Logout();
             header('Location: ' . "../views/adminReg.php");
+            // exit;
             throw new Exception('Cannot get Config file');
         }
     }

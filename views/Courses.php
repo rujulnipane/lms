@@ -9,7 +9,7 @@ if (!Auth::isLogin()) {
 
 ?>
 <?php include("partials/navbar.php");?>
-<main role="main">
+<main role="main vh-100">
 
   <?php if (Auth::isAdminUser()) : ?>
     <div class="col-md-4 visually-hidden" data-course-id="" id="admin-card">

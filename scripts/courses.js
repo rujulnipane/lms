@@ -7,6 +7,12 @@ $(document).ready(function () {
             $('#spinner').hide();
             courses = response;
             console.log(courses);
+            if(courses.length === 0){
+                $(".row").html("<h4 class='text-center'>No Courses Created</h4>");
+            }
+            else{
+
+            
             courses.forEach(function (course) {
                 const cardTemplate = $("#admin-card").length ? $("#admin-card") : $("#user-card");
                 const newCard = cardTemplate.clone().appendTo(".row");
@@ -19,6 +25,7 @@ $(document).ready(function () {
                 newCard.find("a").attr("href", "Course.php?id=" + course['id']);
                 newCard.removeClass("visually-hidden");
             });
+        }
         },
         "json"
     ).fail(function (xhr, status, error) {

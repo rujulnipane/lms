@@ -50,7 +50,7 @@ $(document).ready(function () {
         },
             function (res, status) {
                 course = res;
-                console.log(res);
+                // console.log(res);
                 $("#sectionContainer").empty();
                 const sections = res["sections"];
                 $("#course-title").html("Course: " +res["course"]["title"]);
@@ -193,8 +193,8 @@ $(document).ready(function () {
         var formData = new FormData($("#uploadVideoForm")[0]);
         var sectionId = $('#sectionIdInput').val();
         let videotitle = $('#video-t').val();
-        console.log(videotitle);
-        console.log(sectionId);
+        // console.log(videotitle);
+        // console.log(sectionId);
         formData.append('sectionId', sectionId);
         formData.append('courseId', courseId);
         formData.append('video-title', videotitle);
@@ -261,11 +261,11 @@ $(document).ready(function () {
 
     function onVideoComplete(e) {
         const videos = course['videos'];
-        console.log(videos);
+        // console.log(videos);
         var sectionid = $(this).attr("data-section-id");
         var videoid = $(this).attr("data-video-id");
         const nextVideo = getNextVideo(sectionid, videoid, videos);
-        console.log(nextVideo);
+        // console.log(nextVideo);
         var links = document.querySelectorAll('.video-link');
         links.forEach(function (link) {
             link.style.color = 'black';
@@ -282,17 +282,20 @@ $(document).ready(function () {
             video[0].load();
             video[0].play();
         }
+        else{
+            $(this).addClass('btn-disabled');
+        }
     }
 
     function playNextVideo(e) {
         e.preventDefault();
         const videos = course['videos'];
-        console.log(videos);
+        // console.log(videos);
         var video = $("#video-item");
         var sectionid = video.attr("data-section-id");
         var videoid = video.attr("data-video-id");
-        console.log(sectionid);
-        console.log(videoid);
+        // console.log(sectionid);
+        // console.log(videoid);
         const nextVideo = getNextVideo(sectionid, videoid, videos);
         // console.log(nextVideo);
         var links = document.querySelectorAll('.video-link');
@@ -346,7 +349,7 @@ $(document).ready(function () {
                 }
             });
         });
-        console.log(Videos);
+        // console.log(Videos);
         if (Videos.length > 0) {
             return Videos[0];
         }
