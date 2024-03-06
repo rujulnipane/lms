@@ -40,7 +40,7 @@ if (!Auth::isLogin()) {
       </div>
     </div>
   <?php endif; ?>
-
+    <?php include ("partials/_alerts.php");?>
   <section class="jumbotron text-center">
     <div class="container">
       <h1 class="jumbotron-heading">Welcome to the Learning Platform</h1>

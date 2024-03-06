@@ -71,7 +71,7 @@ if (isset($_SESSION['details'])) {
 
     </div>
 
-    <script src="../scripts/registration.js">
+    <!-- <script src="../scripts/registration.js"> -->
 
     </script>
 

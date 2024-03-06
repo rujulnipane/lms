@@ -49,7 +49,6 @@ $(document).ready(function () {
    
         let course = courses.filter(course => course["id"] == course_id);
     
-        
         $.post("editcourse.php", {
             course: course
         }, function (res, status) {

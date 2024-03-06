@@ -19,16 +19,16 @@ if (isset($_SESSION['details'])) {
 <?php include 'partials/_header.php' ?>
 
 
-<div class="container">
-    <div class="py-5 text-center">
+<div class="container vh-100">
+    <div class="py-3 text-center">
         <!-- <img class="d-block mx-auto mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
         <h2>Welcome to Learning Management System</h2>
-        <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
+        <!-- <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p> -->
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-md-7 border">
-            <h4 class="mb-3">Enter User Details</h4>
+        <div class="col-md-7">
+            <h4 class="mb-3 text-center">Enter User Details</h4>
             <form id="registrationForm" action="../controllers/RegistrationController.php" method="post" onsubmit="return validateForm()">
                 <div class="mb-3">
                     <label for="username">Username</label>
@@ -36,8 +36,8 @@ if (isset($_SESSION['details'])) {
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fa fa-user"></i></span>
                         </div>
-                        <input name="username" id="username" type="text" class="form-control" placeholder="Enter Username" required="">
-                        <div id="nameError" class="invalid-feedback" style="width: 100%;">
+                        <input name="username" id="name" type="text" class="form-control" placeholder="Enter Username" required="">
+                        <div id="nameError" class="invalid-feedback">
                         </div>
                     </div>
                 </div>
@@ -48,7 +48,7 @@ if (isset($_SESSION['details'])) {
                             <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                         </div>
                         <input name="email" id="email" type="text" class="form-control" placeholder="Enter Email" required>
-                        <div id="emailError" class="invalid-feedback" style="width: 100%;">
+                        <div id="emailError" class="invalid-feedback">
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@ if (isset($_SESSION['details'])) {
                 <?php endif; ?>
                 <hr class="mb-4">
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
-                <p class="text-center">Have an account? <a href="./Login.php">Log In</a> </p>
+                <p class="text-center">Have an account? <a href="Login.php">Log In</a> </p>
 
             </form>
         </div>

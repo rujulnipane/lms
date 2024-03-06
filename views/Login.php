@@ -26,16 +26,19 @@ if (isset($_SESSION['success'])) {
 <?php include 'partials/_header.php' ?>
 
 
-<div class="container">
+<div class="container mt-3 vh-100">
     <div class="py-5 text-center">
         <!-- <img class="d-block mx-auto mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
         <h2>Welcome to Learning Management System</h2>
-        <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
+        <!-- <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p> -->
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-md-7 border">
-            <h4 class="mb-3">Enter User Details</h4>
+        <div class="col-md-7">
+            <h4 class="mb-3 text-center">Enter User Details</h4>
+            <?php if (isset($success)) : ?>
+                    <p class="text-center" style="color: green;"><?php echo htmlspecialchars($success); ?></p>
+                <?php endif; ?>
             <form id="loginform" class="" action="../controllers/LoginController.php" method="post">
                 <div class="mb-3">
                     <label for="username">Username</label>
@@ -43,7 +46,7 @@ if (isset($_SESSION['success'])) {
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fa fa-user"></i></span>
                         </div>
-                        <input name="username" id="username" type="text" class="form-control" placeholder="Enter Username" required="">
+                        <input name="username" id="username" type="text" class="form-control" placeholder="Enter Username" required value=<?php echo $userdetails['username']; ?>>
                         <div id="usernameError" class="invalid-feedback" style="width: 100%;">
                         </div>
                     </div>

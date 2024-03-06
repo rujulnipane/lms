@@ -3,7 +3,7 @@
 include_once("../models/installationModel.php");
 
 $file_path = "../config.php";
-
+session_start();
 if(file_exists($file_path)){
     header('Location: '. "../views/Login.php");
 }
@@ -26,27 +26,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     header('Location:' . '../views/partials/404.php');
 }
-
-// if (chmod("../", 0777)) {
-// } else {
-//     header('Location: '. "../views/adminReg.php");
-// }
-
-$config = fopen("../config.php", "w") or die(header('Location: '. "../views/adminReg.php"));
+try{
+    $config = fopen("../config.php", "w") or throw new Exception("Make sure have neccessary permissions");
+}
+catch(Exception $e){
+    $_SESSION['error'] = $e->getMessage();
+    header('Location: '. "../views/adminReg.php");
+    exit;
+}
 
 $content = <<<EOD
 <?php
 \$config = array(
-'server' => 'localhost',
-'user' => '$user',
-'pass'=>'$password',
-'dbuser' => '$dbuser',
-'dbpass' => '$dbpass',
-'dbname' => '$dbname',
-'email' => '$email'
+    'server' => 'localhost',
+    'user' => '$user',
+    'pass' => '$password',
+    'dbuser' => '$dbuser',
+    'dbpass' => '$dbpass',
+    'dbname' => '$dbname',
+    'email' => '$email'
 );
 ?>
 EOD;
+
 
 fwrite($config, $content);
 fclose($config);
@@ -56,6 +58,7 @@ try{
     header('Location: '. "../views/welcome.php");
 }
 catch(Exception $e){
+    unlink($file_path);
     $_SESSION['error'] = $e->getMessage();
     header('Location: '. "../views/adminReg.php");
     exit;
