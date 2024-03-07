@@ -9,14 +9,17 @@ if (isset($_SESSION['error'])) {
     unset($_SESSION['error']);
 }
 
+if (isset($_SESSION['details'])) {
+    $userdetails = $_SESSION['details'];
+    unset($_SESSION['details']);
+}
 ?>
 
 
 <?php include 'partials/_header.php' ?>
 
-<body class="container">
 
-    <div class="card vh-100 d-flex align-items-center">
+    <div class="card container vh-100 d-flex align-items-center">
         <article class="card-body mx-auto" style="width: 50%;">
             <h4 class="card-title mt-3 text-center">Installation</h4>
             <p class="text-center">Welcome to the LMS Platform</p>

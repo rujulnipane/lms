@@ -50,17 +50,15 @@ $(document).ready(function () {
         },
             function (res, status) {
                 course = res;
-                // console.log(res);
+                console.log(res);
                 $("#sectionContainer").empty();
                 const sections = res["sections"];
-                $("#course-title").html("Course: " +res["course"]["title"]);
-                if (sections === null) {
-
-                }
+                $("#course-title").html("<a class='link' href='Courses.php'>Courses</a> > "+res["course"]["title"]);
+               
                 const videos = res["videos"];
-                if (sections === null) {
-                    console.log("No sections found");
-                } else {
+                if (sections == null) {
+                    // $("#video-item").addClass("visually-hidden");
+            } else {
                     sections.forEach(section => {
                         const sectionId = section['id'];
                         const sectionTitle = section['title'];

@@ -9,7 +9,7 @@ if (!Auth::isLogin()) {
 
 ?>
 <?php include("partials/navbar.php");?>
-<main role="main vh-100">
+<main role="main" style="min-height:85vh">
 
   <?php if (Auth::isAdminUser()) : ?>
     <div class="col-md-4 visually-hidden" data-course-id="" id="admin-card">
@@ -40,8 +40,8 @@ if (!Auth::isLogin()) {
       </div>
     </div>
   <?php endif; ?>
-    <?php include ("partials/_alerts.php");?>
-  <section class="jumbotron text-center">
+    <!-- <?php include ("partials/_alerts.php");?> -->
+  <section class="jumbotron text-center mb-0 py-5">
     <div class="container">
       <h1 class="jumbotron-heading">Welcome to the Learning Platform</h1>
       <p class="lead text-muted">We have the most wide ranges of free courses. You can access the free videos.</p>
@@ -53,7 +53,8 @@ if (!Auth::isLogin()) {
   <?php endif; ?>
   </section>
 
-  <div class="album py-3 bg-light">
+  <div class="album py-3">
+    <h3 class="text-center mb-3">Select a Course</h3>
     <div class="container">
       <div class="row align-items-center">
         <!-- Courses goes here -->

@@ -6,10 +6,12 @@ include("../models/SectionModel.php");
 include("../models/CourseModel.php");
 include_once("Auth.php");
 
+// check if user is $login;
 if(!Auth::isLogin()){
     header("Location" . "../views/Login.php");
     exit;
 }
+// check if user is admin 
 if(!Auth::isAdminUser()){
     header("Location:" . "../views/partials/404.php");
     exit;
@@ -22,6 +24,7 @@ class AddVideo
     private $video_title;
     public function __construct()
     {
+        // get video details 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->section_id = $_POST['sectionId'];
             $this->course_id = $_POST['courseId'];
@@ -36,6 +39,7 @@ class AddVideo
 
     public function addVideo()
     {
+        // get section of video added 
         try {
             $sectionobj = new Section();
             $result = $sectionobj->getSection($this->section_id, $this->course_id);
@@ -46,6 +50,7 @@ class AddVideo
 
         $target_dir = $section['section_url'];
         if (isset($_FILES["videoFile"])) {
+            // hashing the video file 
             $videoname = basename($_FILES['videoFile']['name']);
             // $hash_value = hash_file('sha1', $_FILES['videoFile']['tmp_name']);
             //  echo json_encode($hash_value);
@@ -74,6 +79,7 @@ class AddVideo
             // } else {
             //     // echo "Error creating symbolic link.";
             // }
+            // upload video file in the directory 
              try {
                  File::uploadFile($_FILES["videoFile"]["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . $target_file);
              } catch (Exception $e) {
@@ -82,7 +88,7 @@ class AddVideo
              }
             
         }
-        
+        // save video details in database 
         try {
             $videoobj = new Video();
             $id = $videoobj->createVideo($this->video_title, $target_file, $this->section_id);

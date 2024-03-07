@@ -50,7 +50,7 @@ class CreateCourse
             $sectionobj = new Section();
             $sectionobj->createSection($id,"Section 1", $this->sectionUrl);
             $_SESSION["success"] = "New Course Created successfully";
-            header('Location: ' . "../views/Courses.php");
+            header('Location: ' . "../views/Course.php?id=$id");
         } catch (Exception $e) {
             $_SESSION["error"] = $e->getMessage();
             header("Location" . "../views/createCourse.php");

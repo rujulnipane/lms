@@ -8,6 +8,13 @@ include_once("Auth.php");
 if(!Auth::isLogin()){
     header("Location" . "../views/Login.php");
 }
+// check if user is admin 
+if(!Auth::isAdminUser()){
+    $_SESSION["error"] = "Not Authorized";
+    header('Location: '. "../views/Login.php");
+    exit;
+}
+
 class UpdateCourse
 {
     private $Course;

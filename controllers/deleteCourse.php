@@ -8,6 +8,7 @@ if (!Auth::isLogin() or !Auth::isAdminUser()) {
     header('Location: ' . "../views/Login.php");
     exit;
 }
+// check if user is admin 
 if(!Auth::isAdminUser()){
     $_SESSION["error"] = "Not Authorized";
     header('Location: '. "../views/Login.php");

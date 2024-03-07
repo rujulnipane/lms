@@ -6,6 +6,7 @@ include_once("Auth.php");
 if(!Auth::isLogin()){
     header("Location" . "../views/Login.php");
 }
+// check if user is admin 
 if(!Auth::isAdminUser()){
     header("Location:" . "../views/partials/404.php");
 }

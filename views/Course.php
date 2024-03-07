@@ -15,14 +15,15 @@ include("partials/navbar.php");
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="../styles/course.css">
 
-<div class="container-fluid mt-2">
+<div class="container-fluid mt-2" style="min-height:84vh">
     <div class="alert alert-success alert-dismissible fade show m-2" role="alert" id="myAlert" style="display: none;">
         <span id="alertMessage"></span>
         <button type="button" class="btn-close" aria-label="Close" onclick="closeAlert()"></button>
     </div>
     <div class="d-flex align-items-center justify-content-between m-3">
+        <!-- <a href=""></a> -->
         <!-- <div class="vw-75 d-block m-auto"> -->
-        <h1 class="h3 d-block mb-0 text-gray-800 text-center" id="course-title"></h1>
+        <h4 class="h3 d-block mb-0 text-gray-800 text-center" id="course-title"></h4>
         <!-- </div> -->
         <?php if (Auth::isAdminUser()) : ?>
             <div class="" role="group" aria-label="Basic example">
@@ -35,21 +36,21 @@ include("partials/navbar.php");
             </div>
         <?php endif; ?>
     </div>
-    <div class="d-grid gap-2" style="grid-template-columns: 1fr 3fr;">
-        <div class="gray border rounded-3">
+    <div class="d-grid gap-1" style="grid-template-columns: 1fr 3fr;">
+        <div class="border shadow-sm rounded-3">
             <div class="flex-shrink-0 p-3">
-                <a href="" class="d-flex align-items-center mb-2 link-body-emphasis text-decoration-none border-bottom">
+                <a href="" class="d-flex align-items-center mb-2 link-body-emphasis text-decoration-none border-bottom border-4">
                     <span class="fs-5 fw-semibold">Course Contents</span>
                 </a>
                 <ul class="list-unstyled ps-0" id="sectionContainer">
 
                 </ul>
                 <?php if (Auth::isAdminUser()) : ?>
-                    <button class="btn btn-outline-secondary rounded mt-3 mb-2 float-end" data-bs-toggle="modal" data-bs-target="#addSectionModal">Add New Section</button>
+                    <button class="btn btn-outline-primary rounded mt-3 mb-2 float-end" data-bs-toggle="modal" data-bs-target="#addSectionModal">Add New Section</button>
                 <?php endif; ?>
             </div>
         </div>
-        <div class="rounded-3 border">
+        <div class="rounded-3 border shadow-sm">
             <!-- <div class="d-flex align-items-center justify-content-between m-2"> -->
             <!-- <h1 class="h3 d-block mb-0 text-gray-800 text-center" id="course-title"></h1> -->
             <!-- <?php if (Auth::isAdminUser()) : ?>
@@ -71,9 +72,11 @@ include("partials/navbar.php");
 
                 <div class="col-xl-12 col-lg-7">
                     <div class="">
-
+                        <!-- <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" id="video-item" src=""></iframe>
+                        </div> -->
                         <div class="p-2 d-flex justify-content-center">
-                            <video controls autoplay id="video-item" class="video-item w-100 h-75 border rounded">
+                            <video controls autoplay id="video-item" class="video-item border rounded" style="width: 90%;">
 
                             </video>
                         </div>
@@ -92,7 +95,7 @@ include("partials/navbar.php");
 
 
 <?php if (Auth::isAdminUser()) : ?>
-    <li class="mb-3 visually-hidden border-bottom " id="admin-section" data-section-id="">
+    <li class="mb-3 visually-hidden border-bottom" id="admin-section" data-section-id="">
         <div class="d-flex justify-content-between align-items-center">
 
 
@@ -103,11 +106,11 @@ include("partials/navbar.php");
                 Delete Section
             </button>
         </div>
-        <div class="collapse show px-5" id="">
+        <div class="collapse px-5" id="">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small video-list">
 
             </ul>
-            <button class="btn btn-outline-secondary btn-sm add-video-btn mb-2">Add Video</button>
+            <button class="btn btn-outline-primary btn-sm add-video-btn mb-2">Add Video</button>
         </div>
     </li>
 
@@ -120,7 +123,7 @@ include("partials/navbar.php");
             </a>
         </div>
         <div>
-            <a class="link cursor-pointer link-danger delete-btn float-end btn-sm" id="delete-video" data-section-id="" data-video-id="">
+            <a class="link cursor-pointer delete-btn float-end btn-sm" id="delete-video" data-section-id="" data-video-id="">
                 <i class="fas fa-trash"></i>
             </a>
         </div>
@@ -135,7 +138,7 @@ include("partials/navbar.php");
 
             </button>
         </div>
-        <div class="collapse show px-5" id="">
+        <div class="collapse px-5" id="">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small video-list">
 
             </ul>

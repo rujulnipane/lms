@@ -7,25 +7,23 @@ $(document).ready(function () {
             $('#spinner').hide();
             courses = response;
             console.log(courses);
-            if(courses.length === 0){
+            if (courses.length == 0) {
                 $(".row").html("<h4 class='text-center'>No Courses Created</h4>");
             }
-            else{
-
-            
-            courses.forEach(function (course) {
-                const cardTemplate = $("#admin-card").length ? $("#admin-card") : $("#user-card");
-                const newCard = cardTemplate.clone().appendTo(".row");
-                newCard.attr("data-course-id", course['id']);
-                newCard.find(".btn-edit").attr("data-course-id", course['id']);
-                newCard.find(".btn-delete").attr("data-course-id", course['id']);
-                newCard.find("img").attr("src", course['url']);
-                newCard.find(".card-title").text(course['title']);
-                newCard.find(".card-text").text(course['details']);
-                newCard.find("a").attr("href", "Course.php?id=" + course['id']);
-                newCard.removeClass("visually-hidden");
-            });
-        }
+            else {
+                courses.forEach(function (course) {
+                    const cardTemplate = $("#admin-card").length ? $("#admin-card") : $("#user-card");
+                    const newCard = cardTemplate.clone().appendTo(".row");
+                    newCard.attr("data-course-id", course['id']);
+                    newCard.find(".btn-edit").attr("data-course-id", course['id']);
+                    newCard.find(".btn-delete").attr("data-course-id", course['id']);
+                    newCard.find("img").attr("src", course['url']);
+                    newCard.find(".card-title").text(course['title']);
+                    newCard.find(".card-text").text(course['details']);
+                    newCard.find("a").attr("href", "Course.php?id=" + course['id']);
+                    newCard.removeClass("visually-hidden");
+                });
+            }
         },
         "json"
     ).fail(function (xhr, status, error) {
@@ -53,13 +51,13 @@ $(document).ready(function () {
     $(document).on("click", ".btn-edit", function (e) {
         e.preventDefault();
         var course_id = $(this).data('course-id');
-   
+
         let course = courses.filter(course => course["id"] == course_id);
-    
+
         $.post("editcourse.php", {
             course: course
         }, function (res, status) {
-           
+
             window.location.href = "editcourse.php";
         });
 

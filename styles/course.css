@@ -1,6 +1,6 @@
-.btn-toggle[aria-expanded="true"]::before {
+/* .btn-toggle[aria-expanded="true"]::before {
     transform: rotate(90deg);
-}
+} */
 
 .btn-toggle::before {
     width: 1.25em;

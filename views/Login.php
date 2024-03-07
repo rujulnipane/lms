@@ -26,7 +26,7 @@ if (isset($_SESSION['success'])) {
 <?php include 'partials/_header.php' ?>
 
 
-<div class="container mt-3 vh-100">
+<div class="container mt-3" style="height:91vh">
     <div class="py-5 text-center">
         <!-- <img class="d-block mx-auto mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
         <h2>Welcome to Learning Management System</h2>
@@ -34,14 +34,14 @@ if (isset($_SESSION['success'])) {
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-md-7">
-            <h4 class="mb-3 text-center">Enter User Details</h4>
+        <div class="col-md-7 border shadow-sm">
+            <h4 class="mb-3 mt-3 text-center">Enter User Details</h4>
             <?php if (isset($success)) : ?>
                     <p class="text-center" style="color: green;"><?php echo htmlspecialchars($success); ?></p>
                 <?php endif; ?>
             <form id="loginform" class="" action="../controllers/LoginController.php" method="post">
                 <div class="mb-3">
-                    <label for="username">Username</label>
+                    <label for="username">Username<span class="text-muted">*</span></label>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fa fa-user"></i></span>
@@ -53,7 +53,7 @@ if (isset($_SESSION['success'])) {
                 </div>
 
                 <div class="mb-3">
-                    <label for="password">Password <span class="text-muted">*</span></label>
+                    <label for="password">Password<span class="text-muted">*</span></label>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fa fa-lock"></i></span>
@@ -68,7 +68,7 @@ if (isset($_SESSION['success'])) {
                 <?php endif; ?>
                 <hr class="mb-4">
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
-                <p class="text-center">Don't have an account?<a href="registration.php">Register</a> </p>
+                <p class="text-center">Don't have an account?<a href="Registration.php">Register</a> </p>
             </form>
         </div>
     </div>

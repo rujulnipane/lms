@@ -22,6 +22,7 @@ class CourseController{
         }
     }
     public function getCourses(){
+        // get course details from course table
         $result = $this->Course->getCourses();
         while ($row = $result->fetch_assoc()) {
             $this->courses[] = $row;

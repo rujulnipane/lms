@@ -26,7 +26,7 @@ if (isset($_SESSION['success'])) {
 <?php include 'partials/_header.php' ?>
 
 <body>
-    <div class="container vh-100 d-flex flex-column justify-content-center align-items-center">
+    <div class="container d-flex flex-column justify-content-center align-items-center" >
         <?php include "partials/_alerts.php" ?>
         <h2 class="text-center text-dark my-4">Welcome to Learning Management System</h2>
         <div class="card bg-light h-75 w-75 bg-dark text-light">

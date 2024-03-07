@@ -17,14 +17,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 ?>
 
     <?php include 'partials/navbar.php' ?>
-    <div class="container my-2">
+    <div class="container my-2" style="height:84.5vh">
         <?php if (isset($error_message)) : ?>
             <div class="alert alert-danger" role="alert">
                 <?php echo htmlspecialchars($error_message); ?>
             </div>
         <?php endif; ?>
-
-        <div class="container mt-3">
         <div class="row justify-content-center">
             <div class="col-md-6 pb-2 rounded-lg my-4 py-4">
                 <h2 class="mb-4 text-center">Update Course <?= $_SESSION['course']["title"] ?></h2>
