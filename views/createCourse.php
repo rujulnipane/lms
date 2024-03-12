@@ -20,7 +20,7 @@ if (isset($_SESSION['error'])) {
 
 <?php include "partials/navbar.php" ?>
 
-<div class="container mt-3" style="height:83vh">
+<div class="container mt-3" style="min-height:83vh">
     <div class="row justify-content-center">
         <div class="col-md-6 pb-2 rounded-lg my-4 py-4 border shadow-sm">
             <h2 class="mb-4 text-center">Create Course</h2>

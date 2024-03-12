@@ -30,6 +30,7 @@ class Register
     }
     public function registerUser()
     {   
+        // check if user with username and email is already present in database
         try{
             $userbyemail = $this->User->getUser(array("email"=> $this->email));
         }
@@ -56,9 +57,11 @@ class Register
             header('Location: '. "../views/Registration.php");
             exit;
         }else {
+            // create new user 
             $options = [
                 'cost' => 10,
             ];
+            // hashing the password 
             $hashed_password = password_hash($this->password, PASSWORD_BCRYPT, $options);
             $array = array(
                 'username' => $this->username,

@@ -10,39 +10,22 @@ $(document).ready(function () {
     }
 
     course_id = $.urlParam('id');
-
     getCourseDetails();
 
+    // add event listeners to to the elements 
     $("#addSectionForm").submit(addSection);
-
     $(document).on("click", ".delete-section-btn", deleteSection);
-
     $("#delete-course-btn").click(deleteCourse);
-
-    // edit course button function
     $("#edit-course-btn").click(editCourse);
-
-    // add video button function
     $(document).on('click', '.add-video-btn', uploadVideo);
-
-    // function to add video
     $("#uploadVideoForm").submit(addVideo);
-
-    // function for delete video
     $(document).on('click', '#delete-video', deleteVideo);
-
-    // play video by clinking from navigation panel
     $(document).on('click', '.video-link', playVideoOnClick);
-
-    // next video on video end function
     $("#video-item").on("ended", onVideoComplete);
-
-    // play next video function
     $("#next-video-btn").click(playNextVideo);
-
-    // play prev video function
     $("#prev-video-btn").click(playPrevVideo);
 
+    // get course details and diplay on page 
     function getCourseDetails() {
         $.post(
             "../controllers/getcontroller.php", {
@@ -50,15 +33,15 @@ $(document).ready(function () {
         },
             function (res, status) {
                 course = res;
-                console.log(res);
+                // console.log(res);
                 $("#sectionContainer").empty();
                 const sections = res["sections"];
-                $("#course-title").html("<a class='link' href='Courses.php'>Courses</a> > "+res["course"]["title"]);
-               
+                $("#course-title").html("<a class='link' href='Courses.php'>Courses</a> / " + res["course"]["title"]);
+
                 const videos = res["videos"];
                 if (sections == null) {
                     // $("#video-item").addClass("visually-hidden");
-            } else {
+                } else {
                     sections.forEach(section => {
                         const sectionId = section['id'];
                         const sectionTitle = section['title'];
@@ -88,19 +71,7 @@ $(document).ready(function () {
                         videoElement.find("#delete-video").attr("data-section-id", e["section_id"]);
                     });
                 });
-                var video = $("#video-item");
-                var video_title = $("#video-title");
-                video_title.html( videos[0][0]['title']);
-                video.attr("src", videos[0][0]['video_url']);
-                video.attr("data-section-id", videos[0][0]['section_id']);
-                video.attr("data-video-id", videos[0][0]['id']);
-                video[0].load();
-                video[0].pause();
-                var links = document.querySelectorAll('.video-link');
-                links.forEach(function (link) {
-                    link.style.color = 'black';
-                });
-                
+                playFirstVideo();
             },
             'json'
         ).fail(function (xhr, status, error) {
@@ -120,7 +91,7 @@ $(document).ready(function () {
             id: course_id
         },
             function (res, status) {
-                console.log(res);
+                // console.log(res);
                 getCourseDetails();
                 showAlert("New Section Added!", 3000);
                 $('#addSectionModal').modal('hide');
@@ -133,7 +104,7 @@ $(document).ready(function () {
 
     function deleteSection() {
         var sectionId = $(this).data("section-id");
-        console.log(sectionId);
+        // console.log(sectionId);
         let course_id = $.urlParam('id');
         if (confirm("Are you sure you want to delete this section?")) {
             $.post(
@@ -154,8 +125,8 @@ $(document).ready(function () {
         }
     }
 
+    // edit course button function
     function editCourse() {
-
         $.post("editcourse.php", {
             course: course['course']
         }, function (res, status) {
@@ -179,16 +150,22 @@ $(document).ready(function () {
         }
     }
 
+    // add video button function
     function uploadVideo(e) {
         var sectionId = $(this).closest('li').data('section-id');
         $('#sectionIdInput').val(sectionId);
         $('#uploadVideoModal').modal('show');
     }
 
+    // function to add video
     function addVideo(e) {
         e.preventDefault();
         let courseId = $.urlParam('id');
         var formData = new FormData($("#uploadVideoForm")[0]);
+        var fileSize = formData.get('videoFile').size; // Accessing file size correctly
+        if (fileSize > 5 * 1024 * 1024) {
+            showAlert("File size is too large!", 2000);
+        }
         var sectionId = $('#sectionIdInput').val();
         let videotitle = $('#video-t').val();
         // console.log(videotitle);
@@ -196,7 +173,7 @@ $(document).ready(function () {
         formData.append('sectionId', sectionId);
         formData.append('courseId', courseId);
         formData.append('video-title', videotitle);
-        console.log(formData);
+        // console.log(formData);
         $.ajax({
             url: "../controllers/addVideo.php",
             type: "POST",
@@ -215,6 +192,7 @@ $(document).ready(function () {
         $('#uploadVideoModal').modal('hide');
     }
 
+    // function for delete video
     function deleteVideo(e) {
         e.preventDefault();
         const videoid = $(this).data('video-id');
@@ -224,16 +202,17 @@ $(document).ready(function () {
                 video_id: videoid,
                 section_id: sectionid
             },
-                function (res, status) {
-                    console.log(res);
-                    showAlert("Deleted video Successfully!", 3000);
-                    getCourseDetails();
-                }, 'json').fail(function (xhr, status, error) {
-                    console.log(error);
-                })
+            function (res, status) {
+                console.log(res);
+                showAlert("Deleted video Successfully!", 3000);
+                getCourseDetails();
+            }, 'json').fail(function (xhr, status, error) {
+                console.log(error);
+            })
         }
     }
 
+    // play video by clinking from navigation panel
     function playVideoOnClick(e) {
         e.preventDefault();
         var links = document.querySelectorAll('.video-link');
@@ -245,11 +224,10 @@ $(document).ready(function () {
         var sectionid = $(this).data('section-id');
         var videoid = $(this).data('video-id');
         var title = $(this).data('video-title');
-        // console.log(sectionid);
-        // console.log(videoid);
+        var sectionButton = $(`#admin-section[data-section-id="${sectionid}"] .btn-toggle`);
         var video = $("#video-item");
         var video_title = $("#video-title");
-        video_title.html(title);
+        video_title.html(sectionButton.text() + ' / ' + title);
         video.attr("src", videoUrl);
         video.attr("data-section-id", sectionid);
         video.attr("data-video-id", videoid);
@@ -257,6 +235,7 @@ $(document).ready(function () {
         video[0].play();
     }
 
+    // next video on video end function
     function onVideoComplete(e) {
         const videos = course['videos'];
         // console.log(videos);
@@ -273,18 +252,20 @@ $(document).ready(function () {
             videolink.css('color', '#007bff');
             var video = $("#video-item");
             var video_title = $("#video-title");
-            video_title.html(nextVideo['title']);
+            var sectionButton = $(`#admin-section[data-section-id="${nextVideo['section_id']}"] .btn-toggle`);
+            video_title.html(sectionButton.text() + ' / ' + nextVideo['title']);
             video.attr("src", nextVideo['video_url']);
             video.attr("data-section-id", nextVideo['section_id']);
             video.attr("data-video-id", nextVideo['id']);
             video[0].load();
             video[0].play();
         }
-        else{
-            $(this).addClass('btn-disabled');
+        else {
+            playFirstVideo();
         }
     }
 
+    // play next video function
     function playNextVideo(e) {
         e.preventDefault();
         const videos = course['videos'];
@@ -296,21 +277,28 @@ $(document).ready(function () {
         // console.log(videoid);
         const nextVideo = getNextVideo(sectionid, videoid, videos);
         // console.log(nextVideo);
-        var links = document.querySelectorAll('.video-link');
-        links.forEach(function (link) {
-            link.style.color = "black";
-        });
-        var videolink = $(`.video-link[data-section-id=${nextVideo['section_id']}][data-video-id=${nextVideo['id']}]`);
-        videolink.css('color', '#007bff');
-        var video_title = $("#video-title");
-        video_title.html(nextVideo['title']);
-        video.attr("src", nextVideo['video_url']);
-        video.attr("data-section-id", nextVideo['section_id']);
-        video.attr("data-video-id", nextVideo['id']);
-        video[0].load();
-        video[0].play();
+        if (nextVideo) {
+            var links = document.querySelectorAll('.video-link');
+            links.forEach(function (link) {
+                link.style.color = "black";
+            });
+            var videolink = $(`.video-link[data-section-id=${nextVideo['section_id']}][data-video-id=${nextVideo['id']}]`);
+            videolink.css('color', '#007bff');
+            var sectionButton = $(`#admin-section[data-section-id="${nextVideo['section_id']}"] .btn-toggle`);
+            var video_title = $("#video-title");
+            video_title.html(sectionButton.text() + ' / ' + nextVideo['title']);
+            video.attr("src", nextVideo['video_url']);
+            video.attr("data-section-id", nextVideo['section_id']);
+            video.attr("data-video-id", nextVideo['id']);
+            video[0].load();
+            video[0].play();
+        }
+        else {
+            playFirstVideo();
+        }
     }
 
+    // play prev video function
     function playPrevVideo(e) {
         e.preventDefault();
         const videos = course['videos'];
@@ -320,20 +308,26 @@ $(document).ready(function () {
         // console.log(sectionid);
         // console.log(videoid);
         const prevVideo = getprevVideo(sectionid, videoid, videos);
-        var links = document.querySelectorAll('.video-link');
-        links.forEach(function (link) {
-            link.style.color = 'black';
-        });
-        var videolink = $(`.video-link[data-section-id=${prevVideo['section_id']}][data-video-id=${prevVideo['id']}]`);
-        videolink.css('color', '#007bff');
-        var video_title = $("#video-title");
-        video_title.html(prevVideo['title']);
-        video.attr("src", prevVideo['video_url']);
-        video.attr("data-section-id", prevVideo['section_id']);
-        video.attr("data-video-id", prevVideo['id']);
-        video[0].load();
-        video[0].play();
+        if (prevVideo) {
+            var links = document.querySelectorAll('.video-link');
+            links.forEach(function (link) {
+                link.style.color = 'black';
+            });
+            var videolink = $(`.video-link[data-section-id=${prevVideo['section_id']}][data-video-id=${prevVideo['id']}]`);
+            videolink.css('color', '#007bff');
+            var sectionButton = $(`#admin-section[data-section-id="${prevVideo['section_id']}"] .btn-toggle`);
+            var video_title = $("#video-title");
+            video_title.html(sectionButton.text() + ' / ' + prevVideo['title']);
+            video.attr("src", prevVideo['video_url']);
+            video.attr("data-section-id", prevVideo['section_id']);
+            video.attr("data-video-id", prevVideo['id']);
+            video[0].load();
+            video[0].play();
+        } else {
+            playFirstVideo();
+        }
     }
+
     // get next video
     function getNextVideo(sectionid, videoid, videos) {
         const Videos = [];
@@ -374,6 +368,24 @@ $(document).ready(function () {
         return null;
     }
 
+    function playFirstVideo() {
+        var videos = course['videos'];
+        var video = $("#video-item");
+        var sectionButton = $(`#admin-section[data-section-id="${videos[0][0]['section_id']}"] .btn-toggle`);
+        var video_title = $("#video-title");
+        video_title.html(sectionButton.text() + ' / ' + videos[0][0]['title']);
+        video.attr("src", videos[0][0]['video_url']);
+        video.attr("data-section-id", videos[0][0]['section_id']);
+        video.attr("data-video-id", videos[0][0]['id']);
+        video[0].load();
+        video[0].pause();
+        var links = document.querySelectorAll('.video-link');
+        links.forEach(function (link) {
+            link.style.color = 'black';
+        });
+        var videolink = $(`.video-link[data-section-id=${videos[0][0]['section_id']}][data-video-id=${videos[0][0]['id']}]`);
+        videolink.css('color', '#007bff');
+    }
 
     function showAlert(message, duration) {
         $("#alertMessage").text(message);

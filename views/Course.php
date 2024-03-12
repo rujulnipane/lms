@@ -39,7 +39,7 @@ include("partials/navbar.php");
     <div class="d-grid gap-1" style="grid-template-columns: 1fr 3fr;">
         <div class="border shadow-sm rounded-3">
             <div class="flex-shrink-0 p-3">
-                <a href="" class="d-flex align-items-center mb-2 link-body-emphasis text-decoration-none border-bottom border-4">
+                <a href="" class="d-flex align-items-center mb-2 link-body-emphasis text-decoration-none pb-2" style="border-bottom: 4px solid gray;">
                     <span class="fs-5 fw-semibold">Course Contents</span>
                 </a>
                 <ul class="list-unstyled ps-0" id="sectionContainer">
@@ -63,8 +63,8 @@ include("partials/navbar.php");
                         </a>
                     </div>
                 <?php endif; ?> -->
-            <div class="card-header py-2 d-flex flex-row align-items-center justify-content-center">
-                <h6 class="mt-2 font-weight-bold text-primary text-center" id="video-title"></h6>
+            <div class="px-4 py-2 d-flex flex-row align-items-center">
+                <h6 class="mt-2 font-weight-bold text-primary" id="video-title"></h6>
 
                 <!-- </div> -->
             </div>
@@ -76,14 +76,14 @@ include("partials/navbar.php");
                             <iframe class="embed-responsive-item" id="video-item" src=""></iframe>
                         </div> -->
                         <div class="p-2 d-flex justify-content-center">
-                            <video controls autoplay id="video-item" class="video-item border rounded" style="width: 90%;">
+                            <video controls autoplay id="video-item" class="video-item border rounded" style="width: 80%;">
 
                             </video>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-xl-11 col-lg-7 d-flex justify-content-between p-2" role="group" aria-label="Basic example">
+                <div class="col-xl-11 col-lg-7 d-flex justify-content-between p-2 m-2" role="group" aria-label="Basic example">
                     <button type="button" id="prev-video-btn" class="btn btn-outline-primary">Prev</button>
                     <button type="button" id="next-video-btn" class="btn btn-outline-primary">next</button>
                 </div>
@@ -95,7 +95,7 @@ include("partials/navbar.php");
 
 
 <?php if (Auth::isAdminUser()) : ?>
-    <li class="mb-3 visually-hidden border-bottom" id="admin-section" data-section-id="">
+    <li class="mb-3 visually-hidden" id="admin-section" data-section-id="" style="border-bottom: 2px solid grey;">
         <div class="d-flex justify-content-between align-items-center">
 
 
@@ -103,21 +103,21 @@ include("partials/navbar.php");
 
             </button>
             <button class="btn btn-outline-danger btn-sm rounded delete-section-btn" data-section-id="">
-                Delete Section
+                Delete 
             </button>
         </div>
-        <div class="collapse px-5" id="">
+        <div class="collapse show px-5" id="">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small video-list">
 
             </ul>
-            <button class="btn btn-outline-primary btn-sm add-video-btn mb-2">Add Video</button>
+            <button class="btn-outline-primary btn-sm add-video-btn mb-2">Add Video</button>
         </div>
     </li>
 
     <!-- <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Overview</a></li> -->
-    <div class="video-item mb-2 d-flex align-items-center justify-content-between border-bottom visually-hidden mt-2" id="admin-video">
+    <div class="video-item mb-2 d-flex align-items-center justify-content-between visually-hidden mt-2" id="admin-video">
         <div>
-            <i class="fas fa-video"></i>
+            <!-- <i class="fas fa-video"></i> -->
             <a href="#" data-video-url="" class="video-link" data-section-id="" data-video-id="" data-video-title="">
 
             </a>
@@ -130,7 +130,7 @@ include("partials/navbar.php");
     </div>
 
 <?php else : ?>
-    <li class="mb-3 visually-hidden border-bottom " id="admin-section" data-section-id="">
+    <li class="mb-3 visually-hidden" id="admin-section" data-section-id="" style="border-bottom: 2px solid grey;">
         <div class="d-flex justify-content-between align-items-center">
 
 
@@ -138,7 +138,7 @@ include("partials/navbar.php");
 
             </button>
         </div>
-        <div class="collapse px-5" id="">
+        <div class="collapse show px-5" id="">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small video-list">
 
             </ul>
@@ -146,9 +146,9 @@ include("partials/navbar.php");
     </li>
 
     <!-- <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Overview</a></li> -->
-    <div class="video-item mb-2 d-flex align-items-center justify-content-between border-bottom visually-hidden mt-2" id="admin-video">
+    <div class="video-item mb-2 d-flex align-items-center justify-content-between visually-hidden mt-2" id="admin-video">
         <div>
-            <i class="fas fa-video"></i>
+            <!-- <i class="fas fa-video"></i> -->
             <a href="#" data-video-url="" class="video-link" data-section-id="" data-video-id="" data-video-title="">
 
             </a>

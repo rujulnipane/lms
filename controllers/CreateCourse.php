@@ -41,6 +41,7 @@ class CreateCourse
 
     public function createCourse()
     {
+        // create new course and dection in course table
         try {
             $id = $this->Course->createCourse(array(
                 $this->courseTitle,
@@ -59,15 +60,12 @@ class CreateCourse
     
     public function uploadFiles()
     {   
+        // create hashcode of course title 
         $target_dir = "/uploads/Courses/";
-        $target_dir = "/uploads/Courses/";
-        $coursetitle = strtolower(str_replace(' ', '', $this->courseTitle));
-        $current_date_time = date('YmdHis');
-        $filename = $coursetitle . $current_date_time;
-        $hashedcode = hash('sha1', $filename);
-        $targetfile = substr($hashedcode, 0, 6);
+        $targetfile = File::encrypt($this->courseTitle);
         $target_dir .= $targetfile . "/";
 
+        // create course directory 
         try{
             File::createDir($_SERVER['DOCUMENT_ROOT'] . $target_dir);
         }
@@ -77,6 +75,7 @@ class CreateCourse
             exit;
         }
 
+        // upload image 
         if (isset($_FILES["courseImg"])) {
             $target_file = $target_dir . basename($_FILES['courseImg']['name']);
             try{
@@ -90,10 +89,9 @@ class CreateCourse
                 exit;
             }
         }
-        $default_section = "default";
-        $filename = $default_section . $current_date_time;
-        $hashedcode = hash('sha1', $filename);
-        $targetsection = substr($hashedcode, 0, 6);
+
+        // creating default section 
+        $targetsection = File::encrypt("default");
         $sectiondir = $target_dir . $targetsection . "/";
         try{
             File::createDir( $_SERVER['DOCUMENT_ROOT'] . $sectiondir);

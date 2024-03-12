@@ -29,6 +29,7 @@ class DeleteCourse
     }
     public function deleteCourese()
     {
+        // delete record from course table and delete course directory 
         try {
             $courseobj = new Course();
             $result = $courseobj->getCourseById($this->id);

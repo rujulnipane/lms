@@ -37,11 +37,7 @@ class AddSection{
     }
     public function createSection(){
         // hash the section title
-        $sectiontitle = strtolower(str_replace(' ', '', $this->sectionTitle));
-        $current_date_time = date('YmdHis');
-        $filename = $sectiontitle . $current_date_time;
-        $hashedcode = hash('sha1', $filename);
-        $targetfile = substr($hashedcode, 0, 6);
+        $targetfile = File::encrypt($this->sectionTitle);
         // get course of section
         try{
             $courseobj = new Course();
@@ -53,7 +49,6 @@ class AddSection{
        }
 
         $title = dirname($course['url']);
-        
         $target_dir ="$title/" . $targetfile . "/";
     //    creating section directory 
         try{

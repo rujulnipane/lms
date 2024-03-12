@@ -54,7 +54,7 @@ if (!Auth::isLogin()) {
   </section>
 
   <div class="album py-3">
-    <h3 class="text-center mb-3">Select a Course</h3>
+    <h3 class="text-center mb-3 text-primary" id="course-head">Select a Course</h3>
     <div class="container">
       <div class="row align-items-center">
         <!-- Courses goes here -->

@@ -24,6 +24,7 @@ class DeleteVideo{
         }
     }
     public function deleteVideo(){
+        // delete video file from the directory and from database table
         try{
             $videoobj = new Video();
             $result = $videoobj->getVideo($this->video_id, $this->section_id);

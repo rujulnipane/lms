@@ -31,6 +31,7 @@ class DeleteSection{
         }
     }
     public function deleteSection(){
+        // delete section Directory  
         try{
             $result = $this->Section->getSection($this->section_id, $this->course_id);
             $section = $result->fetch_assoc();
@@ -39,6 +40,7 @@ class DeleteSection{
         catch(Exception $e){
             echo json_encode(array("error"=> $e->getMessage()));
         }
+        // delete section record from table 
         try{
             $this->Section->deleteSection(array("course_id"=> $this->course_id, "section_id" => $this->section_id));
             echo json_encode(array("success"=>true));

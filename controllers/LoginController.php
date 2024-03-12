@@ -33,6 +33,7 @@ class Login{
     }
 
     public function loginUser(){
+        // check whether user present or not in database
         try{
             $user = $this->User->getUser(array("username"=> $this->username));
         }
@@ -48,6 +49,7 @@ class Login{
             exit;
         }
         else{
+            // login the user by verifying password
             $row = $user->fetch_assoc();
             if(Auth::Login($row,$this->password)){
                 $_SESSION['success'] = "Logged in successfully";

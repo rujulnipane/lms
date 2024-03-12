@@ -31,11 +31,14 @@ class GetCourse{
         }
     }
 
+    // get course details from course table
     public function getCourse(){
         $result = $this->Course->getCourseById($this->id);
         $this->course = $result->fetch_assoc();
         $this->getSections();
     }
+
+    // get all sections of the course from sections table
     public function getSections(){
         $section = new Section();
         $result = $section->getSections($this->id);
@@ -47,6 +50,8 @@ class GetCourse{
             $this->videos[] =  $this->getVideos($section['id']);
         }
     }
+
+    // get all videos from all sections of the course from videos table
     public function getVideos($sectio_id){
         $video = new Video();
         $videoarr = [];
@@ -57,6 +62,7 @@ class GetCourse{
         return $videoarr;
     }
 
+    // send back the response in json format
     public function sendResponse(){
         echo json_encode(array(
             'status'=> 'success',

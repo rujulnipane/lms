@@ -26,11 +26,12 @@ if (isset($_SESSION['success'])) {
 <?php include 'partials/_header.php' ?>
 
 
-<div class="container mt-3" style="height:91vh">
+<div class="container mt-3" style="min-height:91vh">
     <div class="py-5 text-center">
         <!-- <img class="d-block mx-auto mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
         <h2>Welcome to Learning Management System</h2>
         <!-- <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p> -->
+        <h4 class="mt-3 text-primary">Login</h4>
     </div>
 
     <div class="row justify-content-center">
@@ -66,7 +67,7 @@ if (isset($_SESSION['success'])) {
                 <?php if (isset($error_message)) : ?>
                     <p class="text-center" style="color: red;"><?php echo htmlspecialchars($error_message); ?></p>
                 <?php endif; ?>
-                <hr class="mb-4">
+                <hr class="mb-2">
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
                 <p class="text-center">Don't have an account?<a href="Registration.php">Register</a> </p>
             </form>

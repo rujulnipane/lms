@@ -49,6 +49,7 @@ class UpdateCourse
 
     public function updateCourse()
     {
+        // get the course directory and update course img
         if (isset($_FILES["courseImg"])) {
             $title = dirname($this->course_url);
             $target_file = $title . "/" . basename($_FILES['courseImg']['name']);
@@ -58,10 +59,11 @@ class UpdateCourse
             }
             catch( Exception $e) {
                 // header('Location: ' . "../views/editcourse.php");
-                // $_SESSION["error"] = $e->getMessage();
+                $_SESSION["error"] = $e->getMessage();
                 // exit;
             }
         }
+        // update the course in course table
         try{
             $this->Course->updateCourse(array(
                 "id"  => $this->course_id,

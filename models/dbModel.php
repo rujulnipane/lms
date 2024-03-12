@@ -14,6 +14,7 @@ class Database
 
     private function __construct()
     {
+        // get database details from config file 
         if (file_exists("../config.php")) {
             include("../config.php");
             $this->server = $config['server'];
@@ -30,7 +31,8 @@ class Database
             throw new Exception('Cannot get Config file');
         }
     }
-
+     
+    // creating instance of the db class 
     public static function getInstance()
     {
         if (!self::$instance) {
@@ -38,7 +40,8 @@ class Database
         }
         return self::$instance;
     }
-
+     
+    // function to create connection
     public function getConnection()
     {
         $this->conn = new mysqli($this->server, $this->dbUser, $this->dbPassword, $this->dbName);
@@ -47,11 +50,13 @@ class Database
         }
     }
 
+    // function to close the connection
     public function closeConnection()
     {
         $this->conn->close();
     }
 
+    // function to get record from particular table with conditions
     public function getRecord($table, $query)
     {
         
@@ -84,6 +89,8 @@ class Database
         }
         
     }
+
+    // function to get all records from particular table
     public function getRecords($table)
     {
         $sql = "SELECT * FROM $table";
@@ -93,6 +100,8 @@ class Database
         }
         return $result;
     }
+
+    // function to insert record into table
     public function insertRecord($table, $data)
     {
 
@@ -127,6 +136,7 @@ class Database
         }
     }
 
+    // function to update record of particular table
     public function updateRecord($table, $data, $query){
         $dataType1 = "";
         $dataType2 = "";
@@ -154,7 +164,7 @@ class Database
         }
     }
     
-
+    // funciton to delete record 
     public function deleteRecord($table, $query){
         $sql = "DELETE FROM $table WHERE ";
         $dataType = "";
@@ -173,7 +183,7 @@ class Database
         }
     }
 
-
+    // function to create database 
     public function initializeDatabase()
     {
         $this->conn = new mysqli($this->server, $this->dbUser, $this->dbPassword);
@@ -189,6 +199,8 @@ class Database
         }
         $this->createTables();
     }
+
+    // function to create database tables
     public function createTables()
     {
         $this->getConnection();
@@ -242,6 +254,7 @@ class Database
         $this->createAdminUser();
     }
 
+    // function to create admin user 
     public function createAdminUser()
     {
         echo $this->adminpass;

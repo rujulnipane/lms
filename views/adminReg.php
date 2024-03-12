@@ -19,7 +19,7 @@ if (isset($_SESSION['details'])) {
 <?php include 'partials/_header.php' ?>
 
 
-    <div class="card container vh-100 d-flex align-items-center">
+    <div class="card container d-flex align-items-center" style="min-height: 90vh">
         <article class="card-body mx-auto" style="width: 50%;">
             <h4 class="card-title mt-3 text-center">Installation</h4>
             <p class="text-center">Welcome to the LMS Platform</p>

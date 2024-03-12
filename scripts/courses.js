@@ -7,10 +7,14 @@ $(document).ready(function () {
             $('#spinner').hide();
             courses = response;
             console.log(courses);
-            if (courses.length == 0) {
-                $(".row").html("<h4 class='text-center'>No Courses Created</h4>");
+            if (courses === null) {
+                // $("#course-head").style.display = "none";
+                console.log($("#course-head").addClass("visually-hidden"));
+                $(".row").html("<h4 class='text-center mt-5'>No Courses to display</h4>");
             }
             else {
+                console.log($("#course-head").removeClass("visually-hidden"));
+                // display course cards on page
                 courses.forEach(function (course) {
                     const cardTemplate = $("#admin-card").length ? $("#admin-card") : $("#user-card");
                     const newCard = cardTemplate.clone().appendTo(".row");
@@ -30,6 +34,7 @@ $(document).ready(function () {
         console.error("Error:", error);
     });
 
+    // function to delete course 
     $(document).on("click", ".btn-delete", function (e) {
         e.preventDefault();
         var course_id = $(this).data('course-id');
@@ -48,14 +53,16 @@ $(document).ready(function () {
         }
     });
 
+    // function to edit course 
     $(document).on("click", ".btn-edit", function (e) {
         e.preventDefault();
         var course_id = $(this).data('course-id');
-
+        console.log(course_id);
         let course = courses.filter(course => course["id"] == course_id);
-
+        console.log(course);
+        
         $.post("editcourse.php", {
-            course: course
+            course: course[0]
         }, function (res, status) {
 
             window.location.href = "editcourse.php";
