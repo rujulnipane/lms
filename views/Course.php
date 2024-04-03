@@ -16,14 +16,21 @@ include("partials/navbar.php");
 <link rel="stylesheet" href="../styles/course.css">
 
 <div class="container-fluid mt-2" style="min-height:84vh">
-    <div class="alert alert-success alert-dismissible fade show m-2" role="alert" id="myAlert" style="display: none;">
+    <div class="alert alert-success alert-dismissible fade show m-2" role="alert" id="myAlert" style="display: none; position: fixed; top: 50px; left: 500px;">
         <span id="alertMessage"></span>
         <button type="button" class="btn-close" aria-label="Close" onclick="closeAlert()"></button>
     </div>
     <div class="d-flex align-items-center justify-content-between m-3">
         <!-- <a href=""></a> -->
         <!-- <div class="vw-75 d-block m-auto"> -->
-        <h4 class="h3 d-block mb-0 text-gray-800 text-center" id="course-title"></h4>
+        <!-- <h4 class="h3 d-block mb-0 text-gray-800 text-center" id="course-title"></h4> -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="Courses.php">Home</a></li>
+                <li class="breadcrumb-item"><a id="course" href="#">Library</a></li>
+                <li class="breadcrumb-item active" aria-current="page" id="sec">Data</li>
+            </ol>
+        </nav>
         <!-- </div> -->
         <?php if (Auth::isAdminUser()) : ?>
             <div class="" role="group" aria-label="Basic example">
@@ -103,7 +110,7 @@ include("partials/navbar.php");
 
             </button>
             <button class="btn btn-outline-danger btn-sm rounded delete-section-btn" data-section-id="">
-                Delete 
+                Delete
             </button>
         </div>
         <div class="collapse show px-5" id="">

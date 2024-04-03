@@ -3,6 +3,9 @@ session_start();
 include "../models/CourseModel.php";
 include "Auth.php";
 
+echo json_encode("hi");
+echo json_encode(session_id());
+
 if(!Auth::isLogin()){
     $_SESSION["error"] = "Login First";
     header('Location: '. "../views/Login.php");
@@ -13,11 +16,11 @@ class CourseController{
     private $courses;
     public function __construct(){
         try{
+            // echo json_encode(",kovkos");
             $this->Course = new Course();
         }
         catch(Exception $e){
-            header('Location: '. "../views/Courses.php");
-            $_SESSION['error'] = $e->getMessage();
+            echo json_encode(array("error"=> "cannot fetch courses"));
             exit;
         }
     }
@@ -32,4 +35,4 @@ class CourseController{
 }
 
 $cc = new CourseController();
-$cc->getCourses();
+$cc->getCourses();   

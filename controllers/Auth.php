@@ -30,6 +30,7 @@ class Auth
     // function to login user 
     public static function Login($row, $password)
     {
+        // echo "here";
         if (password_verify($password, $row["password"])) {
             $_SESSION['username'] = $row['username'];
             $_SESSION['userId'] = $row['id'];
@@ -38,6 +39,7 @@ class Auth
             } else {
                 $_SESSION['isAdmin'] = false;
             }
+            echo session_id();
             return true;
         }
         return false;

@@ -2,9 +2,11 @@
 include("../controllers/Auth.php");
 
 session_start();
+var_dump($_SESSION);
+// echo "Session ID: " . session_id();
 
 if (!Auth::isLogin()) {
-  header('Location: ' . "../views/Login.php");
+  // header('Location: ' . "../views/Login.php");
 }
 
 ?>

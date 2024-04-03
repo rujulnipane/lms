@@ -1,7 +1,9 @@
 $(document).ready(function () {
     let courses = [];
+    console.log("hi");
     $('#spinner').show();
     $.get(
+        
         "../controllers/CourseController.php",
         function (response) {
             $('#spinner').hide();
@@ -13,7 +15,7 @@ $(document).ready(function () {
                 $(".row").html("<h4 class='text-center mt-5'>No Courses to display</h4>");
             }
             else {
-                console.log($("#course-head").removeClass("visually-hidden"));
+                // console.log($("#course-head").removeClass("visually-hidden"));
                 // display course cards on page
                 courses.forEach(function (course) {
                     const cardTemplate = $("#admin-card").length ? $("#admin-card") : $("#user-card");

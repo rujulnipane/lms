@@ -36,7 +36,7 @@ $(document).ready(function () {
                 // console.log(res);
                 $("#sectionContainer").empty();
                 const sections = res["sections"];
-                $("#course-title").html("<a class='link' href='Courses.php'>Courses</a> / " + res["course"]["title"]);
+                $("#course").html(res["course"]["title"]);
 
                 const videos = res["videos"];
                 if (sections == null) {
@@ -202,13 +202,13 @@ $(document).ready(function () {
                 video_id: videoid,
                 section_id: sectionid
             },
-            function (res, status) {
-                console.log(res);
-                showAlert("Deleted video Successfully!", 3000);
-                getCourseDetails();
-            }, 'json').fail(function (xhr, status, error) {
-                console.log(error);
-            })
+                function (res, status) {
+                    console.log(res);
+                    showAlert("Deleted video Successfully!", 3000);
+                    getCourseDetails();
+                }, 'json').fail(function (xhr, status, error) {
+                    console.log(error);
+                })
         }
     }
 
@@ -228,6 +228,7 @@ $(document).ready(function () {
         var video = $("#video-item");
         var video_title = $("#video-title");
         video_title.html(sectionButton.text() + ' / ' + title);
+        $("#sec").html(sectionButton.text());
         video.attr("src", videoUrl);
         video.attr("data-section-id", sectionid);
         video.attr("data-video-id", videoid);
@@ -254,6 +255,7 @@ $(document).ready(function () {
             var video_title = $("#video-title");
             var sectionButton = $(`#admin-section[data-section-id="${nextVideo['section_id']}"] .btn-toggle`);
             video_title.html(sectionButton.text() + ' / ' + nextVideo['title']);
+            $("#sec").html(sectionButton.text());
             video.attr("src", nextVideo['video_url']);
             video.attr("data-section-id", nextVideo['section_id']);
             video.attr("data-video-id", nextVideo['id']);
@@ -287,6 +289,7 @@ $(document).ready(function () {
             var sectionButton = $(`#admin-section[data-section-id="${nextVideo['section_id']}"] .btn-toggle`);
             var video_title = $("#video-title");
             video_title.html(sectionButton.text() + ' / ' + nextVideo['title']);
+            $("#sec").html(sectionButton.text());
             video.attr("src", nextVideo['video_url']);
             video.attr("data-section-id", nextVideo['section_id']);
             video.attr("data-video-id", nextVideo['id']);
@@ -320,6 +323,7 @@ $(document).ready(function () {
             video_title.html(sectionButton.text() + ' / ' + prevVideo['title']);
             video.attr("src", prevVideo['video_url']);
             video.attr("data-section-id", prevVideo['section_id']);
+            $("#sec").html(sectionButton.text());
             video.attr("data-video-id", prevVideo['id']);
             video[0].load();
             video[0].play();

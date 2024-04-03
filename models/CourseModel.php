@@ -2,15 +2,15 @@
 
 include_once("dbModel.php");
 include_once("SectionModel.php");
-// include_once("../controllers/controller.php");
+// include_once("Controller.php");
 class Course
 {
     private $db;
-    private $section;
     public function __construct()
     {
         $this->db = Database::getInstance();
         $this->db->getConnection();
+        // parent::__construct();
     }
 
     // function to get all courses 

@@ -9,6 +9,7 @@ class User{
         $this->db->getConnection();
     }
 
+
     public function __destruct() {
         $this->db->closeConnection();
     }

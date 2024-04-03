@@ -3,10 +3,6 @@
 include "../models/UserModel.php";
 include "Auth.php";
 
-if(!Auth::isLogin()){
-    // $_SESSION["error"] = "Login First";
-    header('Location: '. "../views/Login.php");
-}
 
 session_start();
 class Login{
@@ -14,6 +10,7 @@ class Login{
     private $password;
     private $User;
     public function __construct(){
+        // echo "here";
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             $this->username = $_POST["username"];
             $this->password = $_POST["password"];
@@ -27,6 +24,7 @@ class Login{
         }
         catch(Exception $e){
             $_SESSION['error'] = $e->getMessage();
+            // echo $e->getMessage();
             header('Location: '. "../views/Login.php");
             exit;
         }
@@ -42,20 +40,23 @@ class Login{
             $_SESSION['error'] = $e->getMessage();
             exit;
         }
+        
         if($user->num_rows == 0){
             $_SESSION['error'] = "Invalid username or password. Please try again.";
             $_SESSION['details'] = array('username'=> $this->username);
-            header('Location: '. "../views/Login.php");
+            // header('Location: '. "../views/Login.php");
             exit;
         }
         else{
             // login the user by verifying password
             $row = $user->fetch_assoc();
+          
             if(Auth::Login($row,$this->password)){
                 $_SESSION['success'] = "Logged in successfully";
                 header('Location: '. "../views/Courses.php");
             }
             else{
+                // echo "here";
                 $_SESSION['error'] = "Invalid username or password. Please try again.";
                 $_SESSION['details'] = array('username'=> $this->username);
                 header('Location: '. "../views/Login.php");
